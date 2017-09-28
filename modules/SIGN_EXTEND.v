@@ -4,7 +4,7 @@
  */
 module SIGN_EXTEND (
   input wire [15:0] sign_in,
-  input wire [31:0] sign_out
+  output wire [31:0] sign_out
   );
 
   // Prepends the leftmost bit of sign_in 16x
