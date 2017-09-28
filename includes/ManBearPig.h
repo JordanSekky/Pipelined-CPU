@@ -1,4 +1,4 @@
-`ifdef MANBEARPIG_HEADER
+`ifndef MANBEARPIG_HEADER
 `define MANBEARPIG_HEADER
 //-*-mode:verilog-*--------------------------------------------------------
 //

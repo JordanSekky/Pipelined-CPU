@@ -1,4 +1,4 @@
-`include "ManBearPig.h"
+`include "../includes/ManBearPig.h"
 module alu (input [31:0] src_a,
 	        input [31:0] src_b,
 	        input [4:0] sig_alu_control,
@@ -10,18 +10,18 @@ module alu (input [31:0] src_a,
 
 always @(*)
 begin
-	case (control)
+	case (sig_alu_control)
 		`ALU_AND: begin
-			out = in1 & in2;
+			result = src_a & src_b;
 		end 
 		`ALU_OR: begin
-			out = in1 | in2;
+			result = src_a | src_b;
 		end
 		`ALU_add: begin
-			out = in1 + in2;
+			result = src_a + src_b;
 		end
 		`ALU_sub: begin
-			out = in1 - in2;
+			result = src_a - src_b;
 		end
 		default: $display("BAD ALU OPERATION CODE");
 		endcase

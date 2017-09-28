@@ -1,3 +1,4 @@
+`include "../includes/ManBearPig.h"
 module syscall_handler(
 	input [31:0] instr,
 	input [31:0] v0,
@@ -29,8 +30,8 @@ module registers (input [4:0] rs,
 				  input sig_reg_write,
 				  input clk,
 				  input [31:0] instr,
-				  output wire [31:0] read_data_1,
-				  output wire [31:0] read_data_2);
+				  output reg [31:0] read_data_1,
+				  output reg [31:0] read_data_2);
 // This module stores the contents of all of the registers on the mips processors.
 // It stores them as an array of 32 32-bit registers. r_1 and r_2 are the values 
 // of the two registers to be read. w_r is the register to be written to. w_d is
