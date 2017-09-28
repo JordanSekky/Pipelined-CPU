@@ -1,0 +1,8 @@
+Output = 00
+Output = 01
+Output = 10
+Output = xx
+Output = 00000000000000000000000000000000
+Output = 01010101010101010101010101010101
+Output = 11111111111111111111111111111111
+Output = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

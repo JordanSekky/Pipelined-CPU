@@ -19,6 +19,6 @@ module THREE_MUX (
   // Used to output undefined value
   reg [size-1:0] undef;
 
-  assign result = sig_control[1] ? (sig_control[0] == 1 ? undef : input_c) : (sig_control[0] ? input_a : input_b);
+  assign result = sig_control[1] ? (sig_control[0] == 1 ? undef : input_c) : (sig_control[0] ? input_b : input_a);
 
 endmodule
