@@ -46,28 +46,28 @@ module testbench();
     input_lo_2  =   2'b00;
     signal_2 = 1'b1;
     #10;
-    $display("Output = %d", result_2); // 11
+    $display("Output = %b", result_2); // 11
     signal_2 = 1'b0;
     #10;
-    $display("Output = %d", result_2); // 00
+    $display("Output = %b", result_2); // 00
 
-    input_hi_8  =   8'bff;
-    input_lo_8  =   2'b00;
-    signal_8 = 1'b1;
+    input_hi_8  =   8'hff;
+    input_lo_8  =   8'h00;
+    signal_8 = 8'b1;
     #10;
     $display("Output = %b", result_8); // 11111111
-    signal_2 = 1'b0;
+    signal_8 = 8'b0;
     #10;
-    $display("Output = %d", result_2); // 00000000
+    $display("Output = %b", result_8); // 00000000
 
-    input_hi_32  =   8'bffffffff;
-    input_lo_32  =   2'b00000000;
-    signal_32 = 1'b1;
+    input_hi_32  =   32'hffffffff;
+    input_lo_32  =   32'h00000000;
+    signal_32 = 32'b1;
     #10;
     $display("Output = %b", result_32); // 11111111111111111111111111111111
-    signal_2 = 1'b0;
+    signal_32 = 32'b0;
     #10;
-    $display("Output = %d", result_2); // 00000000000000000000000000000000
+    $display("Output = %b", result_32); // 00000000000000000000000000000000
 
     $finish;
   end
