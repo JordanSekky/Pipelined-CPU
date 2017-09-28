@@ -335,6 +335,24 @@
 `define ALUOP_RFMT			2'b10
 `define ALUOP_BR			2'b01
 `define ALUOP_UNDEF			2'bxx
+
+/*----------------------------------------------------------------------------*
+ * ALU                                                                        *
+ *----------------------------------------------------------------------------*/
+
+`define BCU_EQ              5'b0000
+`define BCU_NE              5'b0001
+`define BCU_GT              5'b0010
+`define BCU_LT              5'b0011
+`define BCU_GE              5'b0100
+`define BCU_LE              5'b0101
+`define BCU_EQZ             5'b0110
+`define BCU_NEZ             5'b0111
+`define BCU_GTZ             5'b1001
+`define BCU_LTZ             5'b1010
+`define BCU_GEZ             5'b1011
+`define BCU_LEZ             5'b1100
+
 /*----------------------------------------------------------------------------*
  * Miscellaneous                                                              *
  *----------------------------------------------------------------------------*/
