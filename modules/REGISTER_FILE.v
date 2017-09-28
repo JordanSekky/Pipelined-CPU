@@ -10,6 +10,9 @@ always @(instr) begin
 		if (v0 == 1) begin
 			$display ("%d", a0);
 		end
+		if (v0 == 11) begin
+			$write("%c", a0);
+		end
 		if (v0 == 10) begin
 			$finish;
 		end
