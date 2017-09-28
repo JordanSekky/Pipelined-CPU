@@ -1,3 +1,5 @@
+`ifdef MANBEARPIG_HEADER
+`define MANBEARPIG_HEADER
 //-*-mode:verilog-*--------------------------------------------------------
 //
 //  Copyright (c) 1999 Cornell University
@@ -362,3 +364,5 @@
 `define SIZE_BYTE  2'h0
 `define SIZE_HALF  2'h1
 `define SIZE_WORD  2'h2
+
+`endif
