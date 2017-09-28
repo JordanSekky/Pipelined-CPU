@@ -1,10 +1,12 @@
 /**
- * This testbench will test the TWO_MUX module.
+ * This testbench will test the THREE_MUX module.
  *
  * Notes:
- *  - TWO_MUX should work on a variety of input sizes from 1 to 32 bits
- *  - Output will equal input_hi on signal high
- *  - Output will equal input_lo on signal low
+ *  - TWO_MUX should work on a variety of input sizes from 1 to 32 bits.
+ *  - Output will equal input_a on signal 00.
+ *  - Output will equal input_b on signal 01.
+ *  - Output will equal input_c on signal 10.
+ *  - Output will equal x (undef) on signal 11.
  */
 module testbench();
 
