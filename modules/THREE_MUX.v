@@ -4,7 +4,7 @@
  * -----------------------
  * 00 -> input_a
  * 01 -> input_b
- * 11 -> input_c
+ * 10 -> input_c
  */
 module THREE_MUX (
   input  wire [1:0]      sig_control,
@@ -16,6 +16,9 @@ module THREE_MUX (
 
   parameter size = 32;
 
-  assign result = sig_control[1] ? input_c : (sig_control[0] ? input_a : input_b);
+  // Used to output undefined value
+  reg [size-1:0] undef;
+
+  assign result = sig_control[1] ? (sig_control[0] == 1 ? undef : input_c) : (sig_control[0] ? input_a : input_b);
 
 endmodule
