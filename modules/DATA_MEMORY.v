@@ -13,8 +13,6 @@ module DATA_MEMORY(
   // Memory
   reg [31:0] mem [32'h7FFFFFFF:32'h7FF00000];
 
-  integer i;
-
   // Will be undefined if writing in the same cycle
   assign read_data = mem[addr];
 

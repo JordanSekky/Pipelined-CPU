@@ -57,6 +57,16 @@ module testbench();
     sig_mem_write = 1'b0;
     #10; // 00000000
 
+    write_data = 32'h0000dead;
+    addr = 0;
+    sig_mem_write = 1'b0;
+    #10; // 00000000
+
+    write_data = 32'hbeef0000;
+    addr = addr+1;
+    sig_mem_write = 1'b1;
+    #10; // 00000000
+
     $finish;
   end
 
