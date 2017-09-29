@@ -1,0 +1,15 @@
+Write(0) 00000000
+mem[7fffffff] = xxxxxxxx
+
+Write(1) deadbeef
+mem[7ffffffe] = deadbeef
+
+Write(1) 12345678
+mem[7fffffff] = 12345678
+
+Write(0) 0000dead
+mem[7ffffffe] = deadbeef
+
+Write(0) beef0000
+mem[7fffffff] = 12345678
+

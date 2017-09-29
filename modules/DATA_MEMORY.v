@@ -13,10 +13,12 @@ module DATA_MEMORY(
   // Memory
   reg [31:0] mem [32'h7FFFFFFF:32'h7FF00000];
 
+  integer i;
+
   // Will be undefined if writing in the same cycle
   assign read_data = mem[addr];
 
-  always @(addr) begin
+  always @(addr, write_data, posedge sig_mem_write) begin
     if (sig_mem_write) mem[addr] <= write_data;
   end
 
