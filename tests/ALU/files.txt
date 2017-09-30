@@ -1,0 +1,10 @@
+BAD ALU OPERATION CODE
+a(00000000) [undef] b(00000000) = xxxxxxxx
+a(00000000) [AND] b(00000000) = 00000000
+a(0000ffff) [AND] b(aaaaaaaa) = 0000aaaa
+a(0000ffff) [OR] b(aaaaaaaa) = aaaaffff
+a(aaaaaaaa) [OR] b(0000ffff) = aaaaffff
+a(20) [ADD] b( 4) = 24
+a(20) [ADD] b(-4) = 16
+a(20) [SUB] b( 4) = 16
+a(20) [SUB] b(-4) = 24
