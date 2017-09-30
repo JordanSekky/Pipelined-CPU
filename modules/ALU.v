@@ -1,4 +1,5 @@
-`include "ManBearPig.h"
+`include "../../includes/ManBearPig.h"
+
 module ALU (input wire [31:0] src_a,
 	        input wire [31:0] src_b,
 	        input wire [4:0] sig_alu_control,
