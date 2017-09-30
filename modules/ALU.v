@@ -1,8 +1,9 @@
-`include "../includes/ManBearPig.h"
-module alu (input [31:0] src_a,
-	        input [31:0] src_b,
-	        input [4:0] sig_alu_control,
+`include "ManBearPig.h"
+module ALU (input wire [31:0] src_a,
+	        input wire [31:0] src_b,
+	        input wire [4:0] sig_alu_control,
 	        output reg [31:0] result);
+
 // This module performs the arithmetic operations of the processor.
 // It determines what operations to perform on its two inputs based
 // on its input control signal. If the result of the operation is 0,
@@ -13,7 +14,7 @@ begin
 	case (sig_alu_control)
 		`ALU_AND: begin
 			result = src_a & src_b;
-		end 
+		end
 		`ALU_OR: begin
 			result = src_a | src_b;
 		end
@@ -23,7 +24,10 @@ begin
 		`ALU_sub: begin
 			result = src_a - src_b;
 		end
-		default: $display("BAD ALU OPERATION CODE");
+		default: begin
+			$display("BAD ALU OPERATION CODE");
+			result = 32'bX;
+		end
 		endcase
 end
 
