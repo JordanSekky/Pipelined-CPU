@@ -2,12 +2,15 @@
 
 /**
  * This testbench will test the adder module to check that the computations
- * are properly adding outputs in proper timing.
+ * are properly computing on the outputs in proper timing.
  *
  * Notes:
- *  - Addition should work up to 2^32.
- *  - Addition does not support negative numbers.
- *  - Addition should overflow over 2^32.
+ *  - ALU operations should properly work with positive and negative
+ *    numbers.
+ *  - ALU operations should only work when the proper sig_alu_control is
+ *    provided for that operation.
+ *  - If a sig_alu_control is provided that isn't handled, the output
+ *    should be X
  */
 module testbench();
 

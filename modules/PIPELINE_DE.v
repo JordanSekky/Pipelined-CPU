@@ -1,18 +1,18 @@
 module PIPELINE_DE (
-    input reg_write_d,
-    input mem_to_reg_d,
-    input mem_write_d,
-    input [4:0] alu_control_d,
-    input alu_src_d,
-    input reg_dst_d,
-    input [31:0] read_data_1_d,
-    input [31:0] read_data_2_d,
-    input [4:0] rs_d,
-    input [4:0] rt_d,
-    input [4:0] rd_d,
-    input [31:0] sign_imm_d,
-    input clk,
-    input haz_clr,
+    input wire reg_write_d,
+    input wire mem_to_reg_d,
+    input wire mem_write_d,
+    input wire [4:0] alu_control_d,
+    input wire alu_src_d,
+    input wire reg_dst_d,
+    input wire [31:0] read_data_1_d,
+    input wire [31:0] read_data_2_d,
+    input wire [4:0] rs_d,
+    input wire [4:0] rt_d,
+    input wire [4:0] rd_d,
+    input wire [31:0] sign_imm_d,
+    input wire clk,
+    input wire sig_clr,
     output reg reg_write_e,
     output reg mem_to_reg_e,
     output reg mem_write_e,
@@ -24,8 +24,8 @@ module PIPELINE_DE (
     output reg [4:0] rs_e,
     output reg [4:0] rt_e,
     output reg [4:0] rd_e,
-    input [31:0] sign_imm_e);
-    
+    output reg [31:0] sign_imm_e);
+
   initial begin
     reg_write_e <= 0;
     mem_to_reg_e <= 0;
@@ -40,7 +40,7 @@ module PIPELINE_DE (
     rd_e <= 0;
     sign_imm_e <= 0;
   end
-  
+
   always @(posedge clk) begin
     if (sig_clr == 1) begin
       reg_write_e <= 0;
@@ -54,8 +54,9 @@ module PIPELINE_DE (
       rs_e <= 0;
       rt_e <= 0;
       rd_e <= 0;
+      sign_imm_e <= 0;
     end
-    else if (haz_enable == 1) begin
+    else begin
       reg_write_e <= reg_write_d;
       mem_to_reg_e <= mem_to_reg_d;
       mem_write_e <= mem_write_d;
