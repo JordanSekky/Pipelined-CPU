@@ -1,4 +1,4 @@
-module PIPELINE_DE (
+module PIPELINE_EM (
     input reg_write_e,
     input mem_to_reg_e,
     input mem_write_e,

@@ -1,4 +1,4 @@
-module PIPELINE_DE (
+module PIPELINE_MW (
     input reg_write_m,
     input mem_to_reg_m,
     input [31:0] alu_result_m,
