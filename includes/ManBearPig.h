@@ -27,6 +27,12 @@
 `define CYCLE  #`cycle
 `define PHASE  #`phase
 
+// Memory Ranges
+`define instr_mem_hi 32'h101000
+`define instr_mem_lo 32'h100000
+`define data_mem_hi  32'h7FFFFFFF
+`define data_mem_lo  32'h7FF00000
+
 /*----------------------------------------------------------------------------*
  * Instruction Fields                                                         *
  *----------------------------------------------------------------------------*/

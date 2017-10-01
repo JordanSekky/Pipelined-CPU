@@ -1,3 +1,10 @@
+`ifndef TEST_H
+  `include "../includes/ManBearPig.h"
+`endif
+`ifdef TEST_H
+  `include "../../includes/ManBearPig.h"
+`endif
+
 /*
  * A data memory module. If sig_mem_write is true, write_data will be written to
  * mem[addr]. If sig_mem_write is false, read_data will output the values at
@@ -11,7 +18,7 @@ module DATA_MEMORY(
   );
 
   // Memory
-  reg [31:0] mem [32'h7FFFFFFF:32'h7FF00000];
+  reg [31:0] mem [`data_mem_hi:`data_mem_lo];
 
   // Will be undefined if writing in the same cycle
   assign read_data = mem[addr];
