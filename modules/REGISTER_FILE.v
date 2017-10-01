@@ -28,7 +28,7 @@ end
 
 endmodule
 
-module registers (input [4:0] rs,
+module REGISTERS (input [4:0] rs,
 				  input [4:0] rt,
 				  input [4:0] rd,
 				  input [31:0] write_data,
@@ -39,7 +39,7 @@ module registers (input [4:0] rs,
 				  output reg [31:0] read_data_1,
 				  output reg [31:0] read_data_2);
 // This module stores the contents of all of the registers on the mips processors.
-// It stores them as an array of 32 32-bit registers. r_1 and r_2 are the values 
+// It stores them as an array of 32 32-bit registers. r_1 and r_2 are the values
 // of the two registers to be read. w_r is the register to be written to. w_d is
 // the data to write into w_r. r_d_1 and r_d_2 are the data read from r_1 and r_2
 // respectively. v0_out is always the value of v0 to facilitate syscalls. a0 is like
@@ -63,12 +63,12 @@ always @(posedge clk) begin
 end
 
 always @(negedge clk) begin
-	if (sig_reg_write) 
+	if (sig_reg_write)
 	begin
 		if (sig_jal)
-			regs[`ra] = write_data;		
+			regs[`ra] = write_data;
 		else if (rd > 0)
-			regs[rd] = write_data;		
+			regs[rd] = write_data;
 	end
 end
 
