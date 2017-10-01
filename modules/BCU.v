@@ -1,9 +1,10 @@
-`include "../includes/ManBearPig.h"
+`include "../../includes/ManBearPig.h"
 module BCU (
-    input [4:0] sig_bcu_control, 
+    input [3:0] sig_bcu_control, 
     input [31:0] rd1, 
     input [31:0] rd2,
-    output reg branch) begin
+    output reg branch);
+
   always @(*) begin
     case (sig_bcu_control)
 		`BCU_EQ: begin
