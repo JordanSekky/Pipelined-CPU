@@ -37,7 +37,7 @@ module testbench();
     $display("Output = %d", result); // result = 20
 
     a = 32'hffffffff;
-    b = 32'00000002;
+    b = 32'h00000002;
     #5;
     $display("Output = %d", result); // result = 1
 
