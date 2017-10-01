@@ -11,6 +11,7 @@ module PIPELINE_DE (
     input wire [4:0] rt_d,
     input wire [4:0] rd_d,
     input wire [31:0] sign_imm_d,
+    input wire upper_d,
     input wire clk,
     input wire sig_clr,
     output reg reg_write_e,
@@ -24,7 +25,8 @@ module PIPELINE_DE (
     output reg [4:0] rs_e,
     output reg [4:0] rt_e,
     output reg [4:0] rd_e,
-    output reg [31:0] sign_imm_e);
+    output reg [31:0] sign_imm_e,
+    output reg upper_e);
 
   initial begin
     reg_write_e <= 0;

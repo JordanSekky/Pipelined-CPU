@@ -18,7 +18,7 @@ module CONTROL_UNIT (
   output reg        alu_src,
   output reg        reg_dst,
   output reg        branch,
-  output reg  [2:0] bcu_control
+  output reg  [3:0] bcu_control
   );
 
   always @(op_code or funct_code) begin
@@ -33,14 +33,14 @@ module CONTROL_UNIT (
         end
       default: reg_dst <= 1'b0;
     endcase
-    
+
     // jump
     case (op_code)
       `J, `JAL: jump <= 2'b01;
       `JR: jump <= 2'b10;
       default: jump <= 2'b00;
     endcase
-    
+
     // branch
     case (op_code)
       `BEQ, `BNE: branch <= 1'b1;
