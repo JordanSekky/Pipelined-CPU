@@ -1,4 +1,10 @@
-`include "../includes/ManBearPig.h"
+`ifndef TEST_H
+  `include "../includes/ManBearPig.h"
+`endif
+`ifdef TEST_H
+  `include "../../includes/ManBearPig.h"
+`endif
+
 module syscall_handler(
 	input [31:0] instr,
 	input [31:0] v0,
