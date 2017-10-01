@@ -1,2 +1,3 @@
+../defineTest.h
 ../../modules/DATA_MEMORY.v
 test.v

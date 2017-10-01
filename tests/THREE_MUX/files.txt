@@ -1,2 +1,3 @@
+../defineTest.h
 ../../modules/THREE_MUX.v
 test.v
