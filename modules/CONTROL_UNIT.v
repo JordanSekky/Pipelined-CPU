@@ -21,17 +21,13 @@ module CONTROL_UNIT (
   output reg  [3:0] bcu_control
   );
 
+
   always @(op_code or funct_code) begin
 
-    // jal
-    jal <= op_code == `JAL ? 1'b1 : 1'b0;
-
-    // reg_dst
+    // load_upper
     case (op_code)
-      `SPECIAL: begin
-          reg_dst <= 1'b1;
-        end
-      default: reg_dst <= 1'b0;
+      `LUI: load_upper <= 1'b1;
+      default: load_upper <= 1'b0;
     endcase
 
     // jump
@@ -41,16 +37,10 @@ module CONTROL_UNIT (
       default: jump <= 2'b00;
     endcase
 
-    // branch
+    // jal
     case (op_code)
-      `BEQ, `BNE: branch <= 1'b1;
-      default: branch <= 1'b0;
-    endcase
-
-    // mem_to_reg
-    case (op_code)
-      `LW: mem_to_reg <= 1'b1;
-      default: mem_to_reg <= 1'b0;
+      `JAL: jal <= 1'b1;
+      default: jal <= 1'b0;
     endcase
 
     // reg_write
@@ -59,10 +49,10 @@ module CONTROL_UNIT (
       default: reg_write <= 1'b0;
     endcase
 
-    // alu_src
+    // mem_to_reg
     case (op_code)
-      `ADDIU, `ADDI, `ADDU, `ORI, `LW, `SW, `LUI: alu_src <= 1'b1;
-      default: alu_src <= 1'b0;
+      `LW: mem_to_reg <= 1'b1;
+      default: mem_to_reg <= 1'b0;
     endcase
 
     // mem_write
@@ -77,7 +67,7 @@ module CONTROL_UNIT (
       `ORI: alu_control <= `ALU_OR;
       `BEQ, `BNE: alu_control <= `ALU_sub;
 
-      // R-type
+      // R-type instructions
       `SPECIAL: case(funct_code)
           `SLT: alu_control <= `ALU_slt;
           `ADD: alu_control <= `ALU_add;
@@ -92,6 +82,36 @@ module CONTROL_UNIT (
       default: alu_control <= `ALU_undef;
     endcase
 
-  end
+    // alu_src
+    case (op_code)
+      `ADDIU, `ADDI, `ADDU, `ORI, `LW, `SW, `LUI: alu_src <= 1'b1;
+      default: alu_src <= 1'b0;
+    endcase
 
+    // reg_dst
+    case (op_code)
+      `SPECIAL: begin
+          reg_dst <= 1'b1;
+        end
+      default: reg_dst <= 1'b0;
+    endcase
+
+    // branch
+    case (op_code)
+      `BEQ, `BNE, `BLEZ, `BGEZ, `BLTZ, `BGTZ: branch <= 1'b1;
+      default: branch <= 1'b0;
+    endcase
+
+    // branch_control
+    case (op_code)
+      `BEQ: bcu_control <= `BCU_EQ;
+      `BNE: bcu_control <= `BCU_NE;
+      `BLEZ: bcu_control <= `BCU_LEZ;
+      `BGEZ: bcu_control <= `BCU_GEZ;
+      `BLTZ: bcu_control <= `BCU_LTZ;
+      `BGTZ: bcu_control <= `BCU_GTZ;
+      default: bcu_control <= 4'bx;
+    endcase
+
+  end
 endmodule
