@@ -1,5 +1,5 @@
 /**
- * This testbench will test the de register module to check that the values
+ * This testbench will test the EM register module to check that the values
  * are properly storing and clearing on clk posedge
  *
  * Notes:
@@ -11,7 +11,7 @@ module testbench();
   reg           reg_write_e;
   reg           mem_to_reg_e;
   reg           mem_write_e;
-  reg   [4:0]   alu_result_e;
+  reg   [31:0]  alu_result_e;
   reg   [31:0]  write_data_e;
   reg   [4:0]   write_reg_e;
   reg           clk;
@@ -20,7 +20,7 @@ module testbench();
   wire          reg_write_m;
   wire          mem_to_reg_m;
   wire          mem_write_m;
-  wire   [4:0]  alu_result_m;
+  wire   [31:0] alu_result_m;
   wire   [31:0] write_data_m;
   wire   [4:0]  write_reg_m;
 
@@ -42,85 +42,55 @@ module testbench();
     );
 
   initial begin
-    reg_write_e;
-    mem_to_reg_e;
-    mem_write_e;
-    alu_result_e = 5'h0;
-    write_data_e = 32'h0;
-    write_reg_e = 5'h0;
+    reg_write_e = 1;
+    mem_to_reg_e = 1;
+    mem_write_e = 1;
+    alu_result_e = 32'h11111111;
+    write_data_e = 32'h99999999;
+    write_reg_e = 5'b00110;
+    clk = 1'b0;
     #5;
     $display("============ 0 ============");
-    $display("reg_write_m = %h", reg_write_m);
-    $display("mem_to_reg_m = %h", mem_to_reg_m);
-    $display("mem_write_m = %h", mem_write_m);
-    $display("alu_result_m = %h", alu_result_m);
-    $display("write_data_m = %h", write_data_m);
-    $display("write_reg_m = %h", write_reg_m);
+    $display("reg_write_m = %h", reg_write_m); // 0
+    $display("mem_to_reg_m = %h", mem_to_reg_m); // 0
+    $display("mem_write_m = %h", mem_write_m); // 0
+    $display("alu_result_m = %h", alu_result_m); // 0
+    $display("write_data_m = %h", write_data_m); // 0
+    $display("write_reg_m = %h", write_reg_m); // 0
     clk = 1'b1;
-    sig_clr = 1'b0;
     #5;
     $display("============ 0 ============");
-    $display("reg_write_m = %h", reg_write_m);
-    $display("mem_to_reg_m = %h", mem_to_reg_m);
-    $display("mem_write_m = %h", mem_write_m);
-    $display("alu_result_m = %h", alu_result_m);
-    $display("write_data_m = %h", write_data_m);
-    $display("write_reg_m = %h", write_reg_m);
+    $display("reg_write_m = %h", reg_write_m); // 1
+    $display("mem_to_reg_m = %h", mem_to_reg_m); // 1
+    $display("mem_write_m = %h", mem_write_m); // 1
+    $display("alu_result_m = %h", alu_result_m); // 11111111
+    $display("write_data_m = %h", write_data_m); // 99999999
+    $display("write_reg_m = %h", write_reg_m); // 6
 
-    reg_write_e;
-    mem_to_reg_e;
-    mem_write_e;
-    alu_result_e = 5'h0;
-    write_data_e = 32'h0;
-    write_reg_e = 5'h0;
+    reg_write_e = 0;
+    mem_to_reg_e = 0;
+    mem_write_e = 0;
+    alu_result_e = 32'h22222222;
+    write_data_e = 32'h88888888;
+    write_reg_e = 5'b00001;
+    clk = 1'b0;
     #5;
-    $display("============ 0 ============");
-    $display("reg_write_m = %h", reg_write_m);
-    $display("mem_to_reg_m = %h", mem_to_reg_m);
-    $display("mem_write_m = %h", mem_write_m);
-    $display("alu_result_m = %h", alu_result_m);
-    $display("write_data_m = %h", write_data_m);
-    $display("write_reg_m = %h", write_reg_m);
+    $display("============ 1 ============");
+    $display("reg_write_m = %h", reg_write_m); // 1
+    $display("mem_to_reg_m = %h", mem_to_reg_m); // 1
+    $display("mem_write_m = %h", mem_write_m); // 1
+    $display("alu_result_m = %h", alu_result_m); // 11111111
+    $display("write_data_m = %h", write_data_m); // 99999999
+    $display("write_reg_m = %h", write_reg_m); // 6
     clk = 1'b1;
-    sig_clr = 1'b0;
     #5;
-    $display("============ 0 ============");
-    $display("reg_write_m = %h", reg_write_m);
-    $display("mem_to_reg_m = %h", mem_to_reg_m);
-    $display("mem_write_m = %h", mem_write_m);
-    $display("alu_result_m = %h", alu_result_m);
-    $display("write_data_m = %h", write_data_m);
-    $display("write_reg_m = %h", write_reg_m);
-
-    reg_write_e;
-    mem_to_reg_e;
-    mem_write_e;
-    alu_result_e = 5'h0;
-    write_data_e = 32'h0;
-    write_reg_e = 5'h0;
-    #5;
-    $display("============ 0 ============");
-    $display("reg_write_m = %h", reg_write_m);
-    $display("mem_to_reg_m = %h", mem_to_reg_m);
-    $display("mem_write_m = %h", mem_write_m);
-    $display("alu_result_m = %h", alu_result_m);
-    $display("write_data_m = %h", write_data_m);
-    $display("write_reg_m = %h", write_reg_m);
-    clk = 1'b1;
-    sig_clr = 1'b0;
-    #5;
-    $display("============ 0 ============");
-    $display("reg_write_m = %h", reg_write_m);
-    $display("mem_to_reg_m = %h", mem_to_reg_m);
-    $display("mem_write_m = %h", mem_write_m);
-    $display("alu_result_m = %h", alu_result_m);
-    $display("write_data_m = %h", write_data_m);
-    $display("write_reg_m = %h", write_reg_m);
-
+    $display("============ 1 ============");
+    $display("reg_write_m = %h", reg_write_m); // 0
+    $display("mem_to_reg_m = %h", mem_to_reg_m); // 0
+    $display("mem_write_m = %h", mem_write_m); // 0
+    $display("alu_result_m = %h", alu_result_m); // 22222222
+    $display("write_data_m = %h", write_data_m); // 88888888
+    $display("write_reg_m = %h", write_reg_m); // 1
     $finish;
   end
-
-
-
-
 endmodule
