@@ -16,4 +16,4 @@ ManBearPig.v
 ../modules/SIGN_EXTEND.v
 ../modules/THREE_MUX.v
 ../modules/TWO_MUX.v
-../includes/ManBearPig.v
+../includes/ManBearPig.h

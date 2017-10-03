@@ -6,16 +6,20 @@
 `endif
 
 module BCU (
-    input [3:0] sig_bcu_control, 
-    input [31:0] rd1, 
+    input [3:0] sig_bcu_control,
+    input [31:0] rd1,
     input [31:0] rd2,
     output reg branch);
+
+  initial begin
+    branch = 0;
+  end
 
   always @(*) begin
     case (sig_bcu_control)
     `BCU_EQ: begin
       branch = rd1 == rd2;
-    end 
+    end
     `BCU_NE: begin
       branch = rd1 != rd2;
     end
@@ -32,7 +36,7 @@ module BCU (
       branch = rd1 <= rd2;
     end
     `BCU_EQZ: begin
-      branch = rd1 == 0; 
+      branch = rd1 == 0;
     end
     `BCU_NEZ: begin
       branch = rd1 != 0;
@@ -49,7 +53,10 @@ module BCU (
     `BCU_LEZ: begin
       branch = rd1 <= 0;
     end
-    default: $display("BAD BCU CONTROL SIGNAL");
+    default: begin
+      branch = 0;
+      $display("BAD BCU CONTROL SIGNAL");
+    end
     endcase
   end
 endmodule

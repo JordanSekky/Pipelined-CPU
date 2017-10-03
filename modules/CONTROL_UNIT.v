@@ -21,6 +21,19 @@ module CONTROL_UNIT (
   output reg  [3:0] bcu_control
   );
 
+  initial begin
+    load_upper <= 0;
+    jump <= 0;
+    jal <= 0;
+    reg_write <= 0;
+    mem_to_reg <= 0;
+    mem_write <= 0;
+    alu_control <= 0;
+    alu_src <= 0;
+    reg_dst <= 0;
+    branch <= 0;
+    bcu_control <= 0;
+  end
 
   always @(op_code or funct_code) begin
 
@@ -75,7 +88,7 @@ module CONTROL_UNIT (
           `AND: alu_control <= `ALU_AND;
           `OR:  alu_control <= `ALU_OR;
           default: begin
-            $display("Unsupported function code: %x", alu_control);
+            $display("Unsupported function code: %x", funct_code);
             alu_control <= `ALU_undef;
           end
         endcase
