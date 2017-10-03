@@ -70,6 +70,7 @@ module testbench();
   wire [4:0]  WriteRegE;
   wire [31:0] SignImmE;
   wire [31:0] SrcAE;
+  wire [31:0] ForwardBEMuxOut;
   wire [31:0] SrcBE;
   wire [31:0] WriteDataE;
   wire [31:0] ALUOutE;
@@ -266,6 +267,12 @@ module testbench();
     .input_a(RD2E),
     .input_b(Result16W),
     .input_c(ALUOutM),
+    .result(ForwardBEMuxOut)
+    );
+  TWO_MUX #(32) src_b_mux(
+    .sig_control(ALUSrcE),
+    .input_lo(ForwardBEMuxOut),
+    .input_hi(SignImmE),
     .result(SrcBE)
     );
   ALU alu(
