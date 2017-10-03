@@ -15,7 +15,7 @@ module syscall_handler(
 always @(instr) begin
 	if (instr == 32'h0000000C) begin
 		if (v0 == 1) begin
-			$display ("%d", a0);
+			$display("%d", a0);
 		end
 		if (v0 == 11) begin
 			$write("%c", a0);
@@ -60,6 +60,8 @@ initial begin
 end
 
 always @(posedge clk) begin
+  $display("regs[%x] = %x", rs, regs[rs]);
+  $display("regs[%x] = %x", rt, regs[rt]);
 	read_data_1 = regs[rs];
 	read_data_2 = regs[rt];
 end
@@ -68,9 +70,14 @@ always @(negedge clk) begin
 	if (sig_reg_write)
 	begin
 		if (sig_jal)
-			regs[`ra] = write_data;
-		else if (rd > 0)
+    begin
+			regs[`ra] <= write_data;
+		end
+    else if (rd > 0)
+    begin
+      $display("regs[%x] <= %x", rd, write_data);
 			regs[rd] = write_data;
+    end
 	end
 end
 

@@ -22,6 +22,7 @@ module PIPELINE_EM (
     alu_result_m <= 0;
     write_data_m <= 0;
     write_reg_m <= 0;
+    upper_m <= 0;
   end
 
   always @(posedge clk) begin
@@ -31,5 +32,6 @@ module PIPELINE_EM (
     alu_result_m <= alu_result_e;
     write_data_m <= write_data_e;
     write_reg_m <= write_reg_e;
+    upper_m <= upper_e;
   end
 endmodule
