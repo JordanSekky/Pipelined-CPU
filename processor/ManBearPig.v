@@ -34,6 +34,7 @@ module testbench();
   wire        RegDstD;
   wire        BranchD;
   wire [3:0]  BCUControlD;
+  wire       PCSrcD;
   wire        BCUOut;
   wire        JALD;
 
@@ -69,6 +70,7 @@ module testbench();
   wire [4:0]  WriteRegE;
   wire [31:0] SignImmE;
   wire [31:0] SrcAE;
+  wire [31:0] ForwardBEMuxOut;
   wire [31:0] SrcBE;
   wire [31:0] WriteDataE;
   wire [31:0] ALUOutE;
@@ -104,7 +106,6 @@ module testbench();
   // ===                 Registers                 ===
   // =================================================
   reg         clk;
-  reg         PCSrcD;
 
   // =================================================
   // ===                  Modules                  ===
@@ -145,7 +146,7 @@ module testbench();
     .instr_f(InstF),
     .pc_plus_4_f(PCPlus4F),
     .sig_clr(PCSrcD),
-    .haz_enable(StallD),
+    .haz_enable(~StallD),     // <-- Negate that jawn
     .clk(clk),
     .instr_d(InstD),
     .pc_plus_4_d(PCPlus4D)
@@ -215,9 +216,7 @@ module testbench();
     .input_lo(Result32W),
     .result(WriteDataD)
     );
-  always @(BranchD, BCUOut) begin
-    PCSrcD <= BranchD & BCUOut;
-  end
+  assign PCSrcD = BranchD & BCUOut;
 
   // ==================== Execute ====================
   PIPELINE_DE pipeline_de(
@@ -268,6 +267,12 @@ module testbench();
     .input_a(RD2E),
     .input_b(Result16W),
     .input_c(ALUOutM),
+    .result(ForwardBEMuxOut)
+    );
+  TWO_MUX #(32) src_b_mux(
+    .sig_control(ALUSrcE),
+    .input_lo(ForwardBEMuxOut),
+    .input_hi(SignImmE),
     .result(SrcBE)
     );
   ALU alu(

@@ -55,6 +55,8 @@ initial begin
 	for (k = 0; k < 32; k = k + 1) begin
 		regs[k] = 32'b0;
 	end
+  read_data_1 = 0;
+  read_data_2 = 0;
 end
 
 always @(posedge clk) begin
