@@ -34,10 +34,11 @@ module testbench();
   wire        RegDstD;
   wire        BranchD;
   wire [3:0]  BCUControlD;
+  wire        BCUOut;
   wire        JALD;
 
   wire [31:0] JumpExtendD;
-  wire [31:0] JumpMuxOutD;
+  wire [31:0] PCBranchD;
   wire [31:0] InstD;
   wire [31:0] PCPlus4D;
   wire [31:0] SignImmD;
@@ -55,7 +56,7 @@ module testbench();
   wire        RegWriteE;
   wire        MemToRegE;
   wire        MemWriteE;
-  wire        ALUControlE;
+  wire [4:0]  ALUControlE;
   wire        ALUSrcE;
   wire        RegDstE;
   wire        UpperE;
@@ -72,8 +73,8 @@ module testbench();
   wire [31:0] WriteDataE;
   wire [31:0] ALUOutE;
 
-  wire        ForwardAE;
-  wire        ForwardBE;
+  wire [1:0]  ForwardAE;
+  wire [1:0]  ForwardBE;
   wire        FlushE;
 
   // ================== Data Memory ==================
@@ -85,7 +86,7 @@ module testbench();
   wire [31:0] ALUOutM;
   wire [31:0] WriteDataM;
   wire [4:0]  WriteRegM;
-  wire        ReadDataM;
+  wire [31:0] ReadDataM;
 
   // =================== Writeback ===================
   wire        RegWriteW;
@@ -94,8 +95,8 @@ module testbench();
 
   wire [31:0] ReadDataW;
   wire [31:0] ALUOutW;
-  wire [31:0] WriteRegW;
-  wire [15:0] Result16W;
+  wire [4:0] WriteRegW;
+  wire [31:0] Result16W;
   wire [31:0] Result32W;
 
 
@@ -103,6 +104,7 @@ module testbench();
   // ===                 Registers                 ===
   // =================================================
   reg         clk;
+  reg         PCSrcD;
 
   // =================================================
   // ===                  Modules                  ===
@@ -113,7 +115,7 @@ module testbench();
     .pc(pc),
     .haz_enable(~StallF), // <-- use ~ to negate StallF
     .clk(clk),
-    .pcf(pcf)
+    .pcf(pcF)
     );
   INST_MEM inst_mem(
     .pc(pcF),
@@ -180,12 +182,12 @@ module testbench();
     .sign_out(SignImmD)
     );
   JUMP_SHIFT_TWO jump_shift_two(
-    .upper_pc_plus_four(InstD[25:0]),
-    .jump_imm(PCPlus4F[31:28]),
+    .upper_pc_plus_four(PCPlus4F[31:28]),
+    .jump_imm(InstD[25:0]),
     .jump_addr(JumpExtendD)
     );
   ADDER branch_adder(
-    .input_a({SignImmD, 2'b00}), // <-- Left Shift 2
+    .input_a({SignImmD[29:0], 2'b00}), // <-- Left Shift 2
     .input_b(PCPlus4D),
     .result(PCBranchD)
     );
@@ -205,7 +207,7 @@ module testbench();
     .sig_bcu_control(BCUControlD),
     .rd1(RD1MuxOut),
     .rd2(RD2MuxOut),
-    .branch(PCSrcD)
+    .branch(BCUOut)
     );
   TWO_MUX write_data_mux(
     .sig_control(JALD),
@@ -213,6 +215,9 @@ module testbench();
     .input_lo(Result32W),
     .result(WriteDataD)
     );
+  always @(BranchD, BCUOut) begin
+    PCSrcD <= BranchD & BCUOut;
+  end
 
   // ==================== Execute ====================
   PIPELINE_DE pipeline_de(
@@ -245,7 +250,7 @@ module testbench();
     .sign_imm_e(SignImmE),
     .upper_e(UpperE)
     );
-  TWO_MUX #(32) reg_write_mux_e(
+  TWO_MUX #(5) reg_write_mux_e(
     .sig_control(RegDstE),
     .input_lo(rtE),
     .input_hi(rdE),
@@ -254,14 +259,14 @@ module testbench();
   THREE_MUX #(32) rd1_mux_e(
     .sig_control(ForwardAE),
     .input_a(RD1E),
-    .input_b({16'b0,Result16W}),
+    .input_b(Result16W),
     .input_c(ALUOutM),
     .result(SrcAE)
     );
   THREE_MUX #(32) rd2_mux_e(
     .sig_control(ForwardBE),
     .input_a(RD2E),
-    .input_b({16'b0,Result16W}),
+    .input_b(Result16W),
     .input_c(ALUOutM),
     .result(SrcBE)
     );
@@ -294,7 +299,7 @@ module testbench();
   DATA_MEMORY data_memory(
     .sig_mem_write(MemWriteM),
     .addr(ALUOutM),
-    .write_data_m(WriteDataM),
+    .write_data(WriteDataM),
     .read_data(ReadDataM)
     );
 
@@ -322,8 +327,8 @@ module testbench();
     );
   TWO_MUX #(32) result_hi_lo_mux(
     .sig_control(UpperW),
-    .input_lo({16'b0,Result16W}),
-    .input_hi({Result16W,16'b0}),
+    .input_lo(Result16W),               // <-- No need to shift
+    .input_hi({Result16W[15:0],16'b0}), // <-- Necessary for lui
     .result(Result32W)
     );
 
@@ -356,13 +361,30 @@ module testbench();
   // ===                 Statements                 ===
   // ==================================================
 
+  integer LineNumber;
+
   initial begin
+    $dumpfile("test.vcd");
+    $dumpvars(0,testbench);
+    LineNumber = 0;
     clk <= 0;
+    #1000;
+    $finish;
   end
 
-  always @(*) begin
-    clk <= 0; #5;
-    clk <= 1; #5;
+  always begin
+    #5; clk = ~clk;
+  end
+
+  always @(posedge clk)
+  begin
+    $display("===========(%2d)===========", LineNumber);
+    $display("%x: %x", pcF, InstF);
+    // $display("PCPlus4F:    %x", PCPlus4F);
+    // $display("JumpMuxOutD: %x", JumpMuxOutD);
+    // $display("BranchD:     %x", BranchD);
+    // $display("pc:          %x", pc);
+    LineNumber = LineNumber + 1;
   end
 
 endmodule
