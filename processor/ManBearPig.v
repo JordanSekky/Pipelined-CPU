@@ -158,7 +158,7 @@ module testbench();
     .write_data(WriteDataD),
     .sig_jal(JALD),
     .sig_reg_write(RegWriteW),
-    .clk(clk),
+    .clk(~clk),
     .instr(InstD),
     .read_data_1(RD1D),
     .read_data_2(RD2D)
@@ -372,8 +372,8 @@ module testbench();
     $dumpfile("test.vcd");
     $dumpvars(0,testbench);
     LineNumber = 0;
-    clk <= 0;
-    #1000;
+    clk <= 1;
+    #200;
     $finish;
   end
 
@@ -381,14 +381,20 @@ module testbench();
     #5; clk = ~clk;
   end
 
-  always @(posedge clk)
+  always @(negedge clk)
   begin
     $display("===========(%2d)===========", LineNumber);
     $display("%x: %x", pcF, InstF);
-    // $display("PCPlus4F:    %x", PCPlus4F);
-    // $display("JumpMuxOutD: %x", JumpMuxOutD);
-    // $display("BranchD:     %x", BranchD);
-    // $display("pc:          %x", pc);
+    $display("ForwardAE:  %x", ForwardAE);
+    $display("ForwardBE:  %x", ForwardBE);
+    $display("Result16W:  %x", Result16W);
+    $display("ALUSrcE:    %x", ALUSrcE);
+    $display("SignImmE:   %x", SignImmE);
+    $display("RD1D:       %x", RD1D);
+    $display("RD2D:       %x", RD2D);
+    $display("SrcAE:      %x", SrcAE);
+    $display("SrcBE:      %x", SrcBE);
+    $display("ALUOutE:    %x", ALUOutE);
     LineNumber = LineNumber + 1;
   end
 

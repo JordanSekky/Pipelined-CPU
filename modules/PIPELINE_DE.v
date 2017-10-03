@@ -57,6 +57,7 @@ module PIPELINE_DE (
       rt_e <= 0;
       rd_e <= 0;
       sign_imm_e <= 0;
+      upper_e <= 0;
     end
     else begin
       reg_write_e <= reg_write_d;
@@ -71,6 +72,7 @@ module PIPELINE_DE (
       rt_e <= rt_d;
       rd_e <= rd_d;
       sign_imm_e <= sign_imm_d;
+      upper_e <= upper_d;
     end
   end
 endmodule

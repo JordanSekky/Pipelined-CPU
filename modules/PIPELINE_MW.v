@@ -19,6 +19,7 @@ module PIPELINE_MW (
     alu_result_w <= 0;
     read_data_w <= 0;
     write_reg_w <= 0;
+    upper_w <= 0;
   end
 
   always @(posedge clk) begin
@@ -27,5 +28,6 @@ module PIPELINE_MW (
     alu_result_w <= alu_result_m;
     read_data_w <= read_data_m;
     write_reg_w <= write_reg_m;
+    upper_w <= upper_m;
   end
 endmodule
