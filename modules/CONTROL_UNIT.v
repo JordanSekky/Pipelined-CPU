@@ -78,21 +78,17 @@ module CONTROL_UNIT (
 
     // alu_control
     case(op_code)
-      `ADDIU, `ADDI, `ADDU, `LW, `SW, `LUI: alu_control <= `ALU_add;
+      `ADDIU, `ADDI, `LW, `SW, `LUI: alu_control <= `ALU_add;
       `ORI: alu_control <= `ALU_OR;
-      `BEQ, `BNE: alu_control <= `ALU_sub;
 
       // R-type instructions
       `SPECIAL: case(funct_code)
           `SLT: alu_control <= `ALU_slt;
-          `ADD: alu_control <= `ALU_add;
+          `ADD, `ADDU: alu_control <= `ALU_add;
           `SUB: alu_control <= `ALU_sub;
           `AND: alu_control <= `ALU_AND;
           `OR:  alu_control <= `ALU_OR;
-          default: begin
-            $display("Unsupported function code: %x", funct_code);
-            alu_control <= `ALU_undef;
-          end
+          default: alu_control <= `ALU_undef;
         endcase
       default: alu_control <= `ALU_undef;
     endcase
@@ -113,7 +109,7 @@ module CONTROL_UNIT (
 
     // branch
     case (op_code)
-      `BEQ, `BNE, `BLEZ, `BGEZ, `BLTZ, `BGTZ: branch <= 1'b1;
+      `BEQ, `BNE, `BLEZ, `BGTZ: branch <= 1'b1;
       default: branch <= 1'b0;
     endcase
 
