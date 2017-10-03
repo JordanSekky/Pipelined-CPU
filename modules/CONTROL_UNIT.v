@@ -46,7 +46,9 @@ module CONTROL_UNIT (
     // jump
     case (op_code)
       `J, `JAL: jump <= 2'b01;
-      `JR: jump <= 2'b10;
+      `SPECIAL: begin
+        if (funct_code == `JR) jump <= 2'b10;
+      end
       default: jump <= 2'b00;
     endcase
 
