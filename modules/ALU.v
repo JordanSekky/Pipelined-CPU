@@ -32,7 +32,7 @@ begin
 		end
 		default: begin
 			$display("BAD ALU OPERATION CODE");
-			result = 32'bX;
+			result = 32'b0;
 		end
 		endcase
 end

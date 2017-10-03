@@ -34,6 +34,7 @@ module testbench();
   wire        RegDstD;
   wire        BranchD;
   wire [3:0]  BCUControlD;
+  wire       PCSrcD;
   wire        BCUOut;
   wire        JALD;
 
@@ -104,7 +105,6 @@ module testbench();
   // ===                 Registers                 ===
   // =================================================
   reg         clk;
-  reg         PCSrcD;
 
   // =================================================
   // ===                  Modules                  ===
@@ -145,7 +145,7 @@ module testbench();
     .instr_f(InstF),
     .pc_plus_4_f(PCPlus4F),
     .sig_clr(PCSrcD),
-    .haz_enable(StallD),
+    .haz_enable(~StallD),     // <-- Negate that jawn
     .clk(clk),
     .instr_d(InstD),
     .pc_plus_4_d(PCPlus4D)
@@ -215,9 +215,7 @@ module testbench();
     .input_lo(Result32W),
     .result(WriteDataD)
     );
-  always @(BranchD, BCUOut) begin
-    PCSrcD <= BranchD & BCUOut;
-  end
+  assign PCSrcD = BranchD & BCUOut;
 
   // ==================== Execute ====================
   PIPELINE_DE pipeline_de(
