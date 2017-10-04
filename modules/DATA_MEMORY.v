@@ -1,9 +1,4 @@
-`ifndef TEST_H
-  `include "../includes/ManBearPig.h"
-`endif
-`ifdef TEST_H
-  `include "../../includes/ManBearPig.h"
-`endif
+`include "../includes/ManBearPig.h"
 
 /*
  * A data memory module. If sig_mem_write is true, write_data will be written to
