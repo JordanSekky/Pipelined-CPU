@@ -1,5 +1,6 @@
 module HAZARD_UNIT (
 	input [1:0] sig_jump_d,
+	input sig_jal_d,
 	input sig_branch_d,
 	input [4:0] rs_d,
 	input [4:0] rt_d,
@@ -26,29 +27,31 @@ reg branchstall;
 
 always @(*) begin
 	if ((rs_e != 0) && (rs_e == write_reg_m) && sig_reg_write_m)
-		forward_a_e <= 2'b10;
+		forward_a_e = 2'b10;
 	else if ((rs_e != 0) && (rs_e == write_reg_w) && sig_reg_write_w)
-		forward_a_e <= 2'b01;
-	else forward_a_e <= 2'b00;
+		forward_a_e = 2'b01;
+	else forward_a_e = 2'b00;
 
 	if ((rt_e != 0) && (rt_e == write_reg_m) && sig_reg_write_m)
-		forward_b_e <= 2'b10;
+		forward_b_e = 2'b10;
 	else if ((rt_e != 0) && (rt_e == write_reg_w) && sig_reg_write_w)
-		forward_b_e <= 2'b01;
-	else forward_b_e <= 2'b00;
+		forward_b_e = 2'b01;
+	else forward_b_e = 2'b00;
 
-	lwstall <= ((rs_d == rt_e) || (rt_d == rt_e)) && sig_mem_to_reg_e;
+	lwstall = ((rs_d == rs_e) || (rt_d == rt_e)) && sig_mem_to_reg_e;
 
-	forward_a_d <= (rs_d != 0) && (rs_d == write_reg_m) && sig_reg_write_m;
-	forward_b_d <= (rt_d != 0) && (rt_d == write_reg_m) && sig_reg_write_m;
+	forward_a_d = (rs_d != 0) && (rs_d == write_reg_m) && sig_reg_write_m;
+	forward_b_d = (rt_d != 0) && (rt_d == write_reg_m) && sig_reg_write_m;
 
 
-	branchstall <= sig_branch_d && sig_reg_write_e && (write_reg_e == rs_d || write_reg_e == rt_d) ||
+	branchstall = sig_branch_d && sig_reg_write_e && (write_reg_e == rs_d || write_reg_e == rt_d) ||
 	              sig_branch_d && sig_mem_to_reg_m && (write_reg_m == rs_d || write_reg_m == rt_d);
 
-	stall_f = lwstall || branchstall;
-	stall_d = lwstall || branchstall;
-	flush_e = lwstall || branchstall;
+
+
+	stall_f = lwstall || branchstall || sig_jal_d;
+	stall_d = lwstall || branchstall || sig_jal_d;
+	flush_e = lwstall || branchstall || sig_jal_d;
 end
 
 endmodule

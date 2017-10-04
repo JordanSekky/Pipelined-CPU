@@ -1,9 +1,4 @@
-`ifndef TEST_H
-  `include "../includes/ManBearPig.h"
-`endif
-`ifdef TEST_H
-  `include "../../includes/ManBearPig.h"
-`endif
+`include "../includes/ManBearPig.h"
 
 module ALU (input wire [31:0] src_a,
 	        input wire [31:0] src_b,

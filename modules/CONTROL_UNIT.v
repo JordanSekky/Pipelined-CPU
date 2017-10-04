@@ -1,9 +1,4 @@
-`ifndef TEST_H
-  `include "../includes/ManBearPig.h"
-`endif
-`ifdef TEST_H
-  `include "../../includes/ManBearPig.h"
-`endif
+`include "../includes/ManBearPig.h"
 
 module CONTROL_UNIT (
   input  wire [5:0] op_code,

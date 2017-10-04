@@ -1,9 +1,4 @@
-`ifndef TEST_H
-  `include "../includes/ManBearPig.h"
-`endif
-`ifdef TEST_H
-  `include "../../includes/ManBearPig.h"
-`endif
+`include "../includes/ManBearPig.h"
 
 module BCU (
     input [3:0] sig_bcu_control,

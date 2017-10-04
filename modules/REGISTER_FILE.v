@@ -1,32 +1,4 @@
-`ifndef TEST_H
-  `include "../includes/ManBearPig.h"
-`endif
-`ifdef TEST_H
-  `include "../../includes/ManBearPig.h"
-`endif
-
-module syscall_handler(
-	input [31:0] instr,
-	input [31:0] v0,
-	input [31:0] a0);
-// This module keeps an eye on the current instruction and performs syscalls
-// as necessary. It currently supports displaying an integer and exiting.
-
-always @(instr) begin
-	if (instr == 32'h0000000C) begin
-		if (v0 == 1) begin
-			$display("%d", a0);
-		end
-		if (v0 == 11) begin
-			$write("%c", a0);
-		end
-		if (v0 == 10) begin
-			$finish;
-		end
-	end
-end
-
-endmodule
+`include "../includes/ManBearPig.h"
 
 module REGISTERS (input [4:0] rs,
 				  input [4:0] rt,
@@ -35,7 +7,9 @@ module REGISTERS (input [4:0] rs,
 				  input sig_jal,
 				  input sig_reg_write,
 				  input clk,
+				  input [31:0] pc_plus_4,
 				  input [31:0] instr,
+				  input sig_syscall,
 				  output reg [31:0] read_data_1,
 				  output reg [31:0] read_data_2);
 // This module stores the contents of all of the registers on the mips processors.
@@ -49,7 +23,6 @@ module REGISTERS (input [4:0] rs,
 ///////////////////////// internal memory storage //////////////////////////////
 reg [31:0] regs [31:0];
 reg [5:0] k;
-syscall_handler sh(instr, regs[`v0], regs[`a0]);
 
 initial begin
 	for (k = 0; k < 32; k = k + 1) begin
@@ -60,10 +33,19 @@ initial begin
 end
 
 always @(posedge clk) begin
-  $display("regs[%x] = %x", rs, regs[rs]);
-  $display("regs[%x] = %x", rt, regs[rt]);
-	read_data_1 = regs[rs];
-	read_data_2 = regs[rt];
+	if (sig_jal) begin
+		read_data_1 = regs[`v0];
+		read_data_2 = regs[`a0];
+	end 
+	else begin
+		if (sig_syscall) begin
+			read_data_1 = pc_plus_4;
+			read_data_2 = regs[`zero];
+		end else begin
+			read_data_1 = regs[rs];
+			read_data_2 = regs[rt];
+		end
+	end
 end
 
 always @(negedge clk) begin
@@ -75,8 +57,7 @@ always @(negedge clk) begin
 		end
     else if (rd > 0)
     begin
-      $display("regs[%x] <= %x", rd, write_data);
-			regs[rd] = write_data;
+		regs[rd] = write_data;
     end
 	end
 end

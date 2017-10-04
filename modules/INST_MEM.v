@@ -1,9 +1,4 @@
-`ifndef TEST_H
-  `include "../includes/ManBearPig.h"
-`endif
-`ifdef TEST_H
-  `include "../../includes/ManBearPig.h"
-`endif
+`include "../includes/ManBearPig.h"
 
 module INST_MEM (input wire [31:0] pc, output reg [31:0] instr);
   reg [31:0] mem [`instr_mem_lo:`instr_mem_hi]; // Memory block.
