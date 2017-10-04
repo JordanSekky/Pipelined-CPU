@@ -12,6 +12,7 @@ module PIPELINE_DE (
     input wire [4:0] rd_d,
     input wire [31:0] sign_imm_d,
     input wire upper_d,
+    input wire syscall_d,
     input wire clk,
     input wire sig_clr,
     output reg reg_write_e,
@@ -26,7 +27,8 @@ module PIPELINE_DE (
     output reg [4:0] rt_e,
     output reg [4:0] rd_e,
     output reg [31:0] sign_imm_e,
-    output reg upper_e);
+    output reg upper_e,
+    output reg syscall_e);
 
   initial begin
     reg_write_e <= 0;
@@ -41,6 +43,8 @@ module PIPELINE_DE (
     rt_e <= 0;
     rd_e <= 0;
     sign_imm_e <= 0;
+    upper_e <= 0;
+    syscall_e <= 0;
   end
 
   always @(posedge clk) begin
@@ -58,6 +62,7 @@ module PIPELINE_DE (
       rd_e <= 0;
       sign_imm_e <= 0;
       upper_e <= 0;
+      syscall_e <= 0;
     end
     else begin
       reg_write_e <= reg_write_d;
@@ -73,6 +78,7 @@ module PIPELINE_DE (
       rd_e <= rd_d;
       sign_imm_e <= sign_imm_d;
       upper_e <= upper_d;
+      syscall_e <= syscall_d;
     end
   end
 endmodule

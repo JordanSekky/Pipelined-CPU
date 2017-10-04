@@ -5,6 +5,8 @@ mem_write_m = 0
 alu_result_m = 00000000
 write_data_m = 00000000
 write_reg_m = 00
+upper_m = 0
+syscall_m = 0
 ============ 0 ============
 reg_write_m = 1
 mem_to_reg_m = 1
@@ -12,6 +14,8 @@ mem_write_m = 1
 alu_result_m = 11111111
 write_data_m = 99999999
 write_reg_m = 06
+upper_m = 1
+syscall_m = 1
 ============ 1 ============
 reg_write_m = 1
 mem_to_reg_m = 1
@@ -19,6 +23,8 @@ mem_write_m = 1
 alu_result_m = 11111111
 write_data_m = 99999999
 write_reg_m = 06
+upper_m = 1
+syscall_m = 1
 ============ 1 ============
 reg_write_m = 0
 mem_to_reg_m = 0
@@ -26,3 +32,5 @@ mem_write_m = 0
 alu_result_m = 22222222
 write_data_m = 88888888
 write_reg_m = 01
+upper_m = 0
+syscall_m = 0

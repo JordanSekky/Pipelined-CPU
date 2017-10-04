@@ -21,6 +21,8 @@ module testbench();
   reg   [4:0]   rt_d;
   reg   [4:0]   rd_d;
   reg   [31:0]  sign_imm_d;
+  reg           upper_d;
+  reg           syscall_d;
   reg           clk;
   reg           sig_clr;
 
@@ -37,6 +39,8 @@ module testbench();
   wire  [4:0]   rt_e;
   wire  [4:0]   rd_e;
   wire  [31:0]  sign_imm_e;
+  wire          upper_e;
+  wire          syscall_e;
 
   // Modules
   PIPELINE_DE pipeline_de(
@@ -52,6 +56,8 @@ module testbench();
     .rt_d(rt_d),
     .rd_d(rd_d),
     .sign_imm_d(sign_imm_d),
+    .upper_d(upper_d),
+    .syscall_d(syscall_d),
     .clk(clk),
     .sig_clr(sig_clr),
     .reg_write_e(reg_write_e),
@@ -65,7 +71,9 @@ module testbench();
     .rs_e(rs_e),
     .rt_e(rt_e),
     .rd_e(rd_e),
-    .sign_imm_e(sign_imm_e)
+    .sign_imm_e(sign_imm_e),
+    .upper_e(upper_e),
+    .syscall_e(syscall_e)
     );
 
   initial begin
@@ -81,6 +89,8 @@ module testbench();
     rt_d = 5'h0;
     rd_d = 5'h0;
     sign_imm_d = 32'h0;
+    upper_d = 1'b0;
+    syscall_d = 1'b0;
     clk = 1'b0;
     sig_clr = 1'b0;
     #5;
@@ -97,6 +107,8 @@ module testbench();
     $display("rt_e = %h", rt_e);
     $display("rd_e = %h", rd_e);
     $display("sign_imm_e = %h", sign_imm_e);
+    $display("upper_e = %h", upper_e);
+    $display("syscall_e = %h", syscall_e);
     clk = 1'b1;
     sig_clr = 1'b0;
     #5;
@@ -113,6 +125,8 @@ module testbench();
     $display("rt_e = %h", rt_e);
     $display("rd_e = %h", rd_e);
     $display("sign_imm_e = %h", sign_imm_e);
+    $display("upper_e = %h", upper_e);
+    $display("syscall_e = %h", syscall_e);
 
     reg_write_d = 1'b1;
     mem_to_reg_d = 1'b1;
@@ -142,6 +156,8 @@ module testbench();
     $display("rt_e = %h", rt_e);
     $display("rd_e = %h", rd_e);
     $display("sign_imm_e = %h", sign_imm_e);
+    $display("upper_e = %h", upper_e);
+    $display("syscall_e = %h", syscall_e);
     clk = 1'b1;
     sig_clr = 1'b0;
     #5;
@@ -158,7 +174,8 @@ module testbench();
     $display("rt_e = %h", rt_e);
     $display("rd_e = %h", rd_e);
     $display("sign_imm_e = %h", sign_imm_e);
-
+    $display("upper_e = %h", upper_e);
+    $display("syscall_e = %h", syscall_e);
     clk = 1'b0;
     sig_clr = 1'b0;
     #5;
@@ -175,6 +192,8 @@ module testbench();
     $display("rt_e = %h", rt_e);
     $display("rd_e = %h", rd_e);
     $display("sign_imm_e = %h", sign_imm_e);
+    $display("upper_e = %h", upper_e);
+    $display("syscall_e = %h", syscall_e);
     clk = 1'b1;
     sig_clr = 1'b1;
     #5;
@@ -191,6 +210,8 @@ module testbench();
     $display("rt_e = %h", rt_e);
     $display("rd_e = %h", rd_e);
     $display("sign_imm_e = %h", sign_imm_e);
+    $display("upper_e = %h", upper_e);
+    $display("syscall_e = %h", syscall_e);
 
     $finish;
   end

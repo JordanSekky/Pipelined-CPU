@@ -11,6 +11,8 @@ rs_e = 00
 rt_e = 00
 rd_e = 00
 sign_imm_e = 00000000
+upper_e = 0
+syscall_e = 0
 ============ 0 ============
 reg_write_e = 0
 mem_to_reg_e = 0
@@ -24,6 +26,8 @@ rs_e = 00
 rt_e = 00
 rd_e = 00
 sign_imm_e = 00000000
+upper_e = 0
+syscall_e = 0
 ============ 1 ============
 reg_write_e = 0
 mem_to_reg_e = 0
@@ -37,6 +41,8 @@ rs_e = 00
 rt_e = 00
 rd_e = 00
 sign_imm_e = 00000000
+upper_e = 0
+syscall_e = 0
 ============ 1 ============
 reg_write_e = 1
 mem_to_reg_e = 1
@@ -50,6 +56,8 @@ rs_e = 01
 rt_e = 01
 rd_e = 01
 sign_imm_e = 00000032
+upper_e = 0
+syscall_e = 0
 ============ 2 ============
 reg_write_e = 1
 mem_to_reg_e = 1
@@ -63,6 +71,8 @@ rs_e = 01
 rt_e = 01
 rd_e = 01
 sign_imm_e = 00000032
+upper_e = 0
+syscall_e = 0
 ============ 2 ============
 reg_write_e = 0
 mem_to_reg_e = 0
@@ -76,3 +86,5 @@ rs_e = 00
 rt_e = 00
 rd_e = 00
 sign_imm_e = 00000000
+upper_e = 0
+syscall_e = 0
