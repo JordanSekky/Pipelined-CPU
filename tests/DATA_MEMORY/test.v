@@ -14,6 +14,7 @@ module testbench();
   reg           sig_mem_write;
   reg   [31:0]  addr;
   reg   [31:0]  write_data;
+  reg   [31:0]  print_string_m;
 
   // Wires
   wire  [31:0]  read_data;
@@ -23,8 +24,10 @@ module testbench();
     sig_mem_write,
     addr,
     write_data,
+    print_string_m,
     read_data);
 
+  reg [31:0] temp_print_string_address;
   initial begin
     $monitor(
       "Write(%b) %h\nmem[%h] = %h\n",
@@ -66,6 +69,18 @@ module testbench();
     addr = addr+1;
     sig_mem_write = 1'b1;
     #10; // 00000000
+    
+    // Test printing strings. 
+    addr = addr - 10;
+    temp_print_string_address = addr;
+    write_data = 32'h68656c; // "hell"
+    sig_mem_write = 1'b1;
+    #5;
+    addr = addr - 1;
+    write_data = 32'h6f20776f; // "o wo"
+    #5;
+    addr = addr - 1;
+    write_data = 32'h726c6400; // "rld";
 
     $finish;
   end
