@@ -14,8 +14,18 @@ Write(0) beef0000
 mem[7fffffff] = 12345678
 
 Write(0) 0000dead
-mem[00000000] = xxxxxxxx
+mem[7ffffffe] = deadbeef
 
 Write(1) beef0000
-mem[00000001] = xxxxxxxx
+mem[7fffffff] = beef0000
 
+Write(1) 68656c6c
+mem[7ffffff5] = 68656c6c
+
+Write(1) 6f20776f
+mem[7ffffff6] = 6f20776f
+
+Write(1) 726c6400
+mem[7ffffff7] = 726c6400
+
+hello world
