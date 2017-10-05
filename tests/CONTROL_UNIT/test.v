@@ -43,6 +43,7 @@ module testbench();
   wire       reg_dst;
   wire       branch;
   wire [3:0] bcu_control;
+  wire       syscall;
 
   // Modules
   CONTROL_UNIT data_memory(
@@ -58,11 +59,12 @@ module testbench();
     alu_src,
     reg_dst,
     branch,
-    bcu_control);
+    bcu_control,
+    syscall);
 
   initial begin
-    $display("op_code funct_code load_upper jump jal reg_write mem_to_reg mem_write alu_control alu_src reg_dst branch bcu_ctrl\n------- ---------- ---------- ---- --- --------- ---------- --------- ----------- ------- ------- ------ --------");
-    $monitor(" %b     %b          %b   %b   %b         %b          %b         %b       %b       %b       %b      %b     %b",
+    $display("op_code funct_code load_upper jump jal reg_write mem_to_reg mem_write alu_control alu_src reg_dst branch bcu_ctrl syscall\n------- ---------- ---------- ---- --- --------- ---------- --------- ----------- ------- ------- ------ -------- -------");
+    $monitor(" %b     %b          %b   %b   %b         %b          %b         %b       %b       %b       %b      %b     %b       %b",
       op_code,
       funct_code,
       load_upper,
@@ -75,7 +77,8 @@ module testbench();
       alu_src,
       reg_dst,
       branch,
-      bcu_control);
+      bcu_control,
+      syscall);
 
       // addiu
       op_code <= 6'b001001;
@@ -117,6 +120,10 @@ module testbench();
       op_code <= 6'b000101;
       funct_code <= 6'b000100;
       #10;
+      // // syscall
+      // op_code <= 6'b000000;
+      // funct_code <= 6'b001100;
+      // #10;
     
 
     $finish;

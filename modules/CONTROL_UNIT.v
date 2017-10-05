@@ -1,4 +1,9 @@
-`include "../includes/ManBearPig.h"
+`ifndef TEST_H
+  `include "../includes/ManBearPig.h"   
+`endif    
+`ifdef TEST_H   
+  `include "../../includes/ManBearPig.h"    
+`endif
 
 module CONTROL_UNIT (
   input  wire [5:0] op_code,
@@ -13,7 +18,8 @@ module CONTROL_UNIT (
   output reg        alu_src,
   output reg        reg_dst,
   output reg        branch,
-  output reg  [3:0] bcu_control
+  output reg  [3:0] bcu_control,
+  output reg        syscall
   );
 
   initial begin
@@ -28,6 +34,7 @@ module CONTROL_UNIT (
     reg_dst <= 0;
     branch <= 0;
     bcu_control <= 0;
+    syscall <= 0;
   end
 
   always @(op_code or funct_code) begin
@@ -41,9 +48,7 @@ module CONTROL_UNIT (
     // jump
     case (op_code)
       `J, `JAL: jump <= 2'b01;
-      `SPECIAL: begin
-        if (funct_code == `JR) jump <= 2'b10;
-      end
+      `SPECIAL: if (funct_code == `JR) jump <= 2'b10; else jump <= 2'b00;
       default: jump <= 2'b00;
     endcase
 
@@ -55,7 +60,8 @@ module CONTROL_UNIT (
 
     // reg_write
     case (op_code)
-      `SPECIAL, `ADDIU, `ADDI, `ADDU, `ORI, `LW, `LUI: reg_write <= 1'b1;
+      `ADDIU, `ADDI, `ADDU, `ORI, `LW, `LUI: reg_write <= 1'b1;
+      `SPECIAL: if (funct_code != `SYSCALL) reg_write <= 1'b1; else reg_write <= 1'b0;
       default: reg_write <= 1'b0;
     endcase
 
@@ -75,7 +81,7 @@ module CONTROL_UNIT (
     case(op_code)
       `ADDIU, `ADDI, `LW, `SW, `LUI: alu_control <= `ALU_add;
       `ORI: alu_control <= `ALU_OR;
-
+      `JAL: alu_control <= `ALU_add;
       // R-type instructions
       `SPECIAL: case(funct_code)
           `SLT: alu_control <= `ALU_slt;
@@ -83,9 +89,9 @@ module CONTROL_UNIT (
           `SUB: alu_control <= `ALU_sub;
           `AND: alu_control <= `ALU_AND;
           `OR:  alu_control <= `ALU_OR;
-          default: alu_control <= `ALU_undef;
+          default: alu_control <= 5'bx;
         endcase
-      default: alu_control <= `ALU_undef;
+      default: alu_control <= 5'bx;
     endcase
 
     // alu_src
@@ -116,7 +122,16 @@ module CONTROL_UNIT (
       `BGEZ: bcu_control <= `BCU_GEZ;
       `BLTZ: bcu_control <= `BCU_LTZ;
       `BGTZ: bcu_control <= `BCU_GTZ;
-      default: bcu_control <= 4'bx;
+      default: bcu_control <= 5'bx;
+    endcase
+
+    // syscall
+    case (op_code)
+      `SPECIAL: case (funct_code)
+        `SYSCALL: syscall <= 1'b1;
+        default: syscall <= 1'b0;
+      endcase
+      default: syscall <= 1'b0;
     endcase
 
   end
