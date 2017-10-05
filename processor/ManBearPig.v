@@ -37,6 +37,7 @@ module testbench();
   wire       PCSrcD;
   wire        BCUOut;
   wire        JALD;
+  wire        SyscallD;
 
   wire [31:0] JumpExtendD;
   wire [31:0] PCBranchD;
@@ -47,7 +48,7 @@ module testbench();
   wire [31:0] RD2D;
   wire [31:0] RD1MuxOut;
   wire [31:0] RD2MuxOut;
-  wire [31:0] WriteDataD;
+  // wire [31:0] WriteDataD;
 
   wire        ForwardAD;
   wire        ForwardBD;
@@ -61,6 +62,8 @@ module testbench();
   wire        ALUSrcE;
   wire        RegDstE;
   wire        UpperE;
+  wire        JALE;
+  wire        SyscallE;
 
   wire [31:0] RD1E;
   wire [31:0] RD2E;
@@ -68,6 +71,7 @@ module testbench();
   wire [4:0]  rtE;
   wire [4:0]  rdE;
   wire [4:0]  WriteRegE;
+  wire [4:0]  WriteRegMuxMuxE;
   wire [31:0] SignImmE;
   wire [31:0] SrcAE;
   wire [31:0] ForwardBEMuxOut;
@@ -84,6 +88,11 @@ module testbench();
   wire        MemToRegM;
   wire        MemWriteM;
   wire        UpperM;
+  wire        SyscallM;
+
+  wire [31:0] RD1M;
+  wire [31:0] RD2M;
+  wire [31:0] PrintStringM;
 
   wire [31:0] ALUOutM;
   wire [31:0] WriteDataM;
@@ -106,6 +115,7 @@ module testbench();
   // ===                 Registers                 ===
   // =================================================
   reg         clk;
+  reg  [4:0]  RegRA = 5'b11111;
 
   // =================================================
   // ===                  Modules                  ===
@@ -155,11 +165,12 @@ module testbench();
     .rs(InstD[25:21]),
     .rt(InstD[20:16]),
     .rd(WriteRegW),
-    .write_data(WriteDataD),
+    .write_data(Result32W),
     .sig_jal(JALD),
     .sig_reg_write(RegWriteW),
     .clk(~clk),
     .instr(InstD),
+    .sig_syscall(SyscallD),
     .read_data_1(RD1D),
     .read_data_2(RD2D)
     );
@@ -176,7 +187,8 @@ module testbench();
     .alu_src(ALUSrcD),
     .reg_dst(RegDstD),
     .branch(BranchD),
-    .bcu_control(BCUControlD)
+    .bcu_control(BCUControlD),
+    .syscall(SyscallD)
     );
   SIGN_EXTEND sign_extend(
     .sign_in(InstD[15:0]),
@@ -210,12 +222,6 @@ module testbench();
     .rd2(RD2MuxOut),
     .branch(BCUOut)
     );
-  TWO_MUX write_data_mux(
-    .sig_control(JALD),
-    .input_hi(PCPlus4D),
-    .input_lo(Result32W),
-    .result(WriteDataD)
-    );
   assign PCSrcD = BranchD & BCUOut;
 
   // ==================== Execute ====================
@@ -233,6 +239,8 @@ module testbench();
     .rd_d(InstD[15:11]),
     .sign_imm_d(SignImmD),
     .upper_d(UpperD),
+    .jal_d(JALD),
+    .syscall_d(SyscallD),
     .clk(clk),
     .sig_clr(FlushE),
     .reg_write_e(RegWriteE),
@@ -247,12 +255,20 @@ module testbench();
     .rt_e(rtE),
     .rd_e(rdE),
     .sign_imm_e(SignImmE),
-    .upper_e(UpperE)
+    .upper_e(UpperE),
+    .jal_e(JALE),
+    .syscall_e(SyscallE)
     );
   TWO_MUX #(5) reg_write_mux_e(
     .sig_control(RegDstE),
     .input_lo(rtE),
     .input_hi(rdE),
+    .result(WriteRegMuxMuxE)
+    );
+  TWO_MUX #(5) reg_write_mux_jal_e(
+    .sig_control(JALE),
+    .input_lo(WriteRegMuxMuxE),
+    .input_hi(RegRA),
     .result(WriteRegE)
     );
   THREE_MUX #(32) rd1_mux_e(
@@ -291,6 +307,9 @@ module testbench();
     .write_data_e(WriteDataE),
     .write_reg_e(WriteRegE),
     .upper_e(UpperE),
+    .read_data_1_e(RD1E),
+    .read_data_2_e(RD2E),
+    .syscall_e(SyscallE),
     .clk(clk),
     .reg_write_m(RegWriteM),
     .mem_to_reg_m(MemToRegM),
@@ -298,14 +317,23 @@ module testbench();
     .alu_result_m(ALUOutM),
     .write_data_m(WriteDataM),
     .write_reg_m(WriteRegM),
-    .upper_m(UpperM)
+    .upper_m(UpperM),
+    .read_data_1_m(RD1M),
+    .read_data_2_m(RD2M),
+    .syscall_m(SyscallM)
     );
-
   DATA_MEMORY data_memory(
     .sig_mem_write(MemWriteM),
     .addr(ALUOutM),
     .write_data(WriteDataM),
     .read_data(ReadDataM)
+    );
+  SYSCALL_HANDLER syscall_unit(
+    .sig_syscall(SyscallM),
+    .v0(RD1M),
+    .a0(RD2M),
+    .clk(clk),
+    .sig_print_string(PrintStringM)
     );
 
   // =================== Writeback ===================
@@ -340,6 +368,7 @@ module testbench();
   // ================== Hazard Unit ==================
   HAZARD_UNIT hazard_unit(
     .sig_jump_d(JumpD),
+    .sig_jal_d(JALD),
     .sig_branch_d(BranchD),
     .rs_d(InstD[25:21]),
     .rt_d(InstD[20:16]),

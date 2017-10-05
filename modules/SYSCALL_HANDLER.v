@@ -1,9 +1,9 @@
-module syscall_handler(
+module SYSCALL_HANDLER(
 	input sig_syscall,
 	input [31:0] v0,
 	input [31:0] a0,
 	input clk,
-	output sig_print_string);
+	output reg [31:0] sig_print_string);
 // This module keeps an eye on the current instruction and performs syscalls
 // as necessary. It currently supports displaying an integer and exiting.
 
@@ -16,7 +16,7 @@ always @(posedge clk) begin
 			$write("%c", a0);
 		end
 		if (v0 == 4) begin
-			sig_print_string <= 1;
+			sig_print_string <= a0;
 		end
 		if (v0 == 10) begin
 			$finish;
