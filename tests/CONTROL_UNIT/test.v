@@ -121,9 +121,9 @@ module testbench();
       funct_code <= 6'b000100;
       #10;
       // // syscall
-      // op_code <= 6'b000000;
-      // funct_code <= 6'b001100;
-      // #10;
+      op_code <= 6'b000000;
+      funct_code <= 6'b001100;
+      #10;
     
 
     $finish;
