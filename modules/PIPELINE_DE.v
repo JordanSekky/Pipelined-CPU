@@ -81,7 +81,7 @@ module PIPELINE_DE (
       rd_e <= rd_d;
       sign_imm_e <= sign_imm_d;
       upper_e <= upper_d;
-      jal_e <= syscall_d;
+      jal_e <= jal_d;
       syscall_e <= syscall_d;
     end
   end

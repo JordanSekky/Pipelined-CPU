@@ -172,7 +172,8 @@ module testbench();
     .instr(InstD),
     .sig_syscall(SyscallD),
     .read_data_1(RD1D),
-    .read_data_2(RD2D)
+    .read_data_2(RD2D),
+    .pc_plus_4(PCPlus4D)
     );
   CONTROL_UNIT control_unit(
     .op_code(InstD[31:26]),
@@ -370,6 +371,7 @@ module testbench();
     .sig_jump_d(JumpD),
     .sig_jal_d(JALD),
     .sig_branch_d(BranchD),
+    .sig_syscall_d(SyscallD),
     .rs_d(InstD[25:21]),
     .rt_d(InstD[20:16]),
     .rs_e(rsE),

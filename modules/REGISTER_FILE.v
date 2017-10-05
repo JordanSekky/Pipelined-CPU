@@ -23,6 +23,7 @@ module REGISTERS (input [4:0] rs,
 ///////////////////////// internal memory storage //////////////////////////////
 reg [31:0] regs [31:0];
 reg [5:0] k;
+reg [3:0] i;
 
 initial begin
 	for (k = 0; k < 32; k = k + 1) begin
@@ -33,18 +34,22 @@ initial begin
 end
 
 always @(posedge clk) begin
-	if (sig_jal) begin
+	for (i=0; i<8; i=i+1) 
+		$display("%d: %d  %d: %d  %d: %d  %d: %d", 
+			4*i, 
+			regs[4*i], 4*i+1, regs[4*i+1], 4*i+2, 
+			regs[4*i+2], 4*i+3, regs[4*i+3]);
+	if (sig_syscall) begin
 		read_data_1 = regs[`v0];
 		read_data_2 = regs[`a0];
-	end 
+	end
+	else if (sig_jal) begin
+		read_data_1 = pc_plus_4;
+		read_data_2 = regs[`zero];
+	end
 	else begin
-		if (sig_syscall) begin
-			read_data_1 = pc_plus_4;
-			read_data_2 = regs[`zero];
-		end else begin
-			read_data_1 = regs[rs];
-			read_data_2 = regs[rt];
-		end
+		read_data_1 = regs[rs];
+		read_data_2 = regs[rt];
 	end
 end
 
