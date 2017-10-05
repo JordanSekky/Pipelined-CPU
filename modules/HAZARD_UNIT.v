@@ -48,7 +48,7 @@ always @(*) begin
 	              sig_branch_d && sig_mem_to_reg_m && (write_reg_m == rs_d || write_reg_m == rt_d);
 
 
-
+	// stall_d = 0;
 	stall_f = lwstall || branchstall || sig_jal_d;
 	stall_d = lwstall || branchstall || sig_jal_d;
 	flush_e = lwstall || branchstall || sig_jal_d;
