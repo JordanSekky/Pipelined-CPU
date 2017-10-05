@@ -119,8 +119,6 @@ module CONTROL_UNIT (
       `BEQ: bcu_control <= `BCU_EQ;
       `BNE: bcu_control <= `BCU_NE;
       `BLEZ: bcu_control <= `BCU_LEZ;
-      `BGEZ: bcu_control <= `BCU_GEZ;
-      `BLTZ: bcu_control <= `BCU_LTZ;
       `BGTZ: bcu_control <= `BCU_GTZ;
       default: bcu_control <= 5'bx;
     endcase
