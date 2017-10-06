@@ -5,21 +5,21 @@ do
         if iverilog -f files.txt; then
             output=$(diff <(./a.out) output.txt)
     	    if [ $? == 0 ]; then
-                echo "Test successful for $(pwd)"
+                echo "Test successful for ${PWD##*/}"
                 echo
             else
                 echo -ne '\033[91m'
-                echo "Unexpected output for $(pwd): "
+                echo "Unexpected output for ${PWD##*/):}"
                 echo -e '\033[0m'
                 echo "$output"
                 echo
             fi
     	else
-    		echo "Failed to compile $(pwd)"
+    		echo "Failed to compile ${PWD##*/}"
     	fi
     else
         echo -ne '\033[93m'
-        echo "No tests found for $(pwd)"
+        echo "No tests found for ${PWD##*/}"
         echo -e '\033[0m'
     fi
     popd > /dev/null
