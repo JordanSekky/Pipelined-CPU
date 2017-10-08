@@ -393,6 +393,9 @@ module testbench();
     .forward_b_e(ForwardBE)
     );
 
+  // ===================== Others =====================
+  BINARY_TO_MIPS b2m(InstF, clk);
+
   // ==================================================
   // ===                 Statements                 ===
   // ==================================================
@@ -412,9 +415,13 @@ module testbench();
     #5; clk = ~clk;
   end
 
-  always @(negedge clk)
+  always @(posedge clk)
   begin
     $display("===========(%2d)===========", LineNumber);
+  end
+  
+  always @(negedge clk)
+  begin
     $display("%x: %x", pcF, InstF);
     $display("ForwardAE:  %x", ForwardAE);
     $display("ForwardBE:  %x", ForwardBE);
