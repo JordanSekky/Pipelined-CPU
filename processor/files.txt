@@ -2,6 +2,7 @@ ManBearPig.v
 ../modules/ADDER.v
 ../modules/ALU.v
 ../modules/BCU.v
+../modules/BINARY_TO_MIPS.v
 ../modules/CONTROL_UNIT.v
 ../modules/DATA_MEMORY.v
 ../modules/HAZARD_UNIT.v
