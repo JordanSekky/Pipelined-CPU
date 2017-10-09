@@ -5,9 +5,18 @@ module testbench();
     // Registers
     reg     [31:0]  inst;
     reg             clk;
+    wire    [255:0] mips;
 
     // Modules
-    BINARY_TO_MIPS b2m(inst, clk);
+    BINARY_TO_MIPS b2m(inst, mips);
+
+    always @(posedge clk) begin
+
+        $display("%-s", mips);
+
+    end
+
+    integer i;
 
     // Test Statements
     initial begin
@@ -19,6 +28,12 @@ module testbench();
         clk = 0; inst = 32'h21A80005; #5; clk = 1; #5; // addi to t5 0x0005
         clk = 0; inst = 32'h01404809; #5; clk = 1; #5; // jalr t1 t2
         clk = 0; inst = 32'h03E00008; #5; clk = 1; #5; // jr ra
+
+        for (i = 0; i < 100; i++) begin
+            clk = 0; #1;
+            inst = $random % 33'h100000000;
+            clk = 1; #1;
+        end
 
     end
 

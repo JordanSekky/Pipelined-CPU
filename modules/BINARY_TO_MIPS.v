@@ -5,7 +5,9 @@
   `include "../../includes/ManBearPig.h"
 `endif
 
-module BINARY_TO_MIPS (input wire [31:0] inst, input wire clk);
+module BINARY_TO_MIPS (
+    input wire [31:0] inst, 
+    output reg [255:0] mips);
 
   reg [4:0]  OpCode;
   wire [23:0] rs;
@@ -15,154 +17,154 @@ module BINARY_TO_MIPS (input wire [31:0] inst, input wire clk);
   reg [15:0] SignImm;
   reg [25:0] JumpImm;
   reg [5:0]  FunctCode;
+  reg [25:0] CopFunc;
 
   BINARY_TO_REGISTERS btr_rs(inst[25:21], rs);
   BINARY_TO_REGISTERS btr_rt(inst[20:16], rt);
   BINARY_TO_REGISTERS btr_rd(inst[15:11], rd);
 
-  always @(posedge clk) begin
-    #1;
-    
+  always @(*) begin    
     OpCode = inst[31:26];
     Shamt = inst[10:6];
     SignImm = inst[15:0];
     JumpImm = inst[25:0];
     FunctCode = inst[5:0];
+    CopFunc = inst[25:0];
 
-    if (inst == 32'h0) $display("nop");
+    if (inst == 32'h0) $sformat(mips, "nop");
     else begin
       case (OpCode)
         `SPECIAL:   begin
           case (FunctCode)
-            `SLL:     $display("sll %s %s 0x%h", rd, rt, Shamt);
-            `SRL:     $display("srl %s %s 0x%h", rd, rt, Shamt);
-            `SRA:     $display("sra %s %s 0x%h", rd, rt, Shamt);
-            `SLLV:    $display("sllv %s %s %s", rd, rt, rs);
-            `SRLV:    $display("srlv %s %s %s", rd, rt, rs);
-            `SRAV:    $display("srav %s %s %s", rd, rt, rs);
+            `SLL:     $sformat(mips, "sll %s %s 0x%h", rd, rt, Shamt);
+            `SRL:     $sformat(mips, "srl %s %s 0x%h", rd, rt, Shamt);
+            `SRA:     $sformat(mips, "sra %s %s 0x%h", rd, rt, Shamt);
+            `SLLV:    $sformat(mips, "sllv %s %s %s", rd, rt, rs);
+            `SRLV:    $sformat(mips, "srlv %s %s %s", rd, rt, rs);
+            `SRAV:    $sformat(mips, "srav %s %s %s", rd, rt, rs);
 
-            `JR:      $display("jr %s", rs);
-            `JALR:    $display("jalr %s %s", rd, rs);
+            `JR:      $sformat(mips, "jr %s", rs);
+            `JALR:    $sformat(mips, "jalr %s %s", rd, rs);
 
-            `SYSCALL: $display("syscall");
-            `BREAK:   $display("break");
+            `SYSCALL: $sformat(mips, "syscall");
+            `BREAK:   $sformat(mips, "break");
 
-            `MFHI:    $display("mfhi");
-            `MTHI:    $display("mthi");
-            `MFLO:    $display("mflo");
-            `MTLO:    $display("mtlo");
+            `MFHI:    $sformat(mips, "mfhi %s", rd);
+            `MTHI:    $sformat(mips, "mthi %s", rs);
+            `MFLO:    $sformat(mips, "mflo %s", rd);
+            `MTLO:    $sformat(mips, "mtlo %s", rs);
 
-            `MULT:    $display("mult %s %s %s", rd, rt, rs);
-            `MULTU:   $display("multu %s %s %s", rd, rt, rs);
-            `DIV:     $display("div %s %s %s", rd, rt, rs);
-            `DIVU:    $display("divu %s %s %s", rd, rt, rs);
+            `MULT:    $sformat(mips, "mult %s %s", rs, rt);
+            `MULTU:   $sformat(mips, "multu %s %s", rs, rt);
+            `DIV:     $sformat(mips, "div %s %s", rd, rt);
+            `DIVU:    $sformat(mips, "divu %s %s", rs, rt);
 
-            `ADD:     $display("add %s %s %s", rd, rt, rs);
-            `ADDU:    $display("addu %s %s %s", rd, rt, rs);
-            `SUB:     $display("sub %s %s %s", rd, rt, rs);
-            `SUBU:    $display("subu %s %s %s", rd, rt, rs);
-            `AND:     $display("and %s %s %s", rd, rt, rs);
-            `OR:      $display("or %s %s %s", rd, rt, rs);
-            `XOR:     $display("xor %s %s %s", rd, rt, rs);
-            `NOR:     $display("nor %s %s %s", rd, rt, rs);
+            `ADD:     $sformat(mips, "add %s %s %s", rd, rs, rt);
+            `ADDU:    $sformat(mips, "addu %s %s %s", rd, rs, rt);
+            `SUB:     $sformat(mips, "sub %s %s %s", rd, rs, rt);
+            `SUBU:    $sformat(mips, "subu %s %s %s", rd, rs, rt);
+            `AND:     $sformat(mips, "and %s %s %s", rd, rs, rt);
+            `OR:      $sformat(mips, "or %s %s %s", rd, rs, rt);
+            `XOR:     $sformat(mips, "xor %s %s %s", rd, rs, rt);
+            `NOR:     $sformat(mips, "nor %s %s %s", rd, rs, rt);
 
-            `SLT:     $display("slt");
-            `SLTU:    $display("sltu");
+            `SLT:     $sformat(mips, "slt %s %s %s", rd, rs, rt);
+            `SLTU:    $sformat(mips, "sltu %s %s %s", rd, rs, rt);
 
-            `TGE:     $display("tge");
-            `TGEU:    $display("tgeu");
-            `TLT:     $display("tlt");
-            `TLTU:    $display("tltu");
-            `TEQ:     $display("teq");
+            `TGE:     $sformat(mips, "tge %s %s", rs, rt);
+            `TGEU:    $sformat(mips, "tgeu %s %s", rs, rt);
+            `TLT:     $sformat(mips, "tlt %s %s", rs, rt);
+            `TLTU:    $sformat(mips, "tltu %s %s", rs, rt);
+            `TEQ:     $sformat(mips, "teq %s %s", rs, rt);
 
-            `TNE:     $display("tne");
+            `TNE:     $sformat(mips, "tne %s %s", rs, rt);
 
-            default:  $display("FunctCode %b is Unknown for OpCode SPECIAL", FunctCode);
+            default:  $sformat(mips, "0x%h is Unknown for SPECIAL", FunctCode);
           endcase
         end
         `REGIMM: begin
-          case (FunctCode)
-            `BLTZ:    $display("bltz");
-            `BGEZ:    $display("bgez");
-            `BLTZL:   $display("bltzl");
-            `BGEZL:   $display("bgezl");
+          case (inst[20:16])
+            `BLTZ:    $sformat(mips, "bltz %s 0x%h", rs, SignImm);
+            `BGEZ:    $sformat(mips, "bgez %s 0x%h", rs, SignImm);
+            `BLTZL:   $sformat(mips, "bltzl %s 0x%h", rs, SignImm);
+            `BGEZL:   $sformat(mips, "bgezl %s 0x%h", rs, SignImm);
 
-            `TGEI:    $display("tgei");
-            `TGEIU:   $display("tgeiu");
-            `TLTI:    $display("tlti");
-            `TLTIU:   $display("tltiu");
-            `TEQI:    $display("teqi");
+            `TGEI:    $sformat(mips, "tgei %s 0x%h", rs, SignImm);
+            `TGEIU:   $sformat(mips, "tgeiu %s 0x%h", rs, SignImm);
+            `TLTI:    $sformat(mips, "tlti %s 0x%h", rs, SignImm);
+            `TLTIU:   $sformat(mips, "tltiu %s 0x%h", rs, SignImm);
+            `TEQI:    $sformat(mips, "teqi %s 0x%h", rs, SignImm);
 
-            `TNEI:    $display("tnei");
+            `TNEI:    $sformat(mips, "tnei %s 0x%h", rs, SignImm);
 
-            `BLTZAL:  $display("bltzal");
-            `BGEZAL:  $display("bgezal");
-            `BLTZALL: $display("bltzall");
-            `BGEZALL: $display("bgezall");
+            `BLTZAL:  $sformat(mips, "bltzal %s 0x%h", rs, SignImm);
+            `BGEZAL:  $sformat(mips, "bgezal %s 0x%h", rs, SignImm);
+            `BLTZALL: $sformat(mips, "bltzall %s 0x%h", rs, SignImm);
+            `BGEZALL: $sformat(mips, "bgezall %s 0x%h", rs, SignImm);
 
-            default:  $display("FunctCode %b is Unknown for OpCode REGIMM", FunctCode);
+            default:  $sformat(mips, "0x%h is Unknown for REGIMM", inst[20:16]);
           endcase
         end
-        `J:         $display("j 0x%h", JumpImm);
-        `JAL:       $display("jal 0x%h", JumpImm);
-        `BEQ:       $display("beq %s %s 0x%h", rs, rt, SignImm);
-        `BNE:       $display("bne %s %s 0x%h", rs, rt, SignImm);
-        `BLEZ:      $display("blez");
-        `BGTZ:      $display("bgtz");
+        `J:         $sformat(mips, "j 0x%h", JumpImm);
+        `JAL:       $sformat(mips, "jal 0x%h", JumpImm);
+        `BEQ:       $sformat(mips, "beq %s %s 0x%h", rs, rt, SignImm);
+        `BNE:       $sformat(mips, "bne %s %s 0x%h", rs, rt, SignImm);
+        `BLEZ:      $sformat(mips, "blez %s %s 0x%h", rs, rt, SignImm);
+        `BGTZ:      $sformat(mips, "bgtz %s %s 0x%h", rs, rt, SignImm);
 
-        `ADDI:      $display("addi %s %s 0x%h", rt, rs, SignImm);
-        `ADDIU:     $display("addiu %s %s 0x%h", rt, rs, SignImm);
-        `SLTI:      $display("slti %s %s 0x%h", rt, rs, SignImm);
-        `SLTIU:     $display("sltiu %s %s 0x%h", rt, rs, SignImm);
-        `ANDI:      $display("andi %s %s 0x%h", rt, rs, SignImm);
-        `ORI:       $display("ori %s %s 0x%h", rt, rs, SignImm);
-        `XORI:      $display("xori %s %s 0x%h", rt, rs, SignImm);
-        `LUI:       $display("lui %s 0x'h", rt, SignImm);
+        `ADDI:      $sformat(mips, "addi %s %s 0x%h", rt, rs, SignImm);
+        `ADDIU:     $sformat(mips, "addiu %s %s 0x%h", rt, rs, SignImm);
+        `SLTI:      $sformat(mips, "slti %s %s 0x%h", rt, rs, SignImm);
+        `SLTIU:     $sformat(mips, "sltiu %s %s 0x%h", rt, rs, SignImm);
+        `ANDI:      $sformat(mips, "andi %s %s 0x%h", rt, rs, SignImm);
+        `ORI:       $sformat(mips, "ori %s %s 0x%h", rt, rs, SignImm);
+        `XORI:      $sformat(mips, "xori %s %s 0x%h", rt, rs, SignImm);
+        `LUI:       $sformat(mips, "lui %s 0x%h", rt, SignImm);
 
-        `COP0:      $display("cop0");
-        `COP1:      $display("cop1");
-        `COP2:      $display("cop2");
-        `COP3:      $display("cop3");
-        `BEQL:      $display("beql");
-        `BNEL:      $display("bnel");
-        `BLEZL:     $display("blezl");
-        `BGTZL:     $display("bgtzl");
+        `COP0:      $sformat(mips, "cop0 0x%h", CopFunc);
+        `COP1:      $sformat(mips, "cop1 0x%h", CopFunc);
+        `COP2:      $sformat(mips, "cop2 0x%h", CopFunc);
+        `COP3:      $sformat(mips, "cop3 0x%h", CopFunc);
+        `BEQL:      $sformat(mips, "beql %s %s 0x%h", rs, rt, SignImm);
+        `BNEL:      $sformat(mips, "bnel %s %s 0x%h", rs, rs, SignImm);
+        `BLEZL:     $sformat(mips, "blezl %s 0x%h", rs, SignImm);
+        `BGTZL:     $sformat(mips, "bgtzl %s 0x%h", rs, SignImm);
 
-        `LB:        $display("lb %s 0x%h", rt, SignImm);
-        `LH:        $display("lh %s 0x%h", rt, SignImm);
-        `LWL:       $display("lwl %s 0x%h", rt, SignImm);
-        `LW:        $display("lw %s 0x%h", rt, SignImm);
-        `LBU:       $display("lbu %s 0x%h", rt, SignImm);
-        `LHU:       $display("lhu %s 0x%h", rt, SignImm);
-        `LWR:       $display("lwr %s 0x%h", rt, SignImm);
+        `LB:        $sformat(mips, "lb %s 0x%h", rt, SignImm);
+        `LH:        $sformat(mips, "lh %s 0x%h", rt, SignImm);
+        `LWL:       $sformat(mips, "lwl %s 0x%h", rt, SignImm);
+        `LW:        $sformat(mips, "lw %s 0x%h", rt, SignImm);
+        `LBU:       $sformat(mips, "lbu %s 0x%h", rt, SignImm);
+        `LHU:       $sformat(mips, "lhu %s 0x%h", rt, SignImm);
+        `LWR:       $sformat(mips, "lwr %s 0x%h", rt, SignImm);
 
-        `SB:        $display("sb %s 0x%h", rt, SignImm);
-        `SH:        $display("sh %s 0x%h", rt, SignImm);
-        `SWL:       $display("swl %s 0x%h", rt, SignImm);
-        `SW:        $display("sw %s 0x%h", rt, SignImm);
+        `SB:        $sformat(mips, "sb %s 0x%h", rt, SignImm);
+        `SH:        $sformat(mips, "sh %s 0x%h", rt, SignImm);
+        `SWL:       $sformat(mips, "swl %s 0x%h", rt, SignImm);
+        `SW:        $sformat(mips, "sw %s 0x%h", rt, SignImm);
 
-        `SWR:       $display("SWR");
-        `CACHE:     $display("CACHE");
+        `SWR:       $sformat(mips, "SWR %s 0x%h(%s)", rt, SignImm, rs);
+        `CACHE:     $sformat(mips, "CACHE %s 0x%h(%s)", rt, SignImm, rs);
 
-        `LL:        $display("LL");
-        `LWC1:      $display("LWC1");
-        `LWC2:      $display("LWC2");
-        `LWC3:      $display("LWC3");
+        `LL:        $sformat(mips, "LL %s 0x%h(%s)", rt, SignImm, rs);
+        `LWC1:      $sformat(mips, "LWC1 %s 0x%h(%s)", rt, SignImm, rs);
+        `LWC2:      $sformat(mips, "LWC2 %s 0x%h(%s)", rt, SignImm, rs);
+        `LWC3:      $sformat(mips, "LWC3 %s 0x%h(%s)", rt, SignImm, rs);
 
-        `LDC1:      $display("LDC1");
-        `LDC2:      $display("LDC2");
-        `LDC3:      $display("LDC3");
+        `LDC1:      $sformat(mips, "LDC1 %s 0x%h(%s)", rt, SignImm, rs);
+        `LDC2:      $sformat(mips, "LDC2 %s 0x%h(%s)", rt, SignImm, rs);
+        `LDC3:      $sformat(mips, "LDC3 %s 0x%h(%s)", rt, SignImm, rs);
 
-        `SC:        $display("SC");
-        `SWC1:      $display("SWC1");
-        `SWC2:      $display("SWC2");
-        `SWC3:      $display("SWC3");
+        `SC:        $sformat(mips, "SC %s 0x%h(%s)", rt, SignImm, rs);
+        `SWC1:      $sformat(mips, "SWC1 %s 0x%h(%s)", rt, SignImm, rs);
+        `SWC2:      $sformat(mips, "SWC2 %s 0x%h(%s)", rt, SignImm, rs);
+        `SWC3:      $sformat(mips, "SWC3 %s 0x%h(%s)", rt, SignImm, rs);
 
-        `SDC1:      $display("SDC1");
-        `SDC2:      $display("SDC2");
-        `SDC3:      $display("SDC3");
+        `SDC1:      $sformat(mips, "SDC1 %s 0x%h(%s)", rt, SignImm, rs);
+        `SDC2:      $sformat(mips, "SDC2 %s 0x%h(%s)", rt, SignImm, rs);
+        `SDC3:      $sformat(mips, "SDC3 %s 0x%h(%s)", rt, SignImm, rs);
 
-        default:      $display("OpCode %b unknown", OpCode);
+        default:      $sformat(mips, "OpCode 0x%h unknown", OpCode);
 
       endcase
     end
