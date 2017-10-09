@@ -21,6 +21,8 @@ module testbench();
   wire [31:0] PCPlus4F;
   wire [31:0] JumpMuxOutD;
 
+  wire [255:0]  MipsF;
+
   wire        StallF;
 
   // ==================== Decode =====================
@@ -38,6 +40,8 @@ module testbench();
   wire        BCUOut;
   wire        JALD;
   wire        SyscallD;
+
+  wire [255:0] MipsD;
 
   wire [31:0] JumpExtendD;
   wire [31:0] PCBranchD;
@@ -65,6 +69,8 @@ module testbench();
   wire        JALE;
   wire        SyscallE;
 
+  reg  [255:0] MipsE;
+
   wire [31:0] RD1E;
   wire [31:0] RD2E;
   wire [4:0]  rsE;
@@ -90,6 +96,8 @@ module testbench();
   wire        UpperM;
   wire        SyscallM;
 
+  reg [255:0] MipsM;
+
   wire [31:0] RD1M;
   wire [31:0] RD2M;
   wire [31:0] PrintStringM;
@@ -103,6 +111,8 @@ module testbench();
   wire        RegWriteW;
   wire        MemToRegW;
   wire        UpperW;
+
+  reg  [255:0] MipsW;
 
   wire [31:0] ReadDataW;
   wire [31:0] ALUOutW;
@@ -150,6 +160,10 @@ module testbench();
     .input_hi(PCBranchD),
     .result(pc)
     );
+  BINARY_TO_MIPS b2m_F(
+      InstF,
+      MipsF);
+
 
   // ==================== Decode =====================
   PIPELINE_FD pipeline_fd(
@@ -223,6 +237,9 @@ module testbench();
     .rd2(RD2MuxOut),
     .branch(BCUOut)
     );
+  BINARY_TO_MIPS b2m_D(
+      InstD,
+      MipsD);
   assign PCSrcD = BranchD & BCUOut;
 
   // ==================== Execute ====================
@@ -393,9 +410,6 @@ module testbench();
     .forward_b_e(ForwardBE)
     );
 
-  // ===================== Others =====================
-  BINARY_TO_MIPS b2m(InstF, clk);
-
   // ==================================================
   // ===                 Statements                 ===
   // ==================================================
@@ -414,14 +428,20 @@ module testbench();
   always begin
     #5; clk = ~clk;
   end
-
-  always @(posedge clk)
-  begin
-    $display("===========(%2d)===========", LineNumber);
+  always @(posedge clk) begin
+    MipsW = MipsM;
+    MipsM = MipsE;
+    MipsE = MipsD;
   end
   
   always @(negedge clk)
   begin
+    $display("===========(%2d)===========", LineNumber);
+    $display("Fetch:     %-s", MipsF);
+    $display("Decode:    %-s", MipsD);
+    $display("Execute:   %-s", MipsE);
+    $display("Memory:    %-s", MipsM);
+    $display("Writeback: %-s", MipsW);
     $display("%x: %x", pcF, InstF);
     $display("ForwardAE:  %x", ForwardAE);
     $display("ForwardBE:  %x", ForwardBE);

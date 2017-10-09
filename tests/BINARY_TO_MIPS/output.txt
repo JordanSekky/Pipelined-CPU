@@ -1,0 +1,8 @@
+sll $t0 $t0 0x02    
+srl $t0 $t0 0x02    
+sra $t2 $t1 0x02    
+nop                 
+addiu $t0 $t1 0x0005
+addi $t0 $t5 0x0005 
+jalr $t1 $t2        
+jr $ra              
