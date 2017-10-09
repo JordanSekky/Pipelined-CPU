@@ -4,10 +4,9 @@ ManBearPig.v
 ../modules/BCU.v
 ../modules/BINARY_TO_MIPS.v
 ../modules/CONTROL_UNIT.v
-../modules/DATA_MEMORY.v
 ../modules/HAZARD_UNIT.v
-../modules/INST_MEM.v
 ../modules/JUMP_SHIFT_TWO.v
+../modules/MEMORY.v
 ../modules/PC.v
 ../modules/PIPELINE_FD.v
 ../modules/PIPELINE_DE.v
