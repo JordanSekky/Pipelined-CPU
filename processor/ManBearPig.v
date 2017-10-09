@@ -128,10 +128,6 @@ module testbench();
     .clk(clk),
     .pcf(pcF)
     );
-  INST_MEM inst_mem(
-    .pc(pcF),
-    .instr(InstF)
-    );
   ADDER pc_adder(
     .input_a(pcF),
     .input_b(4),
@@ -323,12 +319,6 @@ module testbench();
     .read_data_2_m(RD2M),
     .syscall_m(SyscallM)
     );
-  DATA_MEMORY data_memory(
-    .sig_mem_write(MemWriteM),
-    .addr(ALUOutM),
-    .write_data(WriteDataM),
-    .read_data(ReadDataM)
-    );
   SYSCALL_HANDLER syscall_unit(
     .sig_syscall(SyscallM),
     .v0(RD1M),
@@ -366,7 +356,7 @@ module testbench();
     .result(Result32W)
     );
 
-  // ================== Hazard Unit ==================
+  // ================== Non-staged ==================
   HAZARD_UNIT hazard_unit(
     .sig_jump_d(JumpD),
     .sig_jal_d(JALD),
@@ -391,6 +381,15 @@ module testbench();
     .flush_e(FlushE),
     .forward_a_e(ForwardAE),
     .forward_b_e(ForwardBE)
+    );
+  MEMORY mem(
+    .instr_pc(pcF),
+    .instr_out(InstF),
+    .data_sig_mem_write(MemWriteM),
+    .data_addr(ALUOutM),
+    .data_write_data(WriteDataM),
+    .data_print_addr(PrintStringM),
+    .data_read_data(ReadDataM)
     );
 
   // ===================== Others =====================
