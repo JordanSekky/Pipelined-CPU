@@ -75,6 +75,16 @@ module testbench();
     src_b = -4;
     sig_alu_control = `ALU_sub; #10;
     $display("a(%2d) [SUB] b(%2d) = %2d", src_a, src_b, result); // result = 16
+    
+    src_a = 1;
+    src_b = 2;
+    sig_alu_control = `ALU_sll; #10;
+    $display("a(%2d) [SLL] b(%2d) = %2d", src_a, src_b, result); // result = 4
+    
+    src_a = -8;
+    src_b = 2;
+    sig_alu_control = `ALU_sra; #10;
+    $display("a(%2d) [SRA] b(%2d) = %2d", src_a, src_b, result); // result = -2
 
     $finish;
   end

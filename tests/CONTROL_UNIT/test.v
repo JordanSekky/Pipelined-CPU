@@ -84,47 +84,60 @@ module testbench();
       op_code <= 6'b001001;
       funct_code <= 6'b000100;
       #10;
+      
       // jal
       op_code <= 6'b000011;
       funct_code <= 6'b000100;
       #10;
+      
       // jr
       op_code <= 6'b000000;
       funct_code <= 6'b001000;
       #10;
+      
       // lui
       op_code <= 6'b001111;
       funct_code <= 6'b000100;
       #10;
+      
       // lw
       op_code <= 6'b100011;
       funct_code <= 6'b000100;
       #10;
+      
       // ori
       op_code <= 6'b001101;
       funct_code <= 6'b000100;
       #10;
+      
       // sw
       op_code <= 6'b101011;
       funct_code <= 6'b000100;
       #10;
+      
       // addu
       op_code <= 6'b000000;
       funct_code <= 6'b100001;
       #10;
+      
       // beq
       op_code <= 6'b000100;
       funct_code <= 6'b000100;
       #10;
+      
       // bne
       op_code <= 6'b000101;
       funct_code <= 6'b000100;
       #10;
-      // // syscall
+      
+      // syscall
       op_code <= 6'b000000;
       funct_code <= 6'b001100;
       #10;
-    
+
+      // sra
+      op_code <= 6'b000000;
+      funct_code <= 6'b000011;
 
     $finish;
   end

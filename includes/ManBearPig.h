@@ -334,6 +334,7 @@
 
 // ALU control signals added by AMM (may not match actual MIPS implementation)
 `define ALU_sll				4'b1001
+`define ALU_sra       4'b1011
 
 `define ALUOP_LWSW			2'b00
 `define ALUOP_RFMT			2'b10
