@@ -19,7 +19,7 @@ module MEMORY (
 
   initial begin
     `ifndef TEST_H
-      $readmemh("../mips/test_add_no_forwarding.mips", memory);
+      $readmemh("../mips/test_add.mips", memory);
     `endif
   end
 

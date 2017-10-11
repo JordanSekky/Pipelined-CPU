@@ -36,9 +36,10 @@ end
 always @(posedge clk) begin
 	for (i=0; i<8; i=i+1) 
 		$display("%d: %d  %d: %d  %d: %d  %d: %d", 
-			4*i, 
-			regs[4*i], 4*i+1, regs[4*i+1], 4*i+2, 
-			regs[4*i+2], 4*i+3, regs[4*i+3]);
+			4*i, regs[4*i], 
+			4*i+1, regs[4*i+1], 
+			4*i+2, regs[4*i+2], 
+			4*i+3, regs[4*i+3]);
 	if (sig_syscall) begin
 		read_data_1 = regs[`v0];
 		read_data_2 = regs[`a0];
@@ -56,14 +57,16 @@ end
 always @(negedge clk) begin
 	if (sig_reg_write)
 	begin
+		#1;
+		$display("Writing %d to register %d", write_data, rd);
 		if (sig_jal)
-    begin
-			regs[`ra] <= write_data;
-		end
-    else if (rd > 0)
-    begin
-		regs[rd] = write_data;
-    end
+		    begin
+				regs[`ra] = write_data;
+			end
+	    else if (rd > 0)
+		    begin
+				regs[rd] = write_data;
+		    end
 	end
 end
 

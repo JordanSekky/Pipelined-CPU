@@ -27,6 +27,7 @@ reg lwstall;
 reg syscallstall;
 reg branchstall;
 reg stallcounter;
+reg stallcondition;
 
 always @(*) begin
 	if ((rs_e != 0) && (rs_e == write_reg_m) && sig_reg_write_m)
@@ -42,8 +43,11 @@ always @(*) begin
 	else forward_b_e = 2'b00;
 
 	lwstall = ((rs_d == rs_e) || (rt_d == rt_e)) && sig_mem_to_reg_e;
-	syscallstall = (((`v0 == write_reg_e) || (`v0 == write_reg_m) || (`v0 == write_reg_w)) || 
-					((`a0 == write_reg_e) || (`a0 == write_reg_m) || (`a0 == write_reg_w))) && sig_syscall_d;
+	stallcondition = (((`v0 == write_reg_e) || (`v0 == write_reg_m) || (`v0 == write_reg_w)) || 
+					((`a0 == write_reg_e) || (`a0 == write_reg_m) || (`a0 == write_reg_w)))
+	if (stallcondition && sig_syscall_d) begin
+		
+	end
 
 	forward_a_d = (rs_d != 0) && (rs_d == write_reg_m) && sig_reg_write_m;
 	forward_b_d = (rt_d != 0) && (rt_d == write_reg_m) && sig_reg_write_m;

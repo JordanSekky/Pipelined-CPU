@@ -21,5 +21,9 @@ module PIPELINE_FD (
       instr_d <= instr_f;
       pc_plus_4_d <= pc_plus_4_f;
     end
+    else begin
+      instr_d <= 0;
+      pc_plus_4_d <= pc_plus_4_d;
+    end
   end
 endmodule
