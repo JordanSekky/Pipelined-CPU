@@ -6,8 +6,6 @@ module PIPELINE_EM (
     input wire [31:0] write_data_e,
     input wire [4:0] write_reg_e,
     input wire upper_e,
-    input wire [31:0] read_data_1_e,
-    input wire [31:0] read_data_2_e,
     input wire syscall_e,
     input wire clk,
     output reg reg_write_m,
@@ -17,8 +15,6 @@ module PIPELINE_EM (
     output reg [31:0] write_data_m,
     output reg [4:0] write_reg_m,
     output reg upper_m,
-    output reg [31:0] read_data_1_m,
-    output reg [31:0] read_data_2_m,
     output reg syscall_m);
 
   initial begin
@@ -40,8 +36,6 @@ module PIPELINE_EM (
     write_data_m <= write_data_e;
     write_reg_m <= write_reg_e;
     upper_m <= upper_e;
-    read_data_1_m <= read_data_1_e;
-    read_data_2_m <= read_data_2_e;
     syscall_m <= syscall_e;
   end
 endmodule

@@ -11,7 +11,9 @@ module REGISTERS (input [4:0] rs,
 				  input [31:0] instr,
 				  input sig_syscall,
 				  output reg [31:0] read_data_1,
-				  output reg [31:0] read_data_2);
+				  output reg [31:0] read_data_2,
+				  output wire [31:0] a0,
+				  output wire [31:0] v0);
 // This module stores the contents of all of the registers on the mips processors.
 // It stores them as an array of 32 32-bit registers. r_1 and r_2 are the values
 // of the two registers to be read. w_r is the register to be written to. w_d is
@@ -33,12 +35,15 @@ initial begin
   read_data_2 = 0;
 end
 
+assign a0 = regs[`a0];
+assign v0 = regs[`v0];
+
 always @(posedge clk) begin
-	for (i=0; i<8; i=i+1) 
-		$display("%d: %d  %d: %d  %d: %d  %d: %d", 
-			4*i, 
-			regs[4*i], 4*i+1, regs[4*i+1], 4*i+2, 
-			regs[4*i+2], 4*i+3, regs[4*i+3]);
+	for (i=0; i<8; i=i+1)
+		// $display("%d: %d  %d: %d  %d: %d  %d: %d",
+		// 	4*i,
+		// 	regs[4*i], 4*i+1, regs[4*i+1], 4*i+2,
+		// 	regs[4*i+2], 4*i+3, regs[4*i+3]);
 	if (sig_syscall) begin
 		read_data_1 = regs[`v0];
 		read_data_2 = regs[`a0];
@@ -53,12 +58,12 @@ always @(posedge clk) begin
 	end
 end
 
-always @(negedge clk) begin
+always @(~clk, write_data, pc_plus_4) begin
 	if (sig_reg_write)
 	begin
 		if (sig_jal)
     begin
-			regs[`ra] <= write_data;
+			regs[`ra] <= pc_plus_4;
 		end
     else if (rd > 0)
     begin
@@ -66,6 +71,8 @@ always @(negedge clk) begin
     end
 	end
 end
+
+
 
 
 endmodule

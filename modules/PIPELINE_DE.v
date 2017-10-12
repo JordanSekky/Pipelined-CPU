@@ -46,6 +46,7 @@ module PIPELINE_DE (
     rd_e <= 0;
     sign_imm_e <= 0;
     upper_e <= 0;
+    jal_e <= 0;
     syscall_e <= 0;
   end
 

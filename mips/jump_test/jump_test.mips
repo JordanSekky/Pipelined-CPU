@@ -1,0 +1,21 @@
+.global __start
+
+.text
+
+__start:
+
+  li    $a0, 5          # Set a = 5
+  li    $a1, 7          # Set b = 7
+  jal   add             # Call the add function
+  move  $a0, $v0        # Store the result in $a0 for printing
+  li 	  $v0, 1				  # Print the integer result
+  syscall
+  j     terminate
+
+add:
+  add   $v0, $a0, $a1   # Compute the addition
+  jr    $ra             # Jump to the return address
+
+terminate:
+  li 	  $v0, 10				 # Terminate execution
+  syscall
