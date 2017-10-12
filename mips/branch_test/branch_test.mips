@@ -1,0 +1,31 @@
+.global __start
+
+.text
+
+__start:
+
+  li    $a0, 5          # Set a = 5
+  li    $a1, 7          # Set b = 7
+  jal   mult            # Call the jump function
+  move  $a0, $v0        # Store the result in $a0 for printing
+  li 	  $v0, 1				  # Print the integer result
+  syscall
+  j     terminate
+
+mult:
+  li    $t1, 0          # Sum ($t1) = 0
+  move  $t0, $a0        # Iterator ($t0) = a
+
+loop:
+  beqz  $t0, end        # While a > 0
+  addu  $t1, $t1, $a1   # Sum = Sum + b
+  addi   $t0, $t0, -1    # a = a - 1
+  j     loop
+
+end:
+  move  $v0, $t1        # return Sum
+  jr    $ra             # Jump to the return address
+
+terminate:
+  li 	  $v0, 10				  # Terminate execution
+  syscall

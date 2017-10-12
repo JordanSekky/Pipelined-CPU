@@ -1,6 +1,7 @@
 module HAZARD_UNIT (
 	input [1:0] sig_jump_d,
 	input sig_jal_d,
+	input sig_jal_e,
 	input sig_branch_d,
 	input sig_syscall_d,
 	input [4:0] rs_d,
@@ -42,7 +43,7 @@ always @(*) begin
 	else forward_b_e = 2'b00;
 
 	lwstall = ((rs_d == rs_e) || (rt_d == rt_e)) && sig_mem_to_reg_e;
-	syscallstall = (((`v0 == write_reg_e) || (`v0 == write_reg_m) || (`v0 == write_reg_w)) || 
+	syscallstall = (((`v0 == write_reg_e) || (`v0 == write_reg_m) || (`v0 == write_reg_w)) ||
 					((`a0 == write_reg_e) || (`a0 == write_reg_m) || (`a0 == write_reg_w))) && sig_syscall_d;
 
 	forward_a_d = (rs_d != 0) && (rs_d == write_reg_m) && sig_reg_write_m;
@@ -51,12 +52,12 @@ always @(*) begin
 
 	branchstall = sig_branch_d && sig_reg_write_e && (write_reg_e == rs_d || write_reg_e == rt_d) ||
 	              sig_branch_d && sig_mem_to_reg_m && (write_reg_m == rs_d || write_reg_m == rt_d);
+end
 
-
-	// stall_d = 0;
-	stall_f = lwstall || branchstall || sig_jal_d || syscallstall;
-	stall_d = lwstall || branchstall || sig_jal_d || syscallstall;
-	flush_e = lwstall || branchstall || sig_jal_d || syscallstall;
+always @(*) begin
+	stall_f <= lwstall || branchstall || (sig_jal_d && !sig_jal_e);
+	stall_d <= lwstall || branchstall || (sig_jal_d && !sig_jal_e);
+	flush_e <= lwstall || branchstall || sig_jal_e;
 end
 
 endmodule

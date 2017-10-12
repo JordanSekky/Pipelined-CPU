@@ -98,8 +98,6 @@ module testbench();
 
   reg [255:0] MipsM;
 
-  wire [31:0] RD1M;
-  wire [31:0] RD2M;
   wire [31:0] PrintStringM;
 
   wire [31:0] ALUOutM;
@@ -107,10 +105,14 @@ module testbench();
   wire [4:0]  WriteRegM;
   wire [31:0] ReadDataM;
 
+  wire [31:0] a0M;
+  wire [31:0] v0M;
+
   // =================== Writeback ===================
   wire        RegWriteW;
   wire        MemToRegW;
   wire        UpperW;
+  wire        SyscallW;
 
   reg  [255:0] MipsW;
 
@@ -183,7 +185,9 @@ module testbench();
     .sig_syscall(SyscallD),
     .read_data_1(RD1D),
     .read_data_2(RD2D),
-    .pc_plus_4(PCPlus4D)
+    .pc_plus_4(PCPlus4D),
+    .a0(a0M),
+    .v0(v0M)
     );
   CONTROL_UNIT control_unit(
     .op_code(InstD[31:26]),
@@ -236,7 +240,7 @@ module testbench();
   BINARY_TO_MIPS b2m_D(
       InstD,
       MipsD);
-  assign PCSrcD = BranchD & BCUOut;
+  assign PCSrcD = BranchD && BCUOut;
 
   // ==================== Execute ====================
   PIPELINE_DE pipeline_de(
@@ -321,8 +325,6 @@ module testbench();
     .write_data_e(WriteDataE),
     .write_reg_e(WriteRegE),
     .upper_e(UpperE),
-    .read_data_1_e(RD1E),
-    .read_data_2_e(RD2E),
     .syscall_e(SyscallE),
     .clk(clk),
     .reg_write_m(RegWriteM),
@@ -332,14 +334,12 @@ module testbench();
     .write_data_m(WriteDataM),
     .write_reg_m(WriteRegM),
     .upper_m(UpperM),
-    .read_data_1_m(RD1M),
-    .read_data_2_m(RD2M),
     .syscall_m(SyscallM)
     );
   SYSCALL_HANDLER syscall_unit(
     .sig_syscall(SyscallM),
-    .v0(RD1M),
-    .a0(RD2M),
+    .v0(v0M),
+    .a0(a0M),
     .clk(clk),
     .sig_print_string(PrintStringM)
     );
@@ -352,13 +352,15 @@ module testbench();
     .alu_result_m(ALUOutM),
     .read_data_m(ReadDataM),
     .write_reg_m(WriteRegM),
+    .syscall_m(SyscallM),
     .clk(clk),
     .reg_write_w(RegWriteW),
     .mem_to_reg_w(MemToRegW),
     .upper_w(UpperW),
     .alu_result_w(ALUOutW),
     .read_data_w(ReadDataW),
-    .write_reg_w(WriteRegW)
+    .write_reg_w(WriteRegW),
+    .syscall_w(SyscallW)
     );
   TWO_MUX #(32) mem_to_reg_mux(
     .sig_control(MemToRegW),
@@ -377,6 +379,7 @@ module testbench();
   HAZARD_UNIT hazard_unit(
     .sig_jump_d(JumpD),
     .sig_jal_d(JALD),
+    .sig_jal_e(JALE),
     .sig_branch_d(BranchD),
     .sig_syscall_d(SyscallD),
     .rs_d(InstD[25:21]),
@@ -420,7 +423,7 @@ module testbench();
     $dumpvars(0,testbench);
     LineNumber = 0;
     clk <= 1;
-    #200;
+    #1000;
     $finish;
   end
 
@@ -432,26 +435,45 @@ module testbench();
     MipsM = MipsE;
     MipsE = MipsD;
   end
-  
+
   always @(negedge clk)
   begin
     $display("===========(%2d)===========", LineNumber);
-    $display("Fetch:     %-s", MipsF);
-    $display("Decode:    %-s", MipsD);
-    $display("Execute:   %-s", MipsE);
-    $display("Memory:    %-s", MipsM);
-    $display("Writeback: %-s", MipsW);
-    $display("%x: %x", pcF, InstF);
-    $display("ForwardAE:  %x", ForwardAE);
-    $display("ForwardBE:  %x", ForwardBE);
-    $display("Result16W:  %x", Result16W);
-    $display("ALUSrcE:    %x", ALUSrcE);
-    $display("SignImmE:   %x", SignImmE);
+    $display("Fetch:      %-s", MipsF);
+    $display("Decode:     %-s", MipsD);
+    $display("Execute:    %-s", MipsE);
+    $display("Memory:     %-s", MipsM);
+    $display("Writeback:  %-s", MipsW);
+    $display("");
+    $display("Fetch:");
+    $display("pc:         %x", pc);
+    $display("pcF:        %x", pcF);
+    $display("StallF:     %b", StallF);
+    $display("");
+    $display("Decode:");
+    $display("StallD:     %b", StallD);
+    $display("JumpD:      %x", JumpD);
     $display("RD1D:       %x", RD1D);
     $display("RD2D:       %x", RD2D);
+    $display("JALD:       %x", JALD);
+    $display("");
+    $display("Execute:");
+    $display("ForwardAE:  %x", ForwardAE);
+    $display("ForwardBE:  %x", ForwardBE);
     $display("SrcAE:      %x", SrcAE);
     $display("SrcBE:      %x", SrcBE);
+    $display("ALUSrcE:    %x", ALUSrcE);
+    $display("SignImmE:   %x", SignImmE);
     $display("ALUOutE:    %x", ALUOutE);
+    $display("JALE:       %x", JALE);
+    $display("SyscallM:   %x", SyscallM);
+    $display("");
+    $display("Memory:");
+    $display("");
+    $display("Writeback:");
+    $display("Result16W:  %x", Result16W);
+    $display("SyscallW:   %x", SyscallW);
+    $display("");
     LineNumber = LineNumber + 1;
   end
 

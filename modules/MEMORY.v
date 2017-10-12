@@ -1,8 +1,8 @@
 `ifndef TEST_H
-  `include "../includes/ManBearPig.h" 
-`endif    
-`ifdef TEST_H   
-  `include "../../includes/ManBearPig.h"    
+  `include "../includes/ManBearPig.h"
+`endif
+`ifdef TEST_H
+  `include "../../includes/ManBearPig.h"
 `endif
 
 module MEMORY (
@@ -19,7 +19,7 @@ module MEMORY (
 
   initial begin
     `ifndef TEST_H
-      $readmemh("../mips/test_add_no_forwarding.mips", memory);
+      $readmemh("../mips/branch_test/branch_test.bin", memory);
     `endif
   end
 
@@ -54,7 +54,8 @@ module MEMORY (
   wire [31:0] word;
 
   assign data_print_addr_shifted = data_print_addr_shifted >> 2;
-  assign word = memory[data_print_addr_shifted + word_offset];
+  assign word = memory[
+   + word_offset];
 
   integer i;
   always @(data_print_addr_shifted) begin
