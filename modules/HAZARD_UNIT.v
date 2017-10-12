@@ -55,7 +55,6 @@ always @(*) begin
 end
 
 always @(*) begin
-	$display("%x && !%x = %x", sig_jal_d, sig_jal_e, sig_jal_d && !sig_jal_e);
 	stall_f <= lwstall || branchstall || (sig_jal_d && !sig_jal_e);
 	stall_d <= lwstall || branchstall || (sig_jal_d && !sig_jal_e);
 	flush_e <= lwstall || branchstall || sig_jal_e;

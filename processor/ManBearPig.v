@@ -423,7 +423,7 @@ module testbench();
     $dumpvars(0,testbench);
     LineNumber = 0;
     clk <= 1;
-    #300;
+    #1000;
     $finish;
   end
 

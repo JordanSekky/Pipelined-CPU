@@ -19,7 +19,7 @@ module MEMORY (
 
   initial begin
     `ifndef TEST_H
-      $readmemh("../mips/jump_test/jump_test.bin", memory);
+      $readmemh("../mips/branch_test/branch_test.bin", memory);
     `endif
   end
 
