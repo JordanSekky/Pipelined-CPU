@@ -50,8 +50,8 @@ always @(*) begin
 	forward_b_d = (rt_d != 0) && (rt_d == write_reg_m) && sig_reg_write_m;
 
 
-	branchstall = sig_branch_d && sig_reg_write_e && (write_reg_e == rs_d || write_reg_e == rt_d) ||
-	              sig_branch_d && sig_mem_to_reg_m && (write_reg_m == rs_d || write_reg_m == rt_d);
+	branchstall = (sig_branch_d && sig_reg_write_e && (write_reg_e == rs_d || write_reg_e == rt_d)) ||
+	              (sig_branch_d && sig_mem_to_reg_m && (write_reg_m == rs_d || write_reg_m == rt_d));
 end
 
 always @(*) begin

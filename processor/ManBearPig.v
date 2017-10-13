@@ -69,8 +69,9 @@ module testbench();
   wire        JALE;
   wire        SyscallE;
 
-  reg  [255:0] MipsE;
+  wire  [255:0] MipsE;
 
+  wire [31:0] InstE;
   wire [31:0] RD1E;
   wire [31:0] RD2E;
   wire [4:0]  rsE;
@@ -244,6 +245,7 @@ module testbench();
 
   // ==================== Execute ====================
   PIPELINE_DE pipeline_de(
+    .inst_d(InstD),
     .reg_write_d(RegWriteD),
     .mem_to_reg_d(MemToRegD),
     .mem_write_d(MemWriteD),
@@ -261,6 +263,7 @@ module testbench();
     .syscall_d(SyscallD),
     .clk(clk),
     .sig_clr(FlushE),
+    .inst_e(InstE),
     .reg_write_e(RegWriteE),
     .mem_to_reg_e(MemToRegE),
     .mem_write_e(MemWriteE),
@@ -315,6 +318,9 @@ module testbench();
     .sig_alu_control(ALUControlE),
     .result(ALUOutE)
     );
+  BINARY_TO_MIPS b2m_E(
+      InstE,
+      MipsE);
 
   // ================== Data Memory ==================
   PIPELINE_EM pipeline_em(
@@ -322,7 +328,7 @@ module testbench();
     .mem_to_reg_e(MemToRegE),
     .mem_write_e(MemWriteE),
     .alu_result_e(ALUOutE),
-    .write_data_e(WriteDataE),
+    .write_data_e(ForwardBEMuxOut),
     .write_reg_e(WriteRegE),
     .upper_e(UpperE),
     .syscall_e(SyscallE),
@@ -423,7 +429,7 @@ module testbench();
     $dumpvars(0,testbench);
     LineNumber = 0;
     clk <= 1;
-    #1000;
+    #10000;
     $finish;
   end
 
@@ -433,7 +439,6 @@ module testbench();
   always @(posedge clk) begin
     MipsW = MipsM;
     MipsM = MipsE;
-    MipsE = MipsD;
   end
 
   always @(negedge clk)
@@ -445,35 +450,43 @@ module testbench();
     $display("Memory:     %-s", MipsM);
     $display("Writeback:  %-s", MipsW);
     $display("");
-    $display("Fetch:");
-    $display("pc:         %x", pc);
-    $display("pcF:        %x", pcF);
-    $display("StallF:     %b", StallF);
-    $display("");
-    $display("Decode:");
-    $display("StallD:     %b", StallD);
-    $display("JumpD:      %x", JumpD);
-    $display("RD1D:       %x", RD1D);
-    $display("RD2D:       %x", RD2D);
-    $display("JALD:       %x", JALD);
-    $display("");
-    $display("Execute:");
-    $display("ForwardAE:  %x", ForwardAE);
-    $display("ForwardBE:  %x", ForwardBE);
-    $display("SrcAE:      %x", SrcAE);
-    $display("SrcBE:      %x", SrcBE);
-    $display("ALUSrcE:    %x", ALUSrcE);
-    $display("SignImmE:   %x", SignImmE);
-    $display("ALUOutE:    %x", ALUOutE);
-    $display("JALE:       %x", JALE);
-    $display("SyscallM:   %x", SyscallM);
-    $display("");
-    $display("Memory:");
-    $display("");
-    $display("Writeback:");
-    $display("Result16W:  %x", Result16W);
-    $display("SyscallW:   %x", SyscallW);
-    $display("");
+    // $display("Fetch:");
+    // $display("pc:         %x", pc);
+    // $display("pcF:        %x", pcF);
+    // $display("StallF:     %b", StallF);
+    // $display("");
+    // $display("Decode:");
+    $display("StallD:     %x", StallD);
+    $display("PCSrcD:     %x", PCSrcD);
+    // $display("StallD:     %b", StallD);
+    // $display("JumpD:      %x", JumpD);
+    // $display("RD1D:       %x", RD1D);
+    // $display("RD2D:       %x", RD2D);
+    // $display("JALD:       %x", JALD);
+    // $display("");
+    // $display("Execute:");
+    $display("FlushE:     %x", FlushE);
+    // $display("ForwardAE:  %x", ForwardAE);
+    // $display("ForwardBE:  %x", ForwardBE);
+    // $display("SrcAE:      %x", SrcAE);
+    // $display("SrcBE:      %x", SrcBE);
+    // $display("ALUSrcE:    %x", ALUSrcE);
+    // $display("SignImmE:   %x", SignImmE);
+    // $display("ALUOutE:    %x", ALUOutE);
+    // $display("JALE:       %x", JALE);
+    // $display("SyscallM:   %x", SyscallM);
+    // $display("WriteDataE: %x", WriteDataE);
+    $display("RegWriteE:  %x", RegWriteE);
+    // $display("");
+    // $display("Memory:");
+    $display("MemToRegM:  %x", MemToRegM);
+    // $display("ALUOutM:    %x", ALUOutM);
+    // $display("ReadDataM:  %x", ReadDataM);
+    // $display("WriteDataM: %x", WriteDataM);
+    // $display("Writeback:");
+    // $display("Result16W:  %x", Result16W);
+    // $display("SyscallW:   %x", SyscallW);
+    // $display("");
     LineNumber = LineNumber + 1;
   end
 

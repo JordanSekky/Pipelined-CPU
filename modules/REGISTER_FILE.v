@@ -33,6 +33,7 @@ initial begin
 	end
   read_data_1 = 0;
   read_data_2 = 0;
+	regs[`sp] = `stack_size_hi - 4;
 end
 
 assign a0 = regs[`a0];
@@ -40,10 +41,10 @@ assign v0 = regs[`v0];
 
 always @(posedge clk) begin
 	for (i=0; i<8; i=i+1)
-		// $display("%d: %d  %d: %d  %d: %d  %d: %d",
-		// 	4*i,
-		// 	regs[4*i], 4*i+1, regs[4*i+1], 4*i+2,
-		// 	regs[4*i+2], 4*i+3, regs[4*i+3]);
+		$display("%d: %d  %d: %d  %d: %d  %d: %d",
+			4*i,
+			regs[4*i], 4*i+1, regs[4*i+1], 4*i+2,
+			regs[4*i+2], 4*i+3, regs[4*i+3]);
 	if (sig_syscall) begin
 		read_data_1 = regs[`v0];
 		read_data_2 = regs[`a0];

@@ -6,10 +6,10 @@
 `endif
 
 module BINARY_TO_MIPS (
-    input wire [31:0] inst, 
+    input wire [31:0] inst,
     output reg [255:0] mips);
 
-  reg [4:0]  OpCode;
+  reg [5:0]  OpCode;
   wire [23:0] rs;
   wire [23:0] rt;
   wire [23:0] rd;
@@ -23,7 +23,7 @@ module BINARY_TO_MIPS (
   BINARY_TO_REGISTERS btr_rt(inst[20:16], rt);
   BINARY_TO_REGISTERS btr_rd(inst[15:11], rd);
 
-  always @(*) begin    
+  always @(*) begin
     OpCode = inst[31:26];
     Shamt = inst[10:6];
     SignImm = inst[15:0];
@@ -130,39 +130,39 @@ module BINARY_TO_MIPS (
         `BLEZL:     $sformat(mips, "blezl %s 0x%h", rs, SignImm);
         `BGTZL:     $sformat(mips, "bgtzl %s 0x%h", rs, SignImm);
 
-        `LB:        $sformat(mips, "lb %s 0x%h", rt, SignImm);
-        `LH:        $sformat(mips, "lh %s 0x%h", rt, SignImm);
-        `LWL:       $sformat(mips, "lwl %s 0x%h", rt, SignImm);
-        `LW:        $sformat(mips, "lw %s 0x%h", rt, SignImm);
-        `LBU:       $sformat(mips, "lbu %s 0x%h", rt, SignImm);
-        `LHU:       $sformat(mips, "lhu %s 0x%h", rt, SignImm);
-        `LWR:       $sformat(mips, "lwr %s 0x%h", rt, SignImm);
+        `LB:        $sformat(mips, "lb %s %0d(%s)", rt, SignImm, rs);
+        `LH:        $sformat(mips, "lh %s %0d(%s)", rt, SignImm, rs);
+        `LWL:       $sformat(mips, "lwl %s %0d(%s)", rt, SignImm, rs);
+        `LW:        $sformat(mips, "lw %s %0d(%s)", rt, SignImm, rs);
+        `LBU:       $sformat(mips, "lbu %s %0d(%s)", rt, SignImm, rs);
+        `LHU:       $sformat(mips, "lhu %s %0d(%s)", rt, SignImm, rs);
+        `LWR:       $sformat(mips, "lwr %s %0d(%s)", rt, SignImm, rs);
 
-        `SB:        $sformat(mips, "sb %s 0x%h", rt, SignImm);
-        `SH:        $sformat(mips, "sh %s 0x%h", rt, SignImm);
-        `SWL:       $sformat(mips, "swl %s 0x%h", rt, SignImm);
-        `SW:        $sformat(mips, "sw %s 0x%h", rt, SignImm);
+        `SB:        $sformat(mips, "sb %s %0d(%s)", rt, SignImm, rs);
+        `SH:        $sformat(mips, "sh %s %0d(%s)", rt, SignImm, rs);
+        `SWL:       $sformat(mips, "swl %s %0d(%s)", rt, SignImm, rs);
+        `SW:        $sformat(mips, "sw %s %0d(%s)", rt, SignImm, rs);
 
-        `SWR:       $sformat(mips, "SWR %s 0x%h(%s)", rt, SignImm, rs);
-        `CACHE:     $sformat(mips, "CACHE %s 0x%h(%s)", rt, SignImm, rs);
+        `SWR:       $sformat(mips, "swr %s %0d(%s)", rt, SignImm, rs);
+        `CACHE:     $sformat(mips, "cache %s %0d(%s)", rt, SignImm, rs);
 
-        `LL:        $sformat(mips, "LL %s 0x%h(%s)", rt, SignImm, rs);
-        `LWC1:      $sformat(mips, "LWC1 %s 0x%h(%s)", rt, SignImm, rs);
-        `LWC2:      $sformat(mips, "LWC2 %s 0x%h(%s)", rt, SignImm, rs);
-        `LWC3:      $sformat(mips, "LWC3 %s 0x%h(%s)", rt, SignImm, rs);
+        `LL:        $sformat(mips, "ll %s %0d(%s)", rt, SignImm, rs);
+        `LWC1:      $sformat(mips, "lwc1 %s %0d(%s)", rt, SignImm, rs);
+        `LWC2:      $sformat(mips, "lwc2 %s %0d(%s)", rt, SignImm, rs);
+        `LWC3:      $sformat(mips, "lwc3 %s %0d(%s)", rt, SignImm, rs);
 
-        `LDC1:      $sformat(mips, "LDC1 %s 0x%h(%s)", rt, SignImm, rs);
-        `LDC2:      $sformat(mips, "LDC2 %s 0x%h(%s)", rt, SignImm, rs);
-        `LDC3:      $sformat(mips, "LDC3 %s 0x%h(%s)", rt, SignImm, rs);
+        `LDC1:      $sformat(mips, "ldc1 %s 0x%h(%s)", rt, SignImm, rs);
+        `LDC2:      $sformat(mips, "ldc2 %s 0x%h(%s)", rt, SignImm, rs);
+        `LDC3:      $sformat(mips, "ldc3 %s 0x%h(%s)", rt, SignImm, rs);
 
-        `SC:        $sformat(mips, "SC %s 0x%h(%s)", rt, SignImm, rs);
-        `SWC1:      $sformat(mips, "SWC1 %s 0x%h(%s)", rt, SignImm, rs);
-        `SWC2:      $sformat(mips, "SWC2 %s 0x%h(%s)", rt, SignImm, rs);
-        `SWC3:      $sformat(mips, "SWC3 %s 0x%h(%s)", rt, SignImm, rs);
+        `SC:        $sformat(mips, "sc %s %0d(%s)", rt, SignImm, rs);
+        `SWC1:      $sformat(mips, "swc1 %s %0d(%s)", rt, SignImm, rs);
+        `SWC2:      $sformat(mips, "swc2 %s %0d(%s)", rt, SignImm, rs);
+        `SWC3:      $sformat(mips, "swc3 %s %0d(%s)", rt, SignImm, rs);
 
-        `SDC1:      $sformat(mips, "SDC1 %s 0x%h(%s)", rt, SignImm, rs);
-        `SDC2:      $sformat(mips, "SDC2 %s 0x%h(%s)", rt, SignImm, rs);
-        `SDC3:      $sformat(mips, "SDC3 %s 0x%h(%s)", rt, SignImm, rs);
+        `SDC1:      $sformat(mips, "sdc1 %s %0d(%s)", rt, SignImm, rs);
+        `SDC2:      $sformat(mips, "sdc2 %s %0d(%s)", rt, SignImm, rs);
+        `SDC3:      $sformat(mips, "sdc3 %s %0d(%s)", rt, SignImm, rs);
 
         default:      $sformat(mips, "OpCode 0x%h unknown", OpCode);
 

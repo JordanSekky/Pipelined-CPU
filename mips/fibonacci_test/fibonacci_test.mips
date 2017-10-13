@@ -1,0 +1,48 @@
+# This program calculates the fibonacci value of the input
+# integer and prints the value.
+
+.global __start
+
+__start:
+	li $a0, 2 		          # Load value into fibonacci input
+	jal fibonacci		        # Call fibonacci function
+	addi $a0, $v0, 0 	      # syscall prints value in a0
+	li $v0, 1		            # setup for print integer syscall
+	syscall
+	li $v0, 10 		          # exit syscall
+	syscall
+
+fibonacci:
+  addi $t0, $a0, 0      	# Copies input value to $t0
+	addi $sp, $sp, -4     	# Moving Stack pointer
+	sw $ra, 0($sp)        	# Store previous value
+  li $t1, 1		            # Load 1 for beq
+	beq $t0, $zero, if_zero	# If 0
+	beq $t0, $t1, if_one	  # If 1 branch
+	j if_else		            # Jump to else
+
+if_zero:
+	li $v0, 0		            # Return 0
+	j end
+
+if_one:
+	li $v0, 1		            # Return 1
+	j end
+
+if_else:
+	addi $sp, $sp, -4     	# Moving Stack pointer
+	sw $t0, 0($sp)        	# Store previous value
+	addi $a0, $t0, -1	      # Load (value-1) into fibonacci input
+	jal fibonacci		        # Call fibonacci(value-1) function
+	lw $t0, 0($sp)		      # Loads value from memory
+	sw $v0, 0($sp)		      # Stores return from fibonacci(value-1) in memory
+	addi $a0, $t0, -2	      # Load (value-2) into fibonacci input
+	jal fibonacci		        # Call fibonacci(value-2) function
+	lw $t0, 0($sp)		      # Loads value from memory
+	addi $sp, $sp, 4      	# Moving Stack pointer
+	add $v0, $t0, $v0	      # Adds fib(value-1) + fib(value-2)
+
+end:
+	lw $ra, 0($sp)        	# Load previous value
+	addi $sp, $sp, 4      	# Moving Stack pointer
+	jr $ra                	# return (Copy $ra to PC)

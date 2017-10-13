@@ -1,0 +1,151 @@
+VCD info: dumpfile test.vcd opened for output.
+BAD BCU CONTROL SIGNAL
+===========( 0)===========
+Fetch:      addiu $a0 $z0 0x0005            
+Decode:     nop                             
+Execute:    nop                             
+Memory:                                     
+Writeback:                                  
+
+===========( 1)===========
+Fetch:      jal 0x0100010                   
+Decode:     addiu $a0 $z0 0x0005            
+Execute:    nop                             
+Memory:     nop                             
+Writeback:                                  
+
+===========( 2)===========
+Fetch:      addiu $a1 $z0 0x0007            
+Decode:     jal 0x0100010                   
+Execute:    addiu $a0 $z0 0x0005            
+Memory:     nop                             
+Writeback:  nop                             
+
+BAD BCU CONTROL SIGNAL
+===========( 3)===========
+Fetch:      addiu $a1 $z0 0x0007            
+Decode:     jal 0x0100010                   
+Execute:    jal 0x0100010                   
+Memory:     addiu $a0 $z0 0x0005            
+Writeback:  nop                             
+
+===========( 4)===========
+Fetch:      jr $ra                          
+Decode:     addiu $a1 $z0 0x0007            
+Execute:    jal 0x0100010                   
+Memory:     jal 0x0100010                   
+Writeback:  addiu $a0 $z0 0x0005            
+
+BAD BCU CONTROL SIGNAL
+===========( 5)===========
+Fetch:      add $v0 $a0 $a1                 
+Decode:     jr $ra                          
+Execute:    addiu $a1 $z0 0x0007            
+Memory:     jal 0x0100010                   
+Writeback:  jal 0x0100010                   
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD BCU CONTROL SIGNAL
+===========( 6)===========
+Fetch:      addu $a0 $v0 $z0                
+Decode:     add $v0 $a0 $a1                 
+Execute:    jr $ra                          
+Memory:     addiu $a1 $z0 0x0007            
+Writeback:  jal 0x0100010                   
+
+BAD BCU CONTROL SIGNAL
+BAD BCU CONTROL SIGNAL
+===========( 7)===========
+Fetch:      addiu $v0 $z0 0x0001            
+Decode:     addu $a0 $v0 $z0                
+Execute:    add $v0 $a0 $a1                 
+Memory:     jr $ra                          
+Writeback:  addiu $a1 $z0 0x0007            
+
+BAD BCU CONTROL SIGNAL
+BAD BCU CONTROL SIGNAL
+BAD BCU CONTROL SIGNAL
+===========( 8)===========
+Fetch:      syscall                         
+Decode:     addiu $v0 $z0 0x0001            
+Execute:    addu $a0 $v0 $z0                
+Memory:     add $v0 $a0 $a1                 
+Writeback:  jr $ra                          
+
+BAD BCU CONTROL SIGNAL
+===========( 9)===========
+Fetch:      j 0x0100012                     
+Decode:     syscall                         
+Execute:    addiu $v0 $z0 0x0001            
+Memory:     addu $a0 $v0 $z0                
+Writeback:  add $v0 $a0 $a1                 
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(10)===========
+Fetch:      nop                             
+Decode:     j 0x0100012                     
+Execute:    syscall                         
+Memory:     addiu $v0 $z0 0x0001            
+Writeback:  addu $a0 $v0 $z0                
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+
+
+
+
+
+
+        12
+
+
+
+
+
+===========(11)===========
+Fetch:      addiu $v0 $z0 0x000a            
+Decode:     nop                             
+Execute:    j 0x0100012                     
+Memory:     syscall                         
+Writeback:  addiu $v0 $z0 0x0001            
+
+===========(12)===========
+Fetch:      syscall                         
+Decode:     addiu $v0 $z0 0x000a            
+Execute:    nop                             
+Memory:     j 0x0100012                     
+Writeback:  syscall                         
+
+BAD BCU CONTROL SIGNAL
+===========(13)===========
+Fetch:      OpCode 0xxx unknown             
+Decode:     syscall                         
+Execute:    addiu $v0 $z0 0x000a            
+Memory:     nop                             
+Writeback:  j 0x0100012                     
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD BCU CONTROL SIGNAL
+===========(14)===========
+Fetch:      OpCode 0xxx unknown             
+Decode:     OpCode 0xxx unknown             
+Execute:    syscall                         
+Memory:     addiu $v0 $z0 0x000a            
+Writeback:  nop                             
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(15)===========
