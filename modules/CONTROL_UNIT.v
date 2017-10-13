@@ -8,6 +8,7 @@
 module CONTROL_UNIT (
   input  wire [5:0] op_code,
   input  wire [5:0] funct_code,
+  input  wire [4:0] rt,
   output reg        load_upper,
   output reg  [1:0] jump,
   output reg        jal,
@@ -93,6 +94,8 @@ module CONTROL_UNIT (
           `OR:  alu_control <= `ALU_OR;
           `SLL: alu_control <= `ALU_sll;
           `SRA: alu_control <= `ALU_sra;
+          `MULT: alu_control <= `ALU_mult;
+          `DIV: alu_control <= `ALU_div;
           default: alu_control <= 5'bx;
         endcase
       default: alu_control <= 5'bx;
@@ -115,6 +118,12 @@ module CONTROL_UNIT (
     // branch
     case (op_code)
       `BEQ, `BNE, `BLEZ, `BGTZ: branch <= 1'b1;
+      `REGIMM: begin
+        case (rt)
+          `BLTZ: branch <= 1'b1;
+          default: branch <= 1'b0;
+        endcase
+      end
       default: branch <= 1'b0;
     endcase
 
@@ -124,6 +133,12 @@ module CONTROL_UNIT (
       `BNE: bcu_control <= `BCU_NE;
       `BLEZ: bcu_control <= `BCU_LEZ;
       `BGTZ: bcu_control <= `BCU_GTZ;
+      `REGIMM: begin
+        case (rt)
+          `BLTZ: bcu_control <= `BCU_LTZ;
+          default: bcu_control <= 5'bx;
+        endcase
+      end
       default: bcu_control <= 5'bx;
     endcase
 

@@ -9,6 +9,8 @@ module REGISTERS (input [4:0] rs,
 				  input clk,
 				  input [31:0] pc_plus_4,
 				  input [31:0] instr,
+				  input [31:0] hi_reg,
+				  input [31:0] lo_reg,
 				  input sig_syscall,
 				  output reg [31:0] read_data_1,
 				  output reg [31:0] read_data_2,
@@ -24,6 +26,8 @@ module REGISTERS (input [4:0] rs,
 
 ///////////////////////// internal memory storage //////////////////////////////
 reg [31:0] regs [31:0];
+reg [31:0] hi;
+reg [31:0] lo;
 reg [5:0] k;
 reg [3:0] i;
 
@@ -31,6 +35,8 @@ initial begin
 	for (k = 0; k < 32; k = k + 1) begin
 		regs[k] = 32'b0;
 	end
+	hi = 0;
+	lo = 0;
   read_data_1 = 0;
   read_data_2 = 0;
 	regs[`sp] = `stack_size_hi - 4;
@@ -73,6 +79,10 @@ always @(~clk, write_data, pc_plus_4) begin
 	end
 end
 
+always @(hi_reg, lo_reg) begin
+  hi <= hi_reg;
+  lo <= lo_reg;
+end
 
 
 
