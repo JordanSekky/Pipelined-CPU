@@ -67,6 +67,7 @@ module MEMORY (
   always @(data_print_addr_shifted) begin
     if (data_print_addr_shifted > 0) begin
       word_offset = 0;
+      byte_offset = 0;
       char = word[31:24];
       while (char != 8'h00) begin
         case (byte_offset)
