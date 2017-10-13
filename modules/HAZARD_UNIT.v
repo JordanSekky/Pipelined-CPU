@@ -55,9 +55,9 @@ always @(*) begin
 end
 
 always @(*) begin
-	stall_f <= lwstall || branchstall || (sig_jal_d && !sig_jal_e);
+	stall_f <= lwstall || (sig_jal_d && !sig_jal_e);
 	stall_d <= lwstall || branchstall || (sig_jal_d && !sig_jal_e);
-	flush_e <= lwstall || branchstall || sig_jal_e;
+	flush_e <= lwstall || sig_jal_e;
 end
 
 endmodule
