@@ -15,21 +15,28 @@ module MEMORY (
   output wire [31:0] data_read_data
   );
 
-  reg [31:0] memory [`mem_size_lo:`mem_size_hi]; // Memory block.
+  reg [31:0] text [(`text_size_lo >> 2):(`text_size_hi >> 2)]; // Memory block.
+  reg [31:0] stack [(`stack_size_lo >> 2):(`stack_size_hi >> 2)]; // Memory block.
 
   initial begin
     `ifndef TEST_H
-      $readmemh("../mips/branch_test/branch_test.bin", memory);
+      $readmemh("../mips/fibonacci_test/fibonacci_test.bin", text);
     `endif
   end
 
+  always @(data_addr or instr_pc) begin
+    if (((data_addr) < `stack_size_lo) || ((data_addr) > `stack_size_hi))
+      $display("stack address %x out of bounds.", (data_addr));
+    if (((instr_pc) < `text_size_lo) || ((instr_pc) > `text_size_hi))
+      $display("Data address %x out of bounds.", (instr_pc));
+  end
 
   // =================================================
   // ===            Instruction Memory             ===
   // =================================================
 
 
-  assign instr_out = memory[instr_pc >> 2];
+  assign instr_out = text[instr_pc >> 2];
 
 
   // =================================================
@@ -40,10 +47,10 @@ module MEMORY (
   wire [31:0] data_addr_shifted;
   assign data_addr_shifted = data_addr >> 2;
 
-  assign data_read_data = memory[data_addr_shifted];
+  assign data_read_data = stack[data_addr_shifted];
 
   always @(data_addr_shifted, data_write_data, posedge data_sig_mem_write) begin
-    if (data_sig_mem_write) memory[data_addr_shifted] <= data_write_data;
+    if (data_sig_mem_write) stack[data_addr_shifted] <= data_write_data;
   end
 
   // Print strings from data memory
@@ -54,8 +61,7 @@ module MEMORY (
   wire [31:0] word;
 
   assign data_print_addr_shifted = data_print_addr_shifted >> 2;
-  assign word = memory[
-   + word_offset];
+  assign word = text[data_print_addr_shifted + word_offset];
 
   integer i;
   always @(data_print_addr_shifted) begin

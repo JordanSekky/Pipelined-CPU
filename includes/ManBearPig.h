@@ -28,8 +28,10 @@
 `define PHASE  #`phase
 
 // Memory Ranges
-`define mem_size_lo 32'h100000
-`define mem_size_hi 32'h1000000
+`define text_size_lo 32'h100000
+`define text_size_hi 32'h1000000
+`define stack_size_lo 32'h7F7FFFFF
+`define stack_size_hi 32'h7FFFFFFF
 
 /*----------------------------------------------------------------------------*
  * Instruction Fields                                                         *

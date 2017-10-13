@@ -1,0 +1,808 @@
+WARNING: ../modules/MEMORY.v:22: $readmemh(../mips/branch_test/branch_test.bin): Not enough words in the file for the requested range [1048576:16777216].
+VCD info: dumpfile test.vcd opened for output.
+BAD BCU CONTROL SIGNAL
+===========( 0)===========
+Fetch:      addiu $a0 $z0 0x0005            
+Decode:     nop                             
+Execute:    nop                             
+Memory:                                     
+Writeback:                                  
+
+===========( 1)===========
+Fetch:      jal 0x0100010                   
+Decode:     addiu $a0 $z0 0x0005            
+Execute:    nop                             
+Memory:     nop                             
+Writeback:                                  
+
+===========( 2)===========
+Fetch:      addiu $a1 $z0 0x0007            
+Decode:     jal 0x0100010                   
+Execute:    addiu $a0 $z0 0x0005            
+Memory:     nop                             
+Writeback:  nop                             
+
+BAD BCU CONTROL SIGNAL
+===========( 3)===========
+Fetch:      addiu $a1 $z0 0x0007            
+Decode:     jal 0x0100010                   
+Execute:    jal 0x0100010                   
+Memory:     addiu $a0 $z0 0x0005            
+Writeback:  nop                             
+
+===========( 4)===========
+Fetch:      nop                             
+Decode:     addiu $a1 $z0 0x0007            
+Execute:    jal 0x0100010                   
+Memory:     jal 0x0100010                   
+Writeback:  addiu $a0 $z0 0x0005            
+
+BAD BCU CONTROL SIGNAL
+===========( 5)===========
+Fetch:      addiu $t1 $z0 0x0000            
+Decode:     nop                             
+Execute:    addiu $a1 $z0 0x0007            
+Memory:     jal 0x0100010                   
+Writeback:  jal 0x0100010                   
+
+===========( 6)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     addiu $t1 $z0 0x0000            
+Execute:    nop                             
+Memory:     addiu $a1 $z0 0x0007            
+Writeback:  jal 0x0100010                   
+
+===========( 7)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    addiu $t1 $z0 0x0000            
+Memory:     nop                             
+Writeback:  addiu $a1 $z0 0x0007            
+
+BAD BCU CONTROL SIGNAL
+===========( 8)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     addiu $t1 $z0 0x0000            
+Writeback:  nop                             
+
+BAD BCU CONTROL SIGNAL
+===========( 9)===========
+Fetch:      nop                             
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  addiu $t1 $z0 0x0000            
+
+===========(10)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+===========(11)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(12)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  nop                             
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(13)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(14)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(15)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(16)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(17)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(18)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(19)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(20)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(21)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(22)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(23)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(24)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(25)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(26)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(27)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(28)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(29)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(30)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(31)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(32)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(33)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(34)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(35)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(36)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(37)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(38)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(39)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(40)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(41)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(42)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(43)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(44)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(45)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(46)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(47)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(48)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(49)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(50)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(51)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(52)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(53)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(54)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(55)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(56)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(57)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(58)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(59)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(60)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(61)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(62)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(63)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(64)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(65)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(66)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(67)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(68)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(69)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(70)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(71)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(72)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(73)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(74)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(75)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(76)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(77)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(78)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(79)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(80)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(81)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(82)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(83)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(84)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(85)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(86)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(87)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(88)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(89)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(90)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(91)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(92)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
+===========(93)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    beq $t0 $z0 0x0004              
+Memory:     addu $t0 $a0 $z0                
+Writeback:  0x16 is Unknown for SPECIAL     
+
+BAD BCU CONTROL SIGNAL
+===========(94)===========
+Fetch:      addu $t1 $t1 $a1                
+Decode:     nop                             
+Execute:    beq $t0 $z0 0x0004              
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  addu $t0 $a0 $z0                
+
+BAD BCU CONTROL SIGNAL
+===========(95)===========
+Fetch:      j 0x0100012                     
+Decode:     addu $t1 $t1 $a1                
+Execute:    nop                             
+Memory:     beq $t0 $z0 0x0004              
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+===========(96)===========
+Fetch:      0x16 is Unknown for SPECIAL     
+Decode:     j 0x0100012                     
+Execute:    addu $t1 $t1 $a1                
+Memory:     nop                             
+Writeback:  beq $t0 $z0 0x0004              
+
+BAD BCU CONTROL SIGNAL
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+BAD ALU OPERATION CODE
+===========(97)===========
+Fetch:      addu $t0 $a0 $z0                
+Decode:     0x16 is Unknown for SPECIAL     
+Execute:    j 0x0100012                     
+Memory:     addu $t1 $t1 $a1                
+Writeback:  nop                             
+
+===========(98)===========
+Fetch:      beq $t0 $z0 0x0004              
+Decode:     addu $t0 $a0 $z0                
+Execute:    0x16 is Unknown for SPECIAL     
+Memory:     j 0x0100012                     
+Writeback:  addu $t1 $t1 $a1                
+
+BAD BCU CONTROL SIGNAL
+===========(99)===========
+Fetch:      nop                             
+Decode:     beq $t0 $z0 0x0004              
+Execute:    addu $t0 $a0 $z0                
+Memory:     0x16 is Unknown for SPECIAL     
+Writeback:  j 0x0100012                     
+
