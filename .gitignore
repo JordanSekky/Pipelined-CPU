@@ -1,5 +1,7 @@
 *
 
+!Makefile
+!*.c
 !.gitignore
 !*.v
 !*.h

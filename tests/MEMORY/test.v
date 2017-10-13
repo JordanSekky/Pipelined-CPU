@@ -2,9 +2,9 @@
 
 module testbench();
 
-  reg  [31:0] instr_pc = `mem_size_lo << 2;
+  reg  [31:0] instr_pc = `text_size_lo;
   reg         data_sig_mem_write = 1'b0;
-  reg  [31:0] data_addr = `mem_size_hi << 2;
+  reg  [31:0] data_addr = `stack_size_hi;
   reg  [31:0] data_write_data = 32'b0;
   reg  [31:0] data_print_addr = 32'b0;
   wire [31:0] instr_out;
@@ -60,23 +60,18 @@ module testbench();
     data_addr <= data_addr - 40;
     data_write_data <= 32'h68656c6c; // "hell"
     data_sig_mem_write <= 1'b1;
-    #5;
+    #10;
     data_addr <= data_addr + 4;
     data_write_data <= 32'h6f20776f; // "o wo"
-    #5;
+    #10;
     data_addr <= data_addr + 4;
     data_write_data <= 32'h726c6400; // "rld";
-    #5;
+    #10;
     data_print_addr <= data_addr-8; // Print
     #10;
 
-    // Test instruction memory reading from same module
-    instr_pc <= data_addr;
-    #10; $display("%h => %h\n", instr_pc, instr_out);
-    instr_pc <= data_addr-4;
-    #10; $display("%h => %h\n", instr_pc, instr_out);
-    instr_pc <= data_addr-8;
-    #10; $display("%h => %h\n", instr_pc, instr_out);
+    // Can't test instruction memory b/c there's no way to set data in the
+    // memory
 
     $finish();
   end

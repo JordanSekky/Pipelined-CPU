@@ -122,7 +122,10 @@ module testbench();
   wire [4:0] WriteRegW;
   wire [31:0] Result16W;
   wire [31:0] Result32W;
-
+  
+  // ============== Mult and Div support =============
+  wire [31:0] hi;
+  wire [31:0] lo;
 
   // =================================================
   // ===                 Registers                 ===
@@ -183,6 +186,8 @@ module testbench();
     .sig_reg_write(RegWriteW),
     .clk(~clk),
     .instr(InstD),
+    .hi_reg(hi),
+    .lo_reg(lo),
     .sig_syscall(SyscallD),
     .read_data_1(RD1D),
     .read_data_2(RD2D),
@@ -316,7 +321,9 @@ module testbench();
     .src_a(SrcAE),
     .src_b(SrcBE),
     .sig_alu_control(ALUControlE),
-    .result(ALUOutE)
+    .result(ALUOutE),
+    .hi(hi),
+    .lo(lo)
     );
   BINARY_TO_MIPS b2m_E(
       InstE,

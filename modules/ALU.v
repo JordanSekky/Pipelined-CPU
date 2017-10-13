@@ -8,12 +8,16 @@
 module ALU (input wire signed [31:0] src_a,
 	        input wire signed [31:0] src_b,
 	        input wire [4:0] sig_alu_control,
-	        output reg signed [31:0] result);
+	        output reg signed [31:0] result,
+	        output reg signed [31:0] hi,
+	        output reg signed [31:0] lo);
 
 // This module performs the arithmetic operations of the processor.
 // It determines what operations to perform on its two inputs based
 // on its input control signal. If the result of the operation is 0,
 // The alu outputs a high signal on the zerosig output.
+
+reg [61:0] mult_result;
 
 always @(*)
 begin
@@ -35,6 +39,15 @@ begin
 		end
 		`ALU_sra: begin
 		  result = src_a >>> src_b;
+		end
+		`ALU_mult: begin
+		  mult_result = src_a * src_b;
+		  hi = mult_result[61:32];
+		  lo = mult_result[31:0];
+		end
+		`ALU_div: begin
+		  hi = src_a % src_b;
+		  lo = src_a / src_b;
 		end
 		default: begin
 			$display("BAD ALU OPERATION CODE");
