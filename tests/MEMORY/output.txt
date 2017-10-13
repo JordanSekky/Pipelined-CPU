@@ -1,33 +1,27 @@
 Write(1) deadbeef
-mem[3ffffffc] = deadbeef
+mem[7ffffffb] = deadbeef
 
 Write(1) 12345678
-mem[40000000] = 12345678
+mem[7fffffff] = 12345678
 
 Write(0) 0000dead
-mem[3ffffffc] = 12345678
+mem[7ffffffb] = 12345678
 
 Write(0) beef0000
-mem[40000000] = 12345678
+mem[7fffffff] = 12345678
 
 Write(0) 0000dead
-mem[3ffffffc] = 12345678
+mem[7ffffffb] = 12345678
 
 Write(1) beef0000
-mem[40000000] = beef0000
+mem[7fffffff] = beef0000
 
 Write(1) 68656c6c
-mem[3fffffd8] = 68656c6c
+mem[7fffffd7] = 68656c6c
 
 Write(1) 6f20776f
-mem[3fffffdc] = 6f20776f
+mem[7fffffdb] = 6f20776f
 
 Write(1) 726c6400
-mem[3fffffe0] = 726c6400
-
-3fffffe0 => 726c6400
-
-3fffffdc => 6f20776f
-
-3fffffd8 => 68656c6c
+mem[7fffffdf] = 726c6400
 
