@@ -30,6 +30,7 @@ module testbench();
   // Registers
   reg   [5:0]  op_code = 6'b0;
   reg   [5:0]  funct_code = 6'b0;
+  reg   [4:0]  rt = 5'b00000;
 
   // Wires
   wire       load_upper;
@@ -44,11 +45,13 @@ module testbench();
   wire       branch;
   wire [3:0] bcu_control;
   wire       syscall;
+  wire [1:0] move_hi_lo;
 
   // Modules
   CONTROL_UNIT data_memory(
     op_code,
     funct_code,
+    rt,
     load_upper,
     jump,
     jal,
@@ -60,11 +63,12 @@ module testbench();
     reg_dst,
     branch,
     bcu_control,
-    syscall);
+    syscall,
+    move_hi_lo);
 
   initial begin
-    $display("op_code funct_code load_upper jump jal reg_write mem_to_reg mem_write alu_control alu_src reg_dst branch bcu_ctrl syscall\n------- ---------- ---------- ---- --- --------- ---------- --------- ----------- ------- ------- ------ -------- -------");
-    $monitor(" %b     %b          %b   %b   %b         %b          %b         %b       %b       %b       %b      %b     %b       %b",
+    $display("op_code funct_code load_upper jump jal reg_write mem_to_reg mem_write alu_control alu_src reg_dst branch bcu_ctrl syscall move_hi_lo\n------- ---------- ---------- ---- --- --------- ---------- --------- ----------- ------- ------- ------ -------- ------- ----------");
+    $monitor(" %b     %b          %b   %b   %b         %b          %b         %b       %b       %b       %b      %b     %b       %b          %b",
       op_code,
       funct_code,
       load_upper,
@@ -78,66 +82,78 @@ module testbench();
       reg_dst,
       branch,
       bcu_control,
-      syscall);
+      syscall,
+      move_hi_lo);
 
       // addiu
-      op_code <= 6'b001001;
+      op_code <= `ADDIU;
       funct_code <= 6'b000100;
       #10;
       
       // jal
-      op_code <= 6'b000011;
+      op_code <= `JAL;
       funct_code <= 6'b000100;
       #10;
       
       // jr
-      op_code <= 6'b000000;
-      funct_code <= 6'b001000;
+      op_code <= ``SPECIAL;
+      funct_code <= `JR;
       #10;
       
       // lui
-      op_code <= 6'b001111;
+      op_code <= `LUI;
       funct_code <= 6'b000100;
       #10;
       
       // lw
-      op_code <= 6'b100011;
+      op_code <= `LW;
       funct_code <= 6'b000100;
       #10;
       
       // ori
-      op_code <= 6'b001101;
+      op_code <= `ORI;
       funct_code <= 6'b000100;
       #10;
       
       // sw
-      op_code <= 6'b101011;
+      op_code <= `SW;
       funct_code <= 6'b000100;
       #10;
       
       // addu
-      op_code <= 6'b000000;
-      funct_code <= 6'b100001;
+      op_code <= `SPECIAL;
+      funct_code <= `ADDU;
       #10;
       
       // beq
-      op_code <= 6'b000100;
+      op_code <= `BEQ;
       funct_code <= 6'b000100;
       #10;
       
       // bne
-      op_code <= 6'b000101;
+      op_code <= `BNE;
       funct_code <= 6'b000100;
       #10;
       
       // syscall
-      op_code <= 6'b000000;
-      funct_code <= 6'b001100;
+      op_code <= `SPECIAL;
+      funct_code <= `SYSCALL;
       #10;
 
       // sra
-      op_code <= 6'b000000;
-      funct_code <= 6'b000011;
+      op_code <= `SPECIAL;
+      funct_code <= `SRA;
+      #10;
+      
+      // bltz
+      op_code <= `REGIMM;
+      funct_code <= 0;
+      rt <= `BLTZ;
+      #10;
+      
+      // mult
+      op_code <= `SPECIAL;
+      funct_code <= 
 
     $finish;
   end
