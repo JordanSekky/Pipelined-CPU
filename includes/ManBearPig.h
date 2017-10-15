@@ -332,13 +332,14 @@
 `define ALU_sub 			4'b0110
 `define ALU_slt 			4'b0111
 `define ALU_NOR 			4'b1100
-`define ALU_mult      4'b0101
-`define ALU_div       4'b1010
+`define ALU_mult            4'b0101
+`define ALU_div             4'b1010
 `define ALU_undef			4'bxxxx
+`define ALU_lui             4'b1101
 
 // ALU control signals added by AMM (may not match actual MIPS implementation)
 `define ALU_sll				4'b1001
-`define ALU_sra       4'b1011
+`define ALU_sra             4'b1011
 
 `define ALUOP_LWSW			2'b00
 `define ALUOP_RFMT			2'b10
