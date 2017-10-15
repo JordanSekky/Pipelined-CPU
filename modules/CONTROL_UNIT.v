@@ -20,7 +20,8 @@ module CONTROL_UNIT (
   output reg        reg_dst,
   output reg        branch,
   output reg  [3:0] bcu_control,
-  output reg        syscall
+  output reg        syscall,
+  output reg  [1:0] move_hi_lo
   );
 
   initial begin
@@ -96,6 +97,7 @@ module CONTROL_UNIT (
           `SRA: alu_control <= `ALU_sra;
           `MULT: alu_control <= `ALU_mult;
           `DIV: alu_control <= `ALU_div;
+          `MFHI, `MFLO: alu_control <= `ALU_add;
           default: alu_control <= 5'bx;
         endcase
       default: alu_control <= 5'bx;
@@ -150,6 +152,15 @@ module CONTROL_UNIT (
       endcase
       default: syscall <= 1'b0;
     endcase
-
+    
+    // move hi/lo
+    case(op_code)
+      `SPECIAL: case (funct_code)
+        `MFHI: move_hi_lo <= `move_high;
+        `MFLO: move_hi_lo <= `move_low;
+        default: move_hi_lo <= 0;
+      endcase
+      default: move_hi_lo <= 0;
+    endcase
   end
 endmodule
