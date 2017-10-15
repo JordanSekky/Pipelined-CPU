@@ -50,7 +50,7 @@ begin
 		  lo = src_a / src_b;
 		end
 		`ALU_lui: begin
-			result = src_a[15:0] << 16;
+			result = src_b << 16;
 		end
 		default: begin
 			$display("BAD ALU OPERATION CODE");
