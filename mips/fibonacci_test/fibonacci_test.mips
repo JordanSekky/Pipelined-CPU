@@ -4,7 +4,7 @@
 .global __start
 
 __start:
-	li $a0, 5 		          # Load value into fibonacci input
+	li $a0, 10 		          # Load value into fibonacci input
 	jal fibonacci		        # Call fibonacci function
 	addi $a0, $v0, 0 	      # syscall prints value in a0
 	li $v0, 1		            # setup for print integer syscall
