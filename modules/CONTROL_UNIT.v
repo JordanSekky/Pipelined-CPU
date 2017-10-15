@@ -81,10 +81,11 @@ module CONTROL_UNIT (
 
     // alu_control
     case(op_code)
-      `ADDIU, `ADDI, `LW, `SW, `LUI: alu_control <= `ALU_add;
+      `ADDIU, `ADDI, `LW, `SW: alu_control <= `ALU_add;
       `ANDI: alu_control <= `ALU_AND;
-      `ORI: alu_control <= `ALU_OR;
       `JAL: alu_control <= `ALU_add;
+      `LUI: alu_control <= `ALU_lui;
+      `ORI: alu_control <= `ALU_OR;
       `BEQ, `BNE, `BLEZ, `BGTZ: alu_control <= `ALU_sub;
       // R-type instructions
       `SPECIAL: case(funct_code)

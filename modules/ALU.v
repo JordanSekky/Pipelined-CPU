@@ -17,7 +17,7 @@ module ALU (input wire signed [31:0] src_a,
 // on its input control signal. If the result of the operation is 0,
 // The alu outputs a high signal on the zerosig output.
 
-reg [61:0] mult_result;
+reg [63:0] mult_result;
 
 always @(*)
 begin
@@ -42,12 +42,15 @@ begin
 		end
 		`ALU_mult: begin
 		  mult_result = src_a * src_b;
-		  hi = mult_result[61:32];
+		  hi = mult_result[63:32];
 		  lo = mult_result[31:0];
 		end
 		`ALU_div: begin
 		  hi = src_a % src_b;
 		  lo = src_a / src_b;
+		end
+		`ALU_lui: begin
+			result = src_a[15:0] << 16;
 		end
 		default: begin
 			$display("BAD ALU OPERATION CODE");
