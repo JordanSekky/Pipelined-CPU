@@ -1,0 +1,18 @@
+.global __start
+
+.data
+
+string: .asciiz "Hello World"
+
+.text
+
+__start:
+
+  la    $a0, string
+  li    $v0, 4                  # Print the integer result
+  syscall
+  j     terminate
+
+terminate:
+  li      $v0, 10                # Terminate execution
+  syscall
