@@ -36,10 +36,11 @@ module testbench();
   wire        RegDstD;
   wire        BranchD;
   wire [3:0]  BCUControlD;
-  wire       PCSrcD;
+  wire        PCSrcD;
   wire        BCUOut;
   wire        JALD;
   wire        SyscallD;
+  wire [1:0]  MoveHighLowD;
 
   wire [255:0] MipsD;
 
@@ -184,6 +185,7 @@ module testbench();
     .write_data(Result32W),
     .sig_jal(JALD),
     .sig_reg_write(RegWriteW),
+    .sig_mf_hi_lo(MoveHighLowD),
     .clk(~clk),
     .instr(InstD),
     .hi_reg(hi),
@@ -209,7 +211,8 @@ module testbench();
     .reg_dst(RegDstD),
     .branch(BranchD),
     .bcu_control(BCUControlD),
-    .syscall(SyscallD)
+    .syscall(SyscallD),
+    .move_hi_lo(MoveHighLowD)
     );
   SIGN_EXTEND sign_extend(
     .sign_in(InstD[15:0]),

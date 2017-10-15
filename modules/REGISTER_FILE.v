@@ -6,6 +6,7 @@ module REGISTERS (input [4:0] rs,
 				  input [31:0] write_data,
 				  input sig_jal,
 				  input sig_reg_write,
+				  input [1:0] sig_mf_hi_lo,
 				  input clk,
 				  input [31:0] pc_plus_4,
 				  input [31:0] instr,
@@ -58,6 +59,14 @@ always @(posedge clk) begin
 	else if (sig_jal) begin
 		read_data_1 = pc_plus_4;
 		read_data_2 = regs[`zero];
+	end
+	else if (sig_mf_hi_lo == `move_high) begin
+	  read_data_1 = hi;
+	  read_data_2 = 0;
+	end
+	else if (sig_mf_hi_lo == `move_low) begin
+	  read_data_1 = lo;
+	  read_data_2 = 0;
 	end
 	else begin
 		read_data_1 = regs[rs];

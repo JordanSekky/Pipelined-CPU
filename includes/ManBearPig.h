@@ -366,6 +366,10 @@
  * Miscellaneous                                                              *
  *----------------------------------------------------------------------------*/
 
+// Control signals for the register file
+`define move_high  2'b01
+`define move_low   2'b10
+
 // Various width don't care and invalid values
 `define dc32       32'bxxxxxxxx
 `define invalid    32'bxxxxxxxx
