@@ -20,12 +20,13 @@ module MEMORY (
 
   initial begin
     `ifndef TEST_H
-      $readmemh("../mips/hello_world_test/hello_world_test.bin", text);
+      $readmemh("../mips/merge_test/merge_test.bin", text);
     `endif
   end
 
   always @(data_addr or instr_pc or data_print_addr) begin
-    if (((data_addr) < `stack_size_lo) || ((data_addr) > `stack_size_hi))
+    if ((((data_addr) < `stack_size_lo) || ((data_addr) > `stack_size_hi)) && 
+        (((data_addr) < `text_size_lo) || ((data_addr) > `text_size_hi)))
       $display("stack address %x out of bounds.", (data_addr));
     if (((instr_pc) < `text_size_lo) || ((instr_pc) > `text_size_hi))
       $display("Data address %x out of bounds.", (instr_pc));
@@ -47,7 +48,7 @@ module MEMORY (
   wire [31:0] data_addr_shifted;
   assign data_addr_shifted = data_addr >> 2;
 
-  assign data_read_data = stack[data_addr_shifted];
+  assign data_read_data = (((data_addr) > `stack_size_lo) && ((data_addr) < `stack_size_hi)) ? stack[data_addr_shifted] : text[data_addr_shifted];
 
   always @(data_addr_shifted, data_write_data, posedge data_sig_mem_write) begin
     if (data_sig_mem_write) stack[data_addr_shifted] <= data_write_data;
