@@ -10,8 +10,8 @@ SREC=srec_cat
 # these are the flags we need for bare metal code generation
 CFLAGS=-mno-abicalls -fpic -nostdlib -static
 LDFLAGS=-L/usr/remote/mipsel/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3 -lgcc
-ASMSOURCE=puts.s start.s
-CSOURCE=hello.c
+ASMSOURCE=hello.s
+# CSOURCE=hello.c
 
 ASMOBJ=$(ASMSOURCE:.s=.o)
 COBJ=$(CSOURCE:.c=.o)
@@ -28,7 +28,7 @@ all: $(OBJECTS)
 	$(LD) $(LDFLAGS) $(OBJECTS) -o $(BIN_OUTPUT)
 
 	# now link to a motorola SRecord
-	$(LD) $(LDFLAGS) --oformat=srec $(OBJECTS) -o $(GCC_OUTPUT)
+	$(LD) $(LDFLAGS) --oformat=srec $(OBJECTS) -o hello.bin
 	# convert the SRecord file into a Verilog file
 	$(SREC) $(GCC_OUTPUT) -Byte-swap 4 -o $(VERILOG_OUTPUT) -VMem
 

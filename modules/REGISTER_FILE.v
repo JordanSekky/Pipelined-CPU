@@ -46,13 +46,13 @@ reg [3:0] i;
 	assign a0 = regs[`a0];
 	assign v0 = regs[`v0];
 
-	// always @(posedge clk) begin
-	//	for (i=0; i<8; i=i+1)
-	//		$display("%d: %d  %d: %d  %d: %d  %d: %d",
-	//			4*i,
-	//			regs[4*i], 4*i+1, regs[4*i+1], 4*i+2,
-	//			regs[4*i+2], 4*i+3, regs[4*i+3]);
-	// end
+	always @(posedge clk) begin
+		for (i=0; i<8; i=i+1)
+			$display("%d: %d  %d: %d  %d: %d  %d: %d",
+				4*i,
+				regs[4*i], 4*i+1, regs[4*i+1], 4*i+2,
+				regs[4*i+2], 4*i+3, regs[4*i+3]);
+	end
 
 	always @(posedge clk, rs, rt) begin
 		if (sig_syscall) begin
@@ -64,11 +64,11 @@ reg [3:0] i;
 			read_data_2 <= regs[`zero];
 		end
 		else if (sig_mf_hi_lo == `move_high) begin
-	    read_data_1 <= hi;
+	    read_data_1 <= hi_reg;
   	  read_data_2 <= 0;
 	  end
 	  else if (sig_mf_hi_lo == `move_low) begin
-	    read_data_1 <= lo;
+	    read_data_1 <= lo_reg;
 	    read_data_2 <= 0;
 	  end
 		else begin
