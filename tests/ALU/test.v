@@ -21,13 +21,17 @@ module testbench();
 
   // Wires
   wire  signed  [31:0]  result;
+  wire  signed  [31:0]  hi;
+  wire  signed  [31:0]  lo;
 
   // Modules
   ALU alu(
     src_a,
     src_b,
     sig_alu_control,
-    result
+    result,
+    hi,
+    lo
     );
 
   initial begin
@@ -85,6 +89,20 @@ module testbench();
     src_b = 2;
     sig_alu_control = `ALU_sra; #10;
     $display("a(%2d) [SRA] b(%2d) = %2d", src_a, src_b, result); // result = -2
+
+    src_a = 2000000000;
+    src_b = 3;
+    sig_alu_control = `ALU_mult; #10;
+    $display("a(%8h) [MULT] b(%8h): hi = %8h, lo = %8h", src_a, src_b, hi, lo); 
+    // hi = 32'h00000001 
+    // lo = 32'h65a0bc00
+    
+    src_a = 11;
+    src_b = 3;
+    sig_alu_control = `ALU_div; #10;
+    $display("a(%2d) [DIV] b(%2d): hi = %2d, lo = %2d", src_a, src_b, hi, lo); 
+    // hi = 2 This is 11 % 3
+    // lo = 3 This is 11 / 3
 
     $finish;
   end
