@@ -83,7 +83,7 @@ reg [3:0] i;
 		if (!clk && sig_reg_write && rd > 0) begin
 			regs[rd] = write_data;
 		end
-		
+
 		if (!clk && sig_jal) begin
 			regs[`ra] <= pc_plus_4;
 		end
