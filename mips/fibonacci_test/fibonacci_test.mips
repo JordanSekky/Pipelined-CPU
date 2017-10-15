@@ -4,7 +4,7 @@
 .global __start
 
 __start:
-	li $a0, 2 		          # Load value into fibonacci input
+	li $a0, 5 		          # Load value into fibonacci input
 	jal fibonacci		        # Call fibonacci function
 	addi $a0, $v0, 0 	      # syscall prints value in a0
 	li $v0, 1		            # setup for print integer syscall
@@ -18,7 +18,7 @@ fibonacci:
 	sw $ra, 0($sp)        	# Store previous value
   li $t1, 1		            # Load 1 for beq
 	beq $t0, $zero, if_zero	# If 0
-	beq $t0, $t1, if_one	  # If 1 branch
+	beq $t1, $t0, if_one	  # If 1 branch
 	j if_else		            # Jump to else
 
 if_zero:
