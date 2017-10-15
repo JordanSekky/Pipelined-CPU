@@ -120,9 +120,8 @@ module testbench();
   wire [31:0] ReadDataW;
   wire [31:0] ALUOutW;
   wire [4:0] WriteRegW;
-  wire [31:0] Result16W;
-  wire [31:0] Result32W;
-  
+  wire [31:0] WriteBackW;
+
   // ============== Mult and Div support =============
   wire [31:0] hi;
   wire [31:0] lo;
@@ -181,7 +180,7 @@ module testbench();
     .rs(InstD[25:21]),
     .rt(InstD[20:16]),
     .rd(WriteRegW),
-    .write_data(Result32W),
+    .write_data(WriteBackW),
     .sig_jal(JALD),
     .sig_reg_write(RegWriteW),
     .clk(~clk),
@@ -300,14 +299,14 @@ module testbench();
   THREE_MUX #(32) rd1_mux_e(
     .sig_control(ForwardAE),
     .input_a(RD1E),
-    .input_b(Result16W),
+    .input_b(WriteBackW),
     .input_c(ALUOutM),
     .result(SrcAE)
     );
   THREE_MUX #(32) rd2_mux_e(
     .sig_control(ForwardBE),
     .input_a(RD2E),
-    .input_b(Result16W),
+    .input_b(WriteBackW),
     .input_c(ALUOutM),
     .result(ForwardBEMuxOut)
     );
@@ -379,13 +378,7 @@ module testbench();
     .sig_control(MemToRegW),
     .input_hi(ReadDataW),
     .input_lo(ALUOutW),
-    .result(Result16W)
-    );
-  TWO_MUX #(32) result_hi_lo_mux(
-    .sig_control(UpperW),
-    .input_lo(Result16W),               // <-- No need to shift
-    .input_hi({Result16W[15:0],16'b0}), // <-- Necessary for lui
-    .result(Result32W)
+    .result(WriteBackW)
     );
 
   // ================== Non-staged ==================
@@ -436,7 +429,7 @@ module testbench();
     $dumpvars(0,testbench);
     LineNumber = 0;
     clk <= 1;
-    #10000;
+    #50000;
     $finish;
   end
 
@@ -456,7 +449,7 @@ module testbench();
     $display("Execute:    %-s", MipsE);
     $display("Memory:     %-s", MipsM);
     $display("Writeback:  %-s", MipsW);
-    $display("");
+    // $display("");
     // $display("Fetch:");
     // $display("pc:         %x", pc);
     // $display("pcF:        %x", pcF);
@@ -497,7 +490,7 @@ module testbench();
     // $display("ReadDataM:  %x", ReadDataM);
     // $display("WriteDataM: %x", WriteDataM);
     // $display("Writeback:");
-    // $display("Result16W:  %x", Result16W);
+    // $display("WriteBackW:  %x", WriteBackW);
     // $display("SyscallW:   %x", SyscallW);
     // $display("");
     LineNumber = LineNumber + 1;

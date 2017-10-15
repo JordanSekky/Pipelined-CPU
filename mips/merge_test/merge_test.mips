@@ -1,0 +1,271 @@
+.global __start
+
+.data
+
+SIZE:	.word 4
+A:		.word 4, 3, 1, 2
+
+# SIZE:		.word	17
+# A:		.word 	4, 2, 3, 6, 2, 21, 4, 65, 7, 34, 3, 5, 67, 34, 23, 65, 1
+
+outstr1:	.asciiz	"["
+outstr2:	.asciiz	", "
+outstr3:	.asciiz	"]\n"
+
+
+.text
+
+#################################################################
+###                            main                           ###
+#################################################################
+
+__start:
+
+	la	$a0, A
+	lw	$a1, SIZE
+	jal	printarray
+
+	la	$a0, A
+	lw	$a1, SIZE
+	jal	mergesort
+
+	la	$a0, A
+	lw	$a1, SIZE
+	jal	printarray
+
+
+ 	li 	$v0, 10				# Terminate execution
+ 	syscall
+
+#################################################################
+###                         copyarray                         ###
+#################################################################
+
+copyarray:
+	# a0 is dest addr
+	# a1 is src addr
+	# a2 is size
+	# t0 holds the position
+
+	move	$t0, $zero			# set pos = 0
+
+copyarray_loop:
+
+	beq	$t0, $a2, copyarray_terminate	# if pos == size, quit
+
+	lw	$t1, ($a1)			# get src[pos]
+
+	sw 	$t1, ($a0)			# set src[pos]
+
+	addi	$t0, $t0, 1			# pos = pos + 1
+	addi	$a0, $a0, 4			# src = src + 4
+	addi	$a1, $a1, 4			# src = src + 4
+	j 	copyarray_loop
+
+copyarray_terminate:
+
+	jr 	$ra
+
+#################################################################
+###                         printarray                        ###
+#################################################################
+
+#a0 is the address of array
+#a1 is the size of the array
+
+printarray:
+
+	move	$t0, $zero
+	move	$s0, $a0
+
+	li 	$v0, 4				# Print outstr1
+   	la 	$a0, outstr1
+   	syscall
+
+
+loop_printarray:
+
+	beq	$t0, $a1, terminate_printarray
+
+	lw	$t2, ($s0)
+
+	li 	$v0, 1				# Print the number of the item
+   	move 	$a0, $t2
+   	syscall
+
+   	addi	$t0, $t0, 1
+
+   	beq	$t0, $a1, terminate_printarray
+
+   	li 	$v0, 4				# Print outstr2
+   	la 	$a0, outstr2
+   	syscall
+
+   	addi	$s0, $s0, 4
+
+	j	loop_printarray
+
+terminate_printarray:
+
+	li 	$v0, 4				# Print outstr2
+   	la 	$a0, outstr3
+   	syscall
+
+   	jr	$ra
+
+#################################################################
+###                           merge                           ###
+#################################################################
+
+merge:
+	# a0 is left array
+	# a1 is left size
+	# a2 is right array
+	# a3 is right size
+
+	addi 	$sp, $sp, -16
+	sw 	$s2, 12($sp)
+	sw 	$s1, 8($sp)
+	sw 	$s0, 4($sp)
+	sw 	$ra, 0($sp)
+
+	sll 	$s1, $a1, 2	# s1 = left size in bytes
+	sll 	$s3, $a3, 2	# s3 = right size in bytes
+	addu 	$s2, $s1, $s3 	# s2 = total tmp size in bytes
+
+	subu 	$sp, $sp, $s2	# allocate tmp, 0($sp) points to begining of tmp
+	move 	$s0, $sp	# tmp index = 0
+
+	move 	$t1, $a0	# left index = a0
+	move 	$t3, $a2	# right index = a2
+
+merge_loop:
+	# while ( tmp_idx < tmp_size ) {
+	add 	$t6, $s1, $s3  	# sum of left + right bytes to sort
+	blez 	$t6, merge_done	# no bytes to sort = done
+
+	lw 	$t6, 0($t1) # left
+	lw 	$t7, 0($t3) # right
+
+	# if (r_idx >= r_size){
+	# tmp[tmp_idx] = l_arr[l_idx];
+	# }
+	bgtz 	$s3, merge_skip1
+	sw 	$t6, 0($s0) 	# store left to tmp
+	addi 	$t1, $t1, 4     	# l_idx++;
+	addi 	$s0, $s0, 4	# tmp_idx++; // move on to next item
+	addi 	$s1, $s1, -4
+	j 	merge_loop
+
+merge_skip1:
+	bgtz 	$s1, merge_skip2
+	# else  if (l_idx >= l_size) {
+	# tmp[tmp_idx] = r_arr[r_idx];
+	# }
+	bgtz 	$s1, merge_skip2
+	sw 	$t7, 0($s0)	# store right to tmp
+	addi 	$t3, $t3, 4     	# r_idx++;
+	addi 	$s0, $s0, 4	# tmp_idx++; // move on to next item
+	addi 	$s3, $s3, -4
+	j 	merge_loop
+
+merge_skip2:
+	bge 	$t6, $t7, merge_skip3
+	# else if (l_arr[l_idx] < r_arr[r_idx]){
+	# tmp[tmp_idx] = l_arr[l_idx];
+	# l_idx++;
+	# }
+	sw 	$t6, 0($s0) 	# store left to tmp
+	addi 	$t1, $t1, 4     	# l_idx++;
+	addi 	$s0, $s0, 4	# tmp_idx++; // move on to next item
+	addi 	$s1, $s1, -4
+	j 	merge_loop
+
+merge_skip3:
+	#} else {
+	#  tmp[tmp_idx] = r_arr[r_idx];
+	#  r_idx++;
+	#}
+	sw 	$t7, 0($s0)	# store right to tmp
+	addi 	$t3, $t3, 4     	# r_idx++;
+	addi 	$s0, $s0, 4	# tmp_idx++; // move on to next item
+	addi 	$s3, $s3, -4
+	j 	merge_loop
+
+merge_done:
+	# copyarray(l_arr, tmp, tmp_size);
+	move 	$a0, $a0 	# setup l_array
+	move 	$a1, $sp	# tmp
+	srl  	$a2, $s2, 2	# bytes to word of tmp size
+	jal 	copyarray
+
+	addu 	$sp, $sp, $s2	# de allocate tmp
+
+	lw 	$s2, 12($sp)
+	lw 	$s1, 8($sp)
+	lw 	$s0, 4($sp)
+	lw 	$ra, 0($sp)
+	addi 	$sp, $sp, 16
+	jr 	$ra
+
+#################################################################
+###                         mergesort                         ###
+#################################################################
+
+mergesort:
+	# a0 is array addr
+	# a1 is size
+
+	addi	$sp, $sp, -16
+	sw	$ra, 0($sp)			# stores return address to stack
+
+	move	$s1, $a1			# saves size in $s1
+
+	addi 	$t0, $zero, 1
+	ble 	$a1, $t0, mergesort_terminate	# if $a1 is less or equal to 1 go to terminate
+
+	addi 	$t0, $zero, 2
+	div	$a1, $t0
+
+	mflo	$a1				# $a1 contains size/2
+	sub	$a3, $s1, $a1			# $a3 contains size - $a1
+
+	sw	$a0, 4($sp)			# stores arr to stack
+	sw	$a1, 8($sp)			# stores left_size to stack
+	sw	$a3, 12($sp)			# stores right_size to stack
+
+	# now sort arr[0...mid]
+	jal	mergesort
+
+	# sort arr[mid+1 ... end]
+	lw	$s0, 4($sp)			# loads arr from stack
+	lw	$s1, 8($sp)			# loads left_size from stack
+
+	addi	$t0, $zero, 4
+	mult	$t0, $s1
+	mflo	$t0				# $t0 = left_size * 4
+
+	add	$a0, $s0, $t0			# loads arr[left_size] from stack
+	lw	$a1, 12($sp)			# loads right_size from stack
+
+	jal	mergesort
+
+	# merge the result
+	lw	$a0, 4($sp)			# loads arr from stack
+	lw	$a1, 8($sp)			# loads left_size from stack
+
+	addi	$t0, $zero, 4
+	mult	$t0, $a1
+	mflo	$t0				# $t0 = left_size * 4
+
+	add	$a2, $a0, $t0			# Gets arr[left_size]
+	lw	$a3, 12($sp)			# loads right_size from stack
+
+	jal	merge
+
+mergesort_terminate:
+
+	lw	$ra, ($sp)
+	addi	$sp, $sp, 16
+
+	jr 	$ra

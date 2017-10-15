@@ -4,13 +4,13 @@ module REGISTERS (input unsigned [4:0] rs,
 				  input unsigned [4:0] rt,
 				  input unsigned [4:0] rd,
 				  input [31:0] write_data,
+					input [31:0] hi_reg,
+					input [31:0] lo_reg,
 				  input sig_jal,
 				  input sig_reg_write,
 				  input clk,
 				  input [31:0] pc_plus_4,
 				  input [31:0] instr,
-				  input [31:0] hi_reg,
-				  input [31:0] lo_reg,
 				  input sig_syscall,
 				  output reg [31:0] read_data_1,
 				  output reg [31:0] read_data_2,
@@ -24,34 +24,30 @@ module REGISTERS (input unsigned [4:0] rs,
 	// v0_out, but with a0. regwrite is a control signal indicating that w_r is being written
 	// to this cycle.
 
-
-reg [31:0] regs [31:0];
-reg [31:0] hi;
-reg [31:0] lo;
-reg [5:0] k;
-reg [3:0] i;
+	///////////////////////// internal memory storage //////////////////////////////
+	reg [31:0] regs [31:0];
+	reg [5:0] k;
+	reg [3:0] i;
 
 	initial begin
 		for (k = 0; k < 32; k = k + 1) begin
 			regs[k] = 32'b0;
 		end
-    hi = 0;
-    lo = 0;
-    read_data_1 = 0;
-    read_data_2 = 0;
-    regs[`sp] = `stack_size_hi - 4;
-  end
+	  read_data_1 = 0;
+	  read_data_2 = 0;
+		regs[`sp] = `stack_size_hi - 4;
+	end
 
 	assign a0 = regs[`a0];
 	assign v0 = regs[`v0];
 
-	always @(posedge clk) begin
-		for (i=0; i<8; i=i+1)
-			$display("%d: %d  %d: %d  %d: %d  %d: %d",
-				4*i,
-				regs[4*i], 4*i+1, regs[4*i+1], 4*i+2,
-				regs[4*i+2], 4*i+3, regs[4*i+3]);
-	end
+	// always @(posedge clk) begin
+	// 	for (i=0; i<8; i=i+1)
+	// 		$display("%d: %d  %d: %d  %d: %d  %d: %d",
+	// 			4*i,
+	// 			regs[4*i], 4*i+1, regs[4*i+1], 4*i+2,
+	// 			regs[4*i+2], 4*i+3, regs[4*i+3]);
+	// end
 
 	always @(posedge clk, rs, rt) begin
 		if (sig_syscall) begin
@@ -74,15 +70,10 @@ reg [3:0] i;
 		if (!clk && sig_reg_write && rd > 0) begin
 			regs[rd] = write_data;
 		end
-		
+
 		if (!clk && sig_jal) begin
 			regs[`ra] <= pc_plus_4;
 		end
 	end
-
-  always @(hi_reg, lo_reg) begin
-    hi <= hi_reg;
-    lo <= lo_reg;
-  end
 
 endmodule

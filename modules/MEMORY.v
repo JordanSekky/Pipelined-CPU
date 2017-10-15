@@ -20,7 +20,7 @@ module MEMORY (
 
   initial begin
     `ifndef TEST_H
-      $readmemh("../mips/fibonacci_test/fibonacci_test.bin", text);
+      $readmemh("../mips/merge_test/merge_test.bin", text);
     `endif
   end
 
