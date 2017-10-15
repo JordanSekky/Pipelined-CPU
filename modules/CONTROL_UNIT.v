@@ -37,6 +37,7 @@ module CONTROL_UNIT (
     branch <= 0;
     bcu_control <= 0;
     syscall <= 0;
+    move_hi_lo <= 0;
   end
 
   always @(op_code or funct_code) begin

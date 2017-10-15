@@ -68,7 +68,7 @@ module testbench();
 
   initial begin
     $display("op_code funct_code load_upper jump jal reg_write mem_to_reg mem_write alu_control alu_src reg_dst branch bcu_ctrl syscall move_hi_lo\n------- ---------- ---------- ---- --- --------- ---------- --------- ----------- ------- ------- ------ -------- ------- ----------");
-    $monitor(" %b     %b          %b   %b   %b         %b          %b         %b       %b       %b       %b      %b     %b       %b          %b",
+    $monitor(" %b     %b          %b   %b   %b         %b          %b         %b       %b       %b       %b      %b     %b       %b         %b",
       op_code,
       funct_code,
       load_upper,
@@ -153,7 +153,13 @@ module testbench();
       
       // mult
       op_code <= `SPECIAL;
-      funct_code <= 
+      funct_code <= `MULT;
+      #10;
+      
+      // mfhi
+      op_code <= `SPECIAL;
+      funct_code <= `MFHI;
+      #10
 
     $finish;
   end
