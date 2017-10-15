@@ -60,11 +60,11 @@ module REGISTERS (input unsigned [4:0] rs,
 			read_data_2 <= regs[`zero];
 		end
 		else if (sig_mf_hi_lo == `move_high) begin
-	    read_data_1 <= hi;
+	    read_data_1 <= hi_reg;
   	  read_data_2 <= 0;
 	  end
 	  else if (sig_mf_hi_lo == `move_low) begin
-	    read_data_1 <= lo;
+	    read_data_1 <= lo_reg;
 	    read_data_2 <= 0;
 	  end
 		else begin
