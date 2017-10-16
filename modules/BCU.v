@@ -55,7 +55,9 @@ module BCU (
     end
     default: begin
       branch = 0;
-      $display("BAD BCU CONTROL SIGNAL");
+      `ifdef TEST_H
+        $display("BAD BCU CONTROL SIGNAL");
+      `endif
     end
     endcase
   end

@@ -10,7 +10,7 @@ module SYSCALL_HANDLER(
 always @(negedge clk) begin
 	if (sig_syscall) begin
 		if (v0 == 1) begin
-			$display("\n\n\n\n\n\n%d\n\n\n\n\n", a0);
+			$write("%0d", a0);
 		end
 		if (v0 == 11) begin
 			$write("%c", a0);

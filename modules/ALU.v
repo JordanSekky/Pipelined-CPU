@@ -53,7 +53,9 @@ begin
 			result = src_b << 16;
 		end
 		default: begin
-			$display("BAD ALU OPERATION CODE");
+      `ifdef TEST_H
+			   $display("BAD ALU OPERATION CODE");
+      `endif
 			result = 32'bX;
 		end
 		endcase

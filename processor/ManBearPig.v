@@ -453,6 +453,7 @@ module testbench();
     $display("Memory:     %-s", MipsM);
     $display("Writeback:  %-s", MipsW);
     // $display("");
+    // $display("");
     // $display("Fetch:");
     // $display("pc:         %x", pc);
     // $display("pcF:        %x", pcF);

@@ -46,13 +46,15 @@ reg [3:0] i;
 	assign a0 = regs[`a0];
 	assign v0 = regs[`v0];
 
-	// always @(posedge clk) begin
-	// 	for (i=0; i<8; i=i+1)
-	// 		$display("%d: %x  %d: %x  %d: %x  %d: %x",
-	// 			4*i,
-	// 			regs[4*i], 4*i+1, regs[4*i+1], 4*i+2,
-	// 			regs[4*i+2], 4*i+3, regs[4*i+3]);
-	// end
+  `ifdef TEST_H
+		always @(posedge clk) begin
+			for (i=0; i<8; i=i+1)
+				$display("%d: %x  %d: %x  %d: %x  %d: %x",
+					4*i,
+					regs[4*i], 4*i+1, regs[4*i+1], 4*i+2,
+					regs[4*i+2], 4*i+3, regs[4*i+3]);
+		end
+	`endif
 
 	always @(posedge clk, rs, rt) begin
 		if (sig_syscall) begin

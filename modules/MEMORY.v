@@ -18,19 +18,19 @@ module MEMORY (
   reg [31:0] text [(`text_size_lo >> 2):(`text_size_hi >> 2)]; // Memory block.
   reg [31:0] stack [(`stack_size_lo >> 2):(`stack_size_hi >> 2)]; // Memory block.
 
-  initial begin
-    `ifndef TEST_H
-      $readmemh("../mips/merge_test/merge_test.bin", text);
-    `endif
-  end
-
-  always @(data_addr or instr_pc or data_print_addr) begin
-    if ((((data_addr) < `stack_size_lo) || ((data_addr) > `stack_size_hi)) && 
-        (((data_addr) < `text_size_lo) || ((data_addr) > `text_size_hi)))
-      $display("stack address %x out of bounds.", (data_addr));
-    if (((instr_pc) < `text_size_lo) || ((instr_pc) > `text_size_hi))
-      $display("Data address %x out of bounds.", (instr_pc));
-  end
+  `ifndef TEST_H
+    initial begin
+        $readmemh("../mips/merge_test/merge_test.bin", text);
+    end
+  `endif
+  `ifdef TEST_H
+    always @(data_addr or instr_pc or data_print_addr) begin
+      if (((data_addr) < `stack_size_lo) || ((data_addr) > `stack_size_hi))
+        $display("stack address %x out of bounds.", (data_addr));
+      if (((instr_pc) < `text_size_lo) || ((instr_pc) > `text_size_hi))
+        $display("Data address %x out of bounds.", (instr_pc));
+    end
+  `endif
 
   // =================================================
   // ===            Instruction Memory             ===
@@ -48,7 +48,7 @@ module MEMORY (
   wire [31:0] data_addr_shifted;
   assign data_addr_shifted = data_addr >> 2;
 
-  assign data_read_data = (((data_addr) > `stack_size_lo) && ((data_addr) < `stack_size_hi)) ? stack[data_addr_shifted] : text[data_addr_shifted];
+  assign data_read_data = stack[data_addr_shifted];
 
   always @(data_addr_shifted, data_write_data, posedge data_sig_mem_write) begin
     if (data_sig_mem_write) stack[data_addr_shifted] <= data_write_data;
@@ -70,7 +70,6 @@ module MEMORY (
       word_offset = 0;
       byte_offset = 0;
       char = word[31:24];
-      $display("\n\n\n\n\n\n");
       while (char != 8'h00) begin
         case (byte_offset)
           3: char = word[31:24];
@@ -82,8 +81,6 @@ module MEMORY (
         if (byte_offset == 3) word_offset += 1;
         byte_offset += 1;
       end
-      $display("\n\n\n\n\n\n");
-      $display();
     end
   end
 
