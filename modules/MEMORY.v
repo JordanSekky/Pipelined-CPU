@@ -20,7 +20,7 @@ module MEMORY (
 
   initial begin
     `ifndef TEST_H
-      $readmemh("../mips/merge_test/merge_test.bin", text);
+      $readmemh("../mips/hello_world_test/hello_world_test.bin", text);
     `endif
   end
 
@@ -69,6 +69,7 @@ module MEMORY (
     if (data_print_addr_shifted > 0) begin
       word_offset = 0;
       byte_offset = 0;
+      // byte_offset = data_addr[1:0];
       char = word[31:24];
       $display("\n\n\n\n\n\n");
       while (char != 8'h00) begin
