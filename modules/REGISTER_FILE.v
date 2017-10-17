@@ -40,7 +40,7 @@ reg [3:0] i;
     lo = 0;
     read_data_1 = 0;
     read_data_2 = 0;
-    regs[`sp] = `stack_size_hi - 4;
+    regs[`sp] = `memory_size_hi - 4;
   end
 
 	assign a0 = regs[`a0];

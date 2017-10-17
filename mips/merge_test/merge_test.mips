@@ -2,11 +2,11 @@
 
 .data
 
-SIZE:	.word 4
-A:		.word 4, 3, 1, 2
+SIZE:	    .word 4
+A:		    .word 4, 3, 1, 2
 
-# SIZE:		.word	17
-# A:		.word 	4, 2, 3, 6, 2, 21, 4, 65, 7, 34, 3, 5, 67, 34, 23, 65, 1
+# SIZE:		.word	  17
+# A:	  	.word 	4, 2, 3, 6, 2, 21, 4, 65, 7, 34, 3, 5, 67, 34, 23, 65, 1
 
 outstr1:	.asciiz	"["
 outstr2:	.asciiz	", "
@@ -222,7 +222,7 @@ mergesort:
 	move	$s1, $a1			# saves size in $s1
 
 	addi 	$t0, $zero, 1
-	ble 	$a1, $t0, mergesort_terminate	# if $a1 is less or equal to 1 go to terminate
+	beq 	$a1, $t0, mergesort_terminate	# if $a1 is less or equal to 1 go to terminate
 
 	addi 	$t0, $zero, 2
 	div	$a1, $t0

@@ -34,6 +34,11 @@ begin
 		`ALU_sub: begin
 			result = src_a - src_b;
 		end
+    `ALU_slt: begin
+			result = (src_a > src_b);
+      $display("SLT BABY!");
+      $display("%0d > %0d = %0d", src_a, src_b, result);
+		end
 		`ALU_sll: begin
 		  result = src_a << src_b;
 		end
