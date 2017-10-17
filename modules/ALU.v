@@ -34,8 +34,14 @@ begin
 		`ALU_sub: begin
 			result = src_a - src_b;
 		end
+    `ALU_slt: begin
+			result = (src_a < src_b);
+		end
 		`ALU_sll: begin
 		  result = src_a << src_b;
+		end
+		`ALU_srl: begin
+		  result = src_a >> src_b;
 		end
 		`ALU_sra: begin
 		  result = src_a >>> src_b;
@@ -53,7 +59,9 @@ begin
 			result = src_b << 16;
 		end
 		default: begin
-			$display("BAD ALU OPERATION CODE");
+      `ifdef TEST_H
+			   $display("BAD ALU OPERATION CODE");
+      `endif
 			result = 32'bX;
 		end
 		endcase

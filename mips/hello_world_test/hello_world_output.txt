@@ -1,0 +1,2 @@
+VCD info: dumpfile test.vcd opened for output.
+Hello world!

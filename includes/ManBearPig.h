@@ -28,10 +28,8 @@
 `define PHASE  #`phase
 
 // Memory Ranges
-`define text_size_lo 32'h400000
-`define text_size_hi 32'h4000000
-`define stack_size_lo 32'h7F7FFFFF
-`define stack_size_hi 32'h7FFFFFFF
+`define memory_size_lo 32'h400000
+`define memory_size_hi 32'h8000000
 
 /*----------------------------------------------------------------------------*
  * Instruction Fields                                                         *
@@ -339,6 +337,7 @@
 
 // ALU control signals added by AMM (may not match actual MIPS implementation)
 `define ALU_sll				4'b1001
+`define ALU_srl             4'b0011
 `define ALU_sra             4'b1011
 
 `define ALUOP_LWSW			2'b00

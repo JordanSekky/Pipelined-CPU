@@ -15,29 +15,41 @@ module MEMORY (
   output wire [31:0] data_read_data
   );
 
-  reg [31:0] text [(`text_size_lo >> 2):(`text_size_hi >> 2)]; // Memory block.
-  reg [31:0] stack [(`stack_size_lo >> 2):(`stack_size_hi >> 2)]; // Memory block.
+  reg [31:0] memory [(`memory_size_lo >> 2):(`memory_size_hi >> 2)]; // Memory block.
 
-  initial begin
-    `ifndef TEST_H
-      $readmemh("../mips/hello_world_test/hello_world_test.bin", text);
-    `endif
-  end
-
-  always @(data_addr or instr_pc or data_print_addr) begin
-    if ((((data_addr) < `stack_size_lo) || ((data_addr) > `stack_size_hi)) && 
-        (((data_addr) < `text_size_lo) || ((data_addr) > `text_size_hi)))
-      $display("stack address %x out of bounds.", (data_addr));
-    if (((instr_pc) < `text_size_lo) || ((instr_pc) > `text_size_hi))
-      $display("Data address %x out of bounds.", (instr_pc));
-  end
+  integer j = 0;
+  integer OtherWord;
+  `ifndef TEST_H
+    initial begin
+        // $readmemh("../mips/merge_test/merge_test.bin", memory);
+        // $readmemh("../mips/hello_world_test/hello_world_test.bin", memory);
+        $readmemh("../mips/fibonacci_test/fibonacci_test.bin", memory);
+        // while (j < 3) begin
+        //   OtherWord = memory[(32'h00410040>>2)+j];
+        //   //OtherWord = memory[(32'h004102c4>>2)+j];
+        //   //OtherWord = memory[(32'h004102f8>>2)+j];
+        //
+        //   $display("Memory[%x][0] = %s", (32'h004102f8>>2)+j, OtherWord[31:24]);
+        //   $display("Memory[%x][1] = %s", (32'h004102f8>>2)+j, OtherWord[23:16]);
+        //   $display("Memory[%x][2] = %s", (32'h004102f8>>2)+j, OtherWord[15:8]);
+        //   $display("Memory[%x][3] = %s", (32'h004102f8>>2)+j, OtherWord[7:0]);
+        //   j = j + 1;
+        // end
+    end
+  `endif
+  `ifdef TEST_H
+    always @(data_addr or instr_pc or data_print_addr) begin
+      if (((data_addr) < `memory_size_lo) || ((data_addr) > `memory_size_hi))
+        $display("memory address %x out of bounds.", (data_addr));
+    end
+  `endif
 
   // =================================================
   // ===            Instruction Memory             ===
   // =================================================
 
 
-  assign instr_out = text[instr_pc >> 2];
+  assign instr_out = memory[instr_pc >> 2];
 
 
   // =================================================
@@ -46,45 +58,44 @@ module MEMORY (
 
 
   wire [31:0] data_addr_shifted;
+  wire [1:0]  data_byte_offset;
   assign data_addr_shifted = data_addr >> 2;
+  assign data_byte_offset = data_addr[1:0];
 
-  assign data_read_data = (((data_addr) > `stack_size_lo) && ((data_addr) < `stack_size_hi)) ? stack[data_addr_shifted] : text[data_addr_shifted];
+  assign data_read_data = memory[data_addr_shifted];
 
   always @(data_addr_shifted, data_write_data, posedge data_sig_mem_write) begin
-    if (data_sig_mem_write) stack[data_addr_shifted] <= data_write_data;
+    if (data_sig_mem_write) begin
+      memory[data_addr_shifted] <= data_write_data;
+    end
   end
 
   // Print strings from data memory
-  reg  [1:0]  byte_offset = 0;
-  reg  [31:0] word_offset = 0;
+  reg  [31:0] print_char_addr = 0;
   reg  [7:0]  char;
-  wire [31:0] word;
-  wire [31:0] data_print_addr_shifted;
+  reg  [31:0] word;
 
-  assign data_print_addr_shifted = data_print_addr >> 2;
-  assign word = text[data_print_addr_shifted + word_offset];
-
-  integer i;
   always @(data_print_addr) begin
-    if (data_print_addr_shifted > 0) begin
-      word_offset = 0;
-      byte_offset = 0;
-      // byte_offset = data_addr[1:0];
-      char = word[31:24];
-      $display("\n\n\n\n\n\n");
-      while (char != 8'h00) begin
-        case (byte_offset)
+    print_char_addr = data_print_addr;
+    if (print_char_addr > 0) begin
+      word = memory[print_char_addr >> 2];
+      case (print_char_addr[1:0])
+        3: char = word[31:24];
+        2: char = word[23:16];
+        1: char = word[15:8];
+        0: char = word[7:0];
+      endcase
+      while (char != 8'h0) begin
+        $write("%c", char);
+        print_char_addr += 32'h00000001;
+        word = memory[print_char_addr >> 2];
+        case (print_char_addr[1:0])
           3: char = word[31:24];
           2: char = word[23:16];
           1: char = word[15:8];
           0: char = word[7:0];
         endcase
-        if (char != 8'h00) $write("%c", char);
-        if (byte_offset == 3) word_offset += 1;
-        byte_offset += 1;
       end
-      $display("\n\n\n\n\n\n");
-      $display();
     end
   end
 
