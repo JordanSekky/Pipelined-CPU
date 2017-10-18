@@ -1,3 +1,5 @@
+`include "../includes/ManBearPig.h"
+
 module HAZARD_UNIT (
 	input [1:0] sig_jump_d,
 	input sig_jal_d,

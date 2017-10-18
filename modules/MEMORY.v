@@ -21,9 +21,7 @@ module MEMORY (
   integer OtherWord;
   `ifndef TEST_H
     initial begin
-        // $readmemh("../mips/merge_test/merge_test.bin", memory);
-        // $readmemh("../mips/hello_world_test/hello_world_test.bin", memory);
-        $readmemh("../mips/fibonacci_test/fibonacci_test.bin", memory);
+        $readmemh("../mips/merge_test/merge_test.bin", memory);
         // while (j < 3) begin
         //   OtherWord = memory[(32'h00410040>>2)+j];
         //   //OtherWord = memory[(32'h004102c4>>2)+j];
