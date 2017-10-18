@@ -1,3 +1,9 @@
+#! /bin/bash
+
+set -e
+
+pushd $(dirname $0)/ > /dev/null
+
 for D in `find . -mindepth 1 -type d`
 do
     pushd $D > /dev/null

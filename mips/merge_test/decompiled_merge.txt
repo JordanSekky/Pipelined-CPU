@@ -1,0 +1,165 @@
+VCD info: dumpfile test.vcd opened for output.
+0x00400020    lui $a0 0x0041                  
+0x00400024    addiu $a0 $a0 0x02b4            
+0x00400028    lui $a1 0x0041                  
+0x0040002c    lw $a1 688($a1)                 
+0x00400030    jal 0x0100028                   
+0x00400034    nop                             
+0x00400038    lui $a0 0x0041                  
+0x0040003c    addiu $a0 $a0 0x02b4            
+0x00400040    lui $a1 0x0041                  
+0x00400044    lw $a1 688($a1)                 
+0x00400048    jal 0x010007d                   
+0x0040004c    nop                             
+0x00400050    lui $a0 0x0041                  
+0x00400054    addiu $a0 $a0 0x02b4            
+0x00400058    lui $a1 0x0041                  
+0x0040005c    lw $a1 688($a1)                 
+0x00400060    jal 0x0100028                   
+0x00400064    nop                             
+0x00400068    addiu $v0 $z0 0x000a            
+0x0040006c    syscall                         
+0x00400070    addu $t0 $z0 $z0                
+0x00400074    beq $t0 $a2 0x0008              
+0x00400078    nop                             
+0x0040007c    lw $t1 0($a1)                   
+0x00400080    nop                             
+0x00400084    sw $t1 0($a0)                   
+0x00400088    addi $t0 $t0 0x0001             
+0x0040008c    addi $a0 $a0 0x0004             
+0x00400090    j 0x010001d                     
+0x00400094    addi $a1 $a1 0x0004             
+0x00400098    jr $ra                          
+0x0040009c    nop                             
+0x004000a0    addu $t0 $z0 $z0                
+0x004000a4    addu $s0 $a0 $z0                
+0x004000a8    addiu $v0 $z0 0x0004            
+0x004000ac    lui $a0 0x0041                  
+0x004000b0    addiu $a0 $a0 0x02c4            
+0x004000b4    syscall                         
+0x004000b8    beq $t0 $a1 0x000e              
+0x004000bc    nop                             
+0x004000c0    lw $t2 0($s0)                   
+0x004000c4    addiu $v0 $z0 0x0001            
+0x004000c8    addu $a0 $t2 $z0                
+0x004000cc    syscall                         
+0x004000d0    addi $t0 $t0 0x0001             
+0x004000d4    beq $t0 $a1 0x0007              
+0x004000d8    nop                             
+0x004000dc    addiu $v0 $z0 0x0004            
+0x004000e0    lui $a0 0x0041                  
+0x004000e4    addiu $a0 $a0 0x02c6            
+0x004000e8    syscall                         
+0x004000ec    j 0x010002e                     
+0x004000f0    addi $s0 $s0 0x0004             
+0x004000f4    addiu $v0 $z0 0x0004            
+0x004000f8    lui $a0 0x0041                  
+0x004000fc    addiu $a0 $a0 0x02c9            
+0x00400100    syscall                         
+0x00400104    jr $ra                          
+0x00400108    nop                             
+0x0040010c    addi $sp $sp 0xfff0             
+0x00400110    sw $s2 12($sp)                  
+0x00400114    sw $s1 8($sp)                   
+0x00400118    sw $s0 4($sp)                   
+0x0040011c    sw $ra 0($sp)                   
+0x00400120    sll $s1 $a1 0x02                
+0x00400124    sll $s3 $a3 0x02                
+0x00400128    addu $s2 $s1 $s3                
+0x0040012c    subu $sp $sp $s2                
+0x00400130    addu $s0 $sp $z0                
+0x00400134    addu $t1 $a0 $z0                
+0x00400138    addu $t3 $a2 $z0                
+0x0040013c    add $t6 $s1 $s3                 
+0x00400140    blez $t6 $z0 0x0020             
+0x00400144    nop                             
+0x00400148    lw $t6 0($t1)                   
+0x0040014c    lw $t7 0($t3)                   
+0x00400150    bgtz $s3 $z0 0x0006             
+0x00400154    nop                             
+0x00400158    sw $t6 0($s0)                   
+0x0040015c    addi $t1 $t1 0x0004             
+0x00400160    addi $s0 $s0 0x0004             
+0x00400164    j 0x010004f                     
+0x00400168    addi $s1 $s1 0xfffc             
+0x0040016c    bgtz $s1 $z0 0x0008             
+0x00400170    nop                             
+0x00400174    bgtz $s1 $z0 0x0006             
+0x00400178    nop                             
+0x0040017c    sw $t7 0($s0)                   
+0x00400180    addi $t3 $t3 0x0004             
+0x00400184    addi $s0 $s0 0x0004             
+0x00400188    j 0x010004f                     
+0x0040018c    addi $s3 $s3 0xfffc             
+0x00400190    slt $at $t6 $t7                 
+0x00400194    beq $at $z0 0x0006              
+0x00400198    nop                             
+0x0040019c    sw $t6 0($s0)                   
+0x004001a0    addi $t1 $t1 0x0004             
+0x004001a4    addi $s0 $s0 0x0004             
+0x004001a8    j 0x010004f                     
+0x004001ac    addi $s1 $s1 0xfffc             
+0x004001b0    sw $t7 0($s0)                   
+0x004001b4    addi $t3 $t3 0x0004             
+0x004001b8    addi $s0 $s0 0x0004             
+0x004001bc    j 0x010004f                     
+0x004001c0    addi $s3 $s3 0xfffc             
+0x004001c4    addu $a0 $a0 $z0                
+0x004001c8    addu $a1 $sp $z0                
+0x004001cc    jal 0x010001c                   
+0x004001d0    srl $a2 $s2 0x02                
+0x004001d4    addu $sp $sp $s2                
+0x004001d8    lw $s2 12($sp)                  
+0x004001dc    lw $s1 8($sp)                   
+0x004001e0    lw $s0 4($sp)                   
+0x004001e4    lw $ra 0($sp)                   
+0x004001e8    addi $sp $sp 0x0010             
+0x004001ec    jr $ra                          
+0x004001f0    nop                             
+0x004001f4    addi $sp $sp 0xfff0             
+0x004001f8    sw $ra 0($sp)                   
+0x004001fc    addu $s1 $a1 $z0                
+0x00400200    addi $t0 $z0 0x0001             
+0x00400204    beq $a1 $t0 0x0024              
+0x00400208    nop                             
+0x0040020c    addi $t0 $z0 0x0002             
+0x00400210    bne $t0 $z0 0x0002              
+0x00400214    div $z0 $t0                     
+0x00400218    break                           
+0x0040021c    addiu $at $z0 0xffff            
+0x00400220    bne $t0 $at 0x0004              
+0x00400224    lui $at 0x8000                  
+0x00400228    bne $a1 $at 0x0002              
+0x0040022c    nop                             
+0x00400230    break                           
+0x00400234    mflo $a1                        
+0x00400238    mflo $a1                        
+0x0040023c    sub $a3 $s1 $a1                 
+0x00400240    sw $a0 4($sp)                   
+0x00400244    sw $a1 8($sp)                   
+0x00400248    jal 0x010007d                   
+0x0040024c    sw $a3 12($sp)                  
+0x00400250    lw $s0 4($sp)                   
+0x00400254    lw $s1 8($sp)                   
+0x00400258    addi $t0 $z0 0x0004             
+0x0040025c    mult $t0 $s1                    
+0x00400260    mflo $t0                        
+0x00400264    add $a0 $s0 $t0                 
+0x00400268    lw $a1 12($sp)                  
+0x0040026c    jal 0x010007d                   
+0x00400270    nop                             
+0x00400274    lw $a0 4($sp)                   
+0x00400278    lw $a1 8($sp)                   
+0x0040027c    addi $t0 $z0 0x0004             
+0x00400280    mult $t0 $a1                    
+0x00400284    mflo $t0                        
+0x00400288    add $a2 $a0 $t0                 
+0x0040028c    lw $a3 12($sp)                  
+0x00400290    jal 0x0100043                   
+0x00400294    nop                             
+0x00400298    lw $ra 0($sp)                   
+0x0040029c    addi $sp $sp 0x0010             
+0x004002a0    jr $ra                          
+0x004002a4    nop                             
+0x004002a8    nop                             
+0x004002ac    nop                             

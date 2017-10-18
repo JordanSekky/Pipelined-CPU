@@ -13,13 +13,14 @@ module PIPELINE_FD (
   end
 
   always @(posedge clk) begin
-    if (sig_clr == 1) begin
-      instr_d <= 0;
-      pc_plus_4_d <= 0;
-    end
-    else if (haz_enable == 1) begin
-      instr_d <= instr_f;
-      pc_plus_4_d <= pc_plus_4_f;
+    if (haz_enable == 1) begin
+      if (sig_clr == 1) begin
+        instr_d <= 0;
+        pc_plus_4_d <= 0;
+      end else begin
+        instr_d <= instr_f;
+        pc_plus_4_d <= pc_plus_4_f;
+      end
     end
   end
 endmodule

@@ -96,6 +96,7 @@ module CONTROL_UNIT (
           `AND: alu_control <= `ALU_AND;
           `OR:  alu_control <= `ALU_OR;
           `SLL: alu_control <= `ALU_sll;
+          `SRL: alu_control <= `ALU_srl;
           `SRA: alu_control <= `ALU_sra;
           `MULT: alu_control <= `ALU_mult;
           `DIV: alu_control <= `ALU_div;

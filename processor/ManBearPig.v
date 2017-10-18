@@ -164,8 +164,8 @@ module testbench();
     );
   BINARY_TO_MIPS b2m_F(
       InstF,
-      MipsF);
-
+      MipsF
+    );
 
   // ==================== Decode =====================
   PIPELINE_FD pipeline_fd(
@@ -428,11 +428,11 @@ module testbench();
   integer LineNumber;
 
   initial begin
-    $dumpfile("test.vcd");
+    $dumpfile("mergesort/mergesort.vcd");
     $dumpvars(0,testbench);
     LineNumber = 0;
     clk <= 1;
-    #50000;
+    #100000;
     $finish;
   end
 
@@ -446,29 +446,30 @@ module testbench();
 
   always @(negedge clk)
   begin
-    $display("===========(%2d)===========", LineNumber);
-    $display("Fetch:      %-s", MipsF);
-    $display("Decode:     %-s", MipsD);
-    $display("Execute:    %-s", MipsE);
-    $display("Memory:     %-s", MipsM);
-    $display("Writeback:  %-s", MipsW);
+    // $display("===========(%2d)===========", LineNumber);
+    // $display("Fetch:      %-s", MipsF);
+    // $display("Decode:     %-s", MipsD);
+    // $display("Execute:    %-s", MipsE);
+    // $display("Memory:     %-s", MipsM);
+    // $display("Writeback:  %-s", MipsW);
+    // $display("0x%x    %-s", pcF, MipsF);
     // $display("");
     // $display("Fetch:");
     // $display("pc:         %x", pc);
     // $display("pcF:        %x", pcF);
     // $display("StallF:     %b", StallF);
-    // $display("");
-    // $display("Decode:");
-    // $display("StallD:      %x", StallD);
-    // $display("PCSrcD:      %x", PCSrcD);
-    // $display("BCUOut:      %x", BCUOut);
-    // $display("BCUControlD: %x", BCUControlD);
-    // $display("reg1:        %x", InstD[25:21]);
-    // $display("RD1D:        %x", RD1D);
+    // // $display("");
+    // // $display("Decode:");
+    // // $display("StallD:      %x", StallD);
+    // // $display("PCSrcD:      %x", PCSrcD);
+    // // $display("BCUControlD: %x", BCUControlD);
+    // // $display("reg1:        %x", InstD[25:21]);
     // $display("RD1MuxOut:   %x", RD1MuxOut);
-    // $display("reg2:        %x", InstD[20:16]);
-    // $display("RD2D:        %x", RD2D);
     // $display("RD2MuxOut:   %x", RD2MuxOut);
+    // // $display("reg2:        %x", InstD[20:16]);
+    // $display("RD1D:        %x", RD1D);
+    // $display("RD2D:        %x", RD2D);
+    // $display("BCUOut:      %x", BCUOut);
     // $display("StallD:     %b", StallD);
     // $display("JumpD:      %x", JumpD);
     // $display("JALD:       %x", JALD);

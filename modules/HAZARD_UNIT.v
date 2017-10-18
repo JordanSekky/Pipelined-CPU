@@ -1,3 +1,5 @@
+`include "../includes/ManBearPig.h"
+
 module HAZARD_UNIT (
 	input [1:0] sig_jump_d,
 	input sig_jal_d,
@@ -55,9 +57,9 @@ always @(*) begin
 end
 
 always @(*) begin
-	stall_f <= lwstall || (sig_jal_d && !sig_jal_e);
+	stall_f <= lwstall || branchstall || (sig_jal_d && !sig_jal_e);
 	stall_d <= lwstall || branchstall || (sig_jal_d && !sig_jal_e);
-	flush_e <= lwstall || sig_jal_e;
+	flush_e <= lwstall || branchstall || sig_jal_e;
 end
 
 endmodule
