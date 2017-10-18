@@ -1,5 +1,5 @@
 #! /bin/bash
-set -e
+# set -e
 
 pushd $(dirname $0)/../processor/ > /dev/null
 
@@ -55,11 +55,11 @@ else
 fi
 
 mkdir -p $(dirname $outFile)
-sed -i "s/\$readmemh\(.*\);/\$readmemh(\"$path\", memory);/g" ../modules/MEMORY.v > /dev/null
-sed -i "s/\$dumpfile\(.*\);/\$dumpfile(\"$dumpFile\");/g" ManBearPig.v > /dev/null
+sed -i "s/\$readmemh\(.*\);/\$readmemh(\"$path\", memory);/g" ../modules/MEMORY.v &> /dev/null
+sed -i "s/\$dumpfile\(.*\);/\$dumpfile(\"$dumpFile\");/g" ManBearPig.v &> /dev/null
 
-sed -i '' "s/\$readmemh\(.*\);/\$readmemh(\"$path\", memory);/g" ../modules/MEMORY.v > /dev/null
-sed -i '' "s/\$dumpfile\(.*\);/\$dumpfile(\"$dumpFile\");/g" ManBearPig.v > /dev/null
+sed -i '' "s/\$readmemh\(.*\);/\$readmemh(\"$path\", memory);/g" ../modules/MEMORY.v &> /dev/null
+sed -i '' "s/\$dumpfile\(.*\);/\$dumpfile(\"$dumpFile\");/g" ManBearPig.v &> /dev/null
 iverilog -f files.txt -o $outFile
 
 $outFile
