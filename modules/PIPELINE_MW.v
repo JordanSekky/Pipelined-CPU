@@ -1,3 +1,6 @@
+/*
+ * Pipeline register between Memory & Writeback
+ */
 module PIPELINE_MW (
     input reg_write_m,
     input mem_to_reg_m,

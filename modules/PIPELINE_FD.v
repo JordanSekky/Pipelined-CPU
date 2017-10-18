@@ -1,3 +1,6 @@
+/*
+ * Pipeline register between Fetch & Decode
+ */
 module PIPELINE_FD (
     input [31:0] instr_f,
     input [31:0] pc_plus_4_f,

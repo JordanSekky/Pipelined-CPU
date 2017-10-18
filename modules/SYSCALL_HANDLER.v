@@ -1,11 +1,13 @@
+/*
+ * This module keeps an eye on the current instruction and performs syscalls
+ * as necessary. It currently supports displaying an integer and exiting.
+ */
 module SYSCALL_HANDLER(
 	input sig_syscall,
 	input [31:0] v0,
 	input [31:0] a0,
 	input clk,
 	output reg [31:0] sig_print_string);
-// This module keeps an eye on the current instruction and performs syscalls
-// as necessary. It currently supports displaying an integer and exiting.
 
 always @(negedge clk) begin
 	if (sig_syscall) begin

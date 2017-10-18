@@ -1,3 +1,6 @@
+/*
+ * Pipeline register between Decode & Execute
+ */
 module PIPELINE_DE (
     input wire [31:0] inst_d,
     input wire reg_write_d,
