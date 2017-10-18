@@ -441,7 +441,7 @@ module testbench();
   integer LineNumber;
 
   initial begin
-    $dumpfile("mergesort/mergesort.vcd");
+    $dumpfile("../bin/test/add/add.vcd");
     $dumpvars(0,testbench);
     LineNumber = 0;
     clk <= 1;

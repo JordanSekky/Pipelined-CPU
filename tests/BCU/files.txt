@@ -1,3 +1,0 @@
-../defineTest.h
-../../modules/BCU.v
-test.v

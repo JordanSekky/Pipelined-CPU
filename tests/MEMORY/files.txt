@@ -1,3 +1,0 @@
-../defineTest.h
-../../modules/MEMORY.v
-test.v

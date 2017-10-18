@@ -2,7 +2,7 @@
   `include "../includes/ManBearPig.h"
 `endif
 `ifdef TEST_H
-  `include "../../includes/ManBearPig.h"
+  `include "../../../includes/ManBearPig.h"
 `endif
 
 module MEMORY (
@@ -21,7 +21,7 @@ module MEMORY (
   integer OtherWord;
   `ifndef TEST_H
     initial begin
-        $readmemh("../mips/merge_test/merge_test.bin", memory);
+        $readmemh("../tests/integration/add_test/add_test.bin", memory);
         // while (j < 3) begin
         //   OtherWord = memory[(32'h00410040>>2)+j];
         //   //OtherWord = memory[(32'h004102c4>>2)+j];

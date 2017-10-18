@@ -2,7 +2,7 @@
   `include "../includes/ManBearPig.h"
 `endif
 `ifdef TEST_H
-  `include "../../includes/ManBearPig.h"
+  `include "../../../includes/ManBearPig.h"
 `endif
 
 module ALU (input wire signed [31:0] src_a,
