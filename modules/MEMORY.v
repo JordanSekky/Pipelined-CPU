@@ -5,6 +5,9 @@
   `include "../../../includes/ManBearPig.h"
 `endif
 
+/*
+ * A unified memory module that acts as both instruction and data memory
+ */
 module MEMORY (
   input  wire [31:0] instr_pc,
   input  wire        data_sig_mem_write,
@@ -21,18 +24,7 @@ module MEMORY (
   integer OtherWord;
   `ifndef TEST_H
     initial begin
-        $readmemh("../tests/integration/add_test/add_test.bin", memory);
-        // while (j < 3) begin
-        //   OtherWord = memory[(32'h00410040>>2)+j];
-        //   //OtherWord = memory[(32'h004102c4>>2)+j];
-        //   //OtherWord = memory[(32'h004102f8>>2)+j];
-        //
-        //   $display("Memory[%x][0] = %s", (32'h004102f8>>2)+j, OtherWord[31:24]);
-        //   $display("Memory[%x][1] = %s", (32'h004102f8>>2)+j, OtherWord[23:16]);
-        //   $display("Memory[%x][2] = %s", (32'h004102f8>>2)+j, OtherWord[15:8]);
-        //   $display("Memory[%x][3] = %s", (32'h004102f8>>2)+j, OtherWord[7:0]);
-        //   j = j + 1;
-        // end
+        $readmemh("../programs/hello_world/hello_world.bin", memory);
     end
   `endif
   `ifdef TEST_H

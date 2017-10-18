@@ -1,5 +1,14 @@
 `include "../includes/ManBearPig.h"
 
+/*
+ * This module stores the contents of all of the registers on the mips processors.
+ * It stores them as an array of 32 32-bit registers. r_1 and r_2 are the values
+ * of the two registers to be read. w_r is the register to be written to. w_d is
+ * the data to write into w_r. r_d_1 and r_d_2 are the data read from r_1 and r_2
+ * respectively. v0_out is always the value of v0 to facilitate syscalls. a0 is like
+ * v0_out, but with a0. regwrite is a control signal indicating that w_r is being written
+ * to this cycle.
+ */
 module REGISTERS (input unsigned [4:0] rs,
 				  input unsigned [4:0] rt,
 				  input unsigned [4:0] rd,
@@ -17,13 +26,6 @@ module REGISTERS (input unsigned [4:0] rs,
 				  output reg [31:0] read_data_2,
 				  output wire [31:0] a0,
 				  output wire [31:0] v0);
-	// This module stores the contents of all of the registers on the mips processors.
-	// It stores them as an array of 32 32-bit registers. r_1 and r_2 are the values
-	// of the two registers to be read. w_r is the register to be written to. w_d is
-	// the data to write into w_r. r_d_1 and r_d_2 are the data read from r_1 and r_2
-	// respectively. v0_out is always the value of v0 to facilitate syscalls. a0 is like
-	// v0_out, but with a0. regwrite is a control signal indicating that w_r is being written
-	// to this cycle.
 
 
 reg [31:0] regs [31:0];

@@ -55,8 +55,11 @@ else
 fi
 
 mkdir -p $(dirname $outFile)
-sed -i '' "s/\$readmemh\(.*\);/\$readmemh(\"$path\", memory);/g" ../modules/MEMORY.v
-sed -i '' "s/\$dumpfile\(.*\);/\$dumpfile(\"$dumpFile\");/g" ManBearPig.v
+sed -i "s/\$readmemh\(.*\);/\$readmemh(\"$path\", memory);/g" ../modules/MEMORY.v > /dev/null
+sed -i "s/\$dumpfile\(.*\);/\$dumpfile(\"$dumpFile\");/g" ManBearPig.v > /dev/null
+
+sed -i '' "s/\$readmemh\(.*\);/\$readmemh(\"$path\", memory);/g" ../modules/MEMORY.v > /dev/null
+sed -i '' "s/\$dumpfile\(.*\);/\$dumpfile(\"$dumpFile\");/g" ManBearPig.v > /dev/null
 iverilog -f files.txt -o $outFile
 
 $outFile

@@ -5,17 +5,18 @@
   `include "../../../includes/ManBearPig.h"
 `endif
 
+/*
+ * This module performs the arithmetic operations of the processor.
+ * It determines what operations to perform on its two inputs based
+ * on its input control signal. If the result of the operation is 0,
+ * The alu outputs a high signal on the zerosig output.
+ */ 
 module ALU (input wire signed [31:0] src_a,
 	        input wire signed [31:0] src_b,
 	        input wire [4:0] sig_alu_control,
 	        output reg signed [31:0] result,
 	        output reg signed [31:0] hi,
 	        output reg signed [31:0] lo);
-
-// This module performs the arithmetic operations of the processor.
-// It determines what operations to perform on its two inputs based
-// on its input control signal. If the result of the operation is 0,
-// The alu outputs a high signal on the zerosig output.
 
 reg [63:0] mult_result;
 

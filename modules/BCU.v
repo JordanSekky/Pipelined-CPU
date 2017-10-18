@@ -5,6 +5,12 @@
   `include "../../../includes/ManBearPig.h"
 `endif
 
+/*
+ * Branch Control Unit - Takes in a signal from the control unit specifying the
+ * type of branch instruction. rd1 and rd2 are then compared in the specified
+ * way and the value is returned. This is used for controlling whether or not
+ * the PC is set to a branch value.
+ */
 module BCU (
     input [3:0] sig_bcu_control,
     input [31:0] rd1,

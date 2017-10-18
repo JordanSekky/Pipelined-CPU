@@ -1,3 +1,6 @@
+/*
+ * Pipeline register between Execute & Memory
+ */
 module PIPELINE_EM (
     input wire reg_write_e,
     input wire mem_to_reg_e,

@@ -5,6 +5,10 @@
   `include "../../../includes/ManBearPig.h"    
 `endif
 
+/*
+ * Takes pieces of an instruction as inputs and outputs control signals to be
+ * used throughout the CPU
+ */
 module CONTROL_UNIT (
   input  wire [5:0] op_code,
   input  wire [5:0] funct_code,

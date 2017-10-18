@@ -5,6 +5,9 @@
   `include "../../../includes/ManBearPig.h"
 `endif
 
+/*
+ * Converts binary back into mips. 
+ */
 module BINARY_TO_MIPS (
     input wire [31:0] inst,
     output reg [255:0] mips);

@@ -441,7 +441,7 @@ module testbench();
   integer LineNumber;
 
   initial begin
-    $dumpfile("../bin/test/add/add.vcd");
+    $dumpfile("../bin/hello/hello.vcd");
     $dumpvars(0,testbench);
     LineNumber = 0;
     clk <= 1;

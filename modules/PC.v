@@ -1,3 +1,6 @@
+/*
+ * PC register - the location of the current instruction in memory
+ */
 module PC (input [31:0] pc, input haz_enable, input clk, output reg [31:0] pcf);
 
 initial begin

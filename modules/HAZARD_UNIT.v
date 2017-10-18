@@ -1,5 +1,9 @@
 `include "../includes/ManBearPig.h"
 
+/*
+ * Handles hazards throughout the processer, putting out signals for stalling
+ * and forwarding
+ */
 module HAZARD_UNIT (
 	input [1:0] sig_jump_d,
 	input sig_jal_d,

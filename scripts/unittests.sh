@@ -27,6 +27,7 @@ do
         echo "No tests found for ${PWD##*/}"
         echo -e '\033[0m'
     fi
+    rm -f ./a.out
     popd > /dev/null
 done
 popd > /dev/null
