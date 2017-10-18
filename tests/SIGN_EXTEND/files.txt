@@ -1,3 +1,0 @@
-../defineTest.h
-../../modules/SIGN_EXTEND.v
-test.v

@@ -1,3 +1,0 @@
-../defineTest.h
-../../modules/ADDER.v
-test.v

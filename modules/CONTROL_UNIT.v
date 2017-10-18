@@ -2,7 +2,7 @@
   `include "../includes/ManBearPig.h"   
 `endif    
 `ifdef TEST_H   
-  `include "../../includes/ManBearPig.h"    
+  `include "../../../includes/ManBearPig.h"    
 `endif
 
 module CONTROL_UNIT (

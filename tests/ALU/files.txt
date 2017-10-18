@@ -1,3 +1,0 @@
-../defineTest.h
-../../modules/ALU.v
-test.v
