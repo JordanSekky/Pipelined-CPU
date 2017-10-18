@@ -2,9 +2,9 @@
 
 module testbench();
 
-  reg  [31:0] instr_pc = `text_size_lo;
+  reg  [31:0] instr_pc = `memory_size_lo;
   reg         data_sig_mem_write = 1'b0;
-  reg  [31:0] data_addr = `stack_size_hi;
+  reg  [31:0] data_addr = `memory_size_hi;
   reg  [31:0] data_write_data = 32'b0;
   reg  [31:0] data_print_addr = 32'b0;
   wire [31:0] instr_out;
@@ -58,14 +58,14 @@ module testbench();
     
     // Test printing strings. 
     data_addr <= data_addr - 40;
-    data_write_data <= 32'h68656c6c; // "hell"
+    data_write_data <= 32'h6c6c6568; // "hell"
     data_sig_mem_write <= 1'b1;
     #10;
     data_addr <= data_addr + 4;
-    data_write_data <= 32'h6f20776f; // "o wo"
+    data_write_data <= 32'h6f77206f; // "o wo"
     #10;
     data_addr <= data_addr + 4;
-    data_write_data <= 32'h726c6400; // "rld";
+    data_write_data <= 32'h00646c72; // "rld";
     #10;
     data_print_addr <= data_addr-8; // Print
     #10;

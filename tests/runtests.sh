@@ -1,6 +1,5 @@
 #! /bin/bash
 
-set -e
 
 pushd $(dirname $0)/ > /dev/null
 
@@ -30,4 +29,5 @@ do
     fi
     popd > /dev/null
 done
+popd > /dev/null
 exit 0

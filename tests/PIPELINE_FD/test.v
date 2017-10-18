@@ -73,7 +73,7 @@
     $display("============ 2 ============");
     $display("instr_d = %h", instr_d); // 00000000
     $display("pc_plus_4_d = %h", pc_plus_4_d); // 00000000
-
+    #5;
     $finish;
   end
  endmodule

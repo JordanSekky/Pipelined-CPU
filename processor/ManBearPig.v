@@ -110,6 +110,9 @@ module testbench();
   wire [31:0] a0M;
   wire [31:0] v0M;
 
+  wire ForwardM;
+  wire [31:0] WriteDataMuxOut;
+
   // =================== Writeback ===================
   wire        RegWriteW;
   wire        MemToRegW;
@@ -359,6 +362,13 @@ module testbench();
     .sig_print_string(PrintStringM)
     );
 
+  TWO_MUX #(32) write_data_mux(
+    .sig_control(ForwardM),
+    .input_hi(WriteBackW),
+    .input_lo(WriteDataM),
+    .result(WriteDataMuxOut)
+    );
+
   // =================== Writeback ===================
   PIPELINE_MW pipeline_mw(
     .reg_write_m(RegWriteM),
@@ -400,23 +410,26 @@ module testbench();
     .write_reg_w(WriteRegW),
     .sig_reg_write_e(RegWriteE),
     .sig_mem_to_reg_e(MemToRegE),
+    .sig_mem_to_reg_w(MemToRegW),
     .sig_reg_write_m(RegWriteM),
     .sig_mem_to_reg_m(MemToRegM),
     .sig_reg_write_w(RegWriteW),
+    .sig_mem_write_m(MemWriteM),
     .stall_f(StallF),
     .stall_d(StallD),
     .forward_a_d(ForwardAD),
     .forward_b_d(ForwardBD),
     .flush_e(FlushE),
     .forward_a_e(ForwardAE),
-    .forward_b_e(ForwardBE)
+    .forward_b_e(ForwardBE),
+    .forward_m(ForwardM)
     );
   MEMORY mem(
     .instr_pc(pcF),
     .instr_out(InstF),
     .data_sig_mem_write(MemWriteM),
     .data_addr(ALUOutM),
-    .data_write_data(WriteDataM),
+    .data_write_data(WriteDataMuxOut),
     .data_print_addr(PrintStringM),
     .data_read_data(ReadDataM)
     );
